@@ -6,7 +6,7 @@ export const Logo = () => {
 
 const styles = StyleSheet.create({
   logo: {
-    flex: 0.05,
+    flex: 0.1,
     fontSize: 25,
     fontWeight: "bold",
     color: "white",

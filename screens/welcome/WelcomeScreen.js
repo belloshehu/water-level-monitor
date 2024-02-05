@@ -1,19 +1,23 @@
 import { View, StyleSheet, Text } from "react-native";
-import { OnboardingScreenWrapper } from "../../components/OnboardingScreenWrapper";
-import { Button } from "../../components/Button";
 import { WelcomeCarousel } from "./WelcomeCarousel";
-import { Logo } from "../../components/Logo";
+import { CustomButton } from "../../components/CustomButton";
 
-export const WelcomeScreen = () => {
+export const WelcomeScreen = ({ navigation }) => {
+  const clickHandler = () => {
+    navigation.navigate("Login");
+  };
+
   return (
     <View style={styles.container}>
-      <Logo />
       <WelcomeCarousel />
-      <Button
-        buttonText={"Get Started"}
-        textColor={"#FFA500"}
-        bgColor={"black"}
-      />
+      <View style={styles.buttonWrapper}>
+        <CustomButton
+          buttonText={"Get Started"}
+          textColor={"#FFA500"}
+          bgColor={"black"}
+          pressHandler={clickHandler}
+        />
+      </View>
     </View>
   );
 };
@@ -24,5 +28,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#FFA500",
+    padding: 0,
+  },
+  buttonWrapper: {
+    padding: 20,
+    width: "100%",
   },
 });

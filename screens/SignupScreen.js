@@ -1,40 +1,33 @@
 import { Text, View, StyleSheet, Alert } from "react-native";
-import { LoginForm } from "../components/LoginForm";
 import { OnboardingScreenWrapper } from "../components/OnboardingScreenWrapper";
 import { AuthScreenHeading } from "../components/AuthScreenHeading";
-import { errorMessage, logInUser } from "../utils/auth";
+import { SignupForm } from "../components/SignupForm";
+import { createUser, errorMessage } from "../utils/auth";
 import { useState } from "react";
 import { LadingOverlay } from "../components/LoadingOverlay";
-import { useDispatch } from "react-redux";
-import {
-  clearAuthenticated,
-  setAuthenticated,
-} from "../redux/features/auth/authSlice";
 
-export const LoginScreen = ({ navigation }) => {
-  const dispatch = useDispatch();
+export const SignupScreen = ({ navigation }) => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-
-  const loginHandler = async (email, password) => {
+  const signupHandler = async (email, password) => {
     setIsAuthenticating(true);
     try {
-      const authToken = await logInUser(email, password);
-      dispatch(setAuthenticated(authToken));
+      const response = await createUser(email, password);
+      navigation.navigate("Login");
     } catch (error) {
-      Alert.alert("Login failed!", errorMessage(error));
-      dispatch(clearAuthenticated());
+      Alert.alert("Signup failed!", errorMessage(error));
     } finally {
       setIsAuthenticating(false);
     }
   };
 
   if (isAuthenticating) {
-    return <LadingOverlay message={"Logging user..."} />;
+    return <LadingOverlay message={"Creating user..."} />;
   }
+
   return (
     <OnboardingScreenWrapper padding={10}>
-      <AuthScreenHeading text={"Login"} />
-      <LoginForm navigation={navigation} onAuthenticate={loginHandler} />
+      <AuthScreenHeading text={"Sign up"} />
+      <SignupForm navigation={navigation} onAuthenticate={signupHandler} />
     </OnboardingScreenWrapper>
   );
 };
@@ -46,5 +39,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     paddingTop: 10,
+    backgroundColor: "#ffa500",
   },
 });
