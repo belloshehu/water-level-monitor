@@ -7,7 +7,9 @@ import { store } from "./redux/store";
 export default function App() {
   return (
     <Provider store={store}>
-      <NavContainer />
+      <StatusBar style="auto">
+        <NavContainer />
+      </StatusBar>
     </Provider>
   );
 }
