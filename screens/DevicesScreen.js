@@ -21,7 +21,9 @@ export const DevicesScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    async(scanForDevices())();
+    (async () => {
+      await scanDevices();
+    })();
   }, []);
   return (
     <View style={styles.container}>

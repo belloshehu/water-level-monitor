@@ -5,11 +5,16 @@ export const CustomButton = ({
   pressHandler,
   bgColor,
   textColor,
+  bordered,
 }) => {
   return (
     <TouchableOpacity
       onPress={pressHandler}
-      style={{ ...styles.button, backgroundColor: bgColor || "#FFA500" }}>
+      style={[
+        styles.button,
+        { backgroundColor: bgColor || "#FFA500" },
+        bordered && { borderColor: bordered, borderWidth: 2 },
+      ]}>
       <Text style={{ ...styles.text, color: textColor || "white" }}>
         {buttonText}
       </Text>

@@ -2,10 +2,8 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { CustomButton } from "./CustomButton";
-import { FormError } from "./FormError";
-import { useState } from "react";
 import { InputField } from "./InputField";
-import axios from "axios";
+import { FontAwesome } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const SignupForm = ({ navigation, onAuthenticate }) => {
@@ -55,12 +53,15 @@ export const SignupForm = ({ navigation, onAuthenticate }) => {
               <InputField
                 name={"email"}
                 placeholder={"Email Address"}
-                iconName={"envelope"}
                 type={"email-address"}
                 label={"Email"}
                 changeHandler={handleChange}
                 blurHandler={handleBlur}
                 value={values.email}
+                withIcon
+                icon={
+                  <FontAwesome name={"envelope"} size={24} color="#FFA500" />
+                }
               />
 
               <InputField
@@ -69,12 +70,13 @@ export const SignupForm = ({ navigation, onAuthenticate }) => {
                 touched={touched}
                 name={"password"}
                 placeholder={"Password"}
-                iconName={"lock"}
                 secured={true}
                 label={"Password"}
                 changeHandler={handleChange}
                 blurHandler={handleBlur}
                 value={values.password}
+                withIcon
+                icon={<FontAwesome name={"lock"} size={24} color="#FFA500" />}
               />
 
               <InputField
@@ -83,12 +85,13 @@ export const SignupForm = ({ navigation, onAuthenticate }) => {
                 touched={touched}
                 name={"passwordRepeat"}
                 placeholder={"Repeat Password"}
-                iconName={"lock"}
                 secured={true}
                 label={"Repeat password"}
                 changeHandler={handleChange}
                 blurHandler={handleBlur}
                 value={values.passwordRepeat}
+                withIcon
+                icon={<FontAwesome name={"lock"} size={24} color="#FFA500" />}
               />
 
               <CustomButton buttonText={"Submit"} pressHandler={handleSubmit} />

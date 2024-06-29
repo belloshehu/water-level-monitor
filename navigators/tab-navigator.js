@@ -57,8 +57,8 @@ export const TabNavigator = () => {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Tank" component={TankScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="Analysis" component={SettingScreen} />
-      <Tab.Screen name="Settings" component={AnalysisScreen} />
+      <Tab.Screen name="Analysis" component={AnalysisScreen} />
+      <Tab.Screen name="Settings" component={SettingScreen} />
       <Tab.Screen name="Devices" component={DevicesScreen} />
     </Tab.Navigator>
   );

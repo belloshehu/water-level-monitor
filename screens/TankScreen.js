@@ -8,7 +8,7 @@ export const TankScreen = () => {
     <View style={styles.container}>
       <Text>View water level</Text>
       <View>
-        <AnimatedCircularProgress
+        {/* <AnimatedCircularProgress
           fill={level}
           lineCap="round"
           backgroundColor="#ffa50"
@@ -20,7 +20,7 @@ export const TankScreen = () => {
               <Text style={styles.levelText}>{fill}%</Text>
             </View>;
           }}
-        </AnimatedCircularProgress>
+        </AnimatedCircularProgress> */}
       </View>
       <Text style={styles.levelText}>40%</Text>
     </View>

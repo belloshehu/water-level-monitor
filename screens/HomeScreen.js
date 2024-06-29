@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 40,
     backgroundColor: "#ffa500",
-    color: "white",
+    color: "black",
   },
   text: {
     fontSize: 18,
