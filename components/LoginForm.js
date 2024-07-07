@@ -56,12 +56,15 @@ export const LoginForm = ({ navigation, onAuthenticate }) => {
               <InputField
                 name={"email"}
                 placeholder={"Email Address"}
-                iconName={"envelope"}
                 type={"email-address"}
                 label={"Email"}
                 changeHandler={handleChange}
                 blurHandler={handleBlur}
                 value={values.email}
+                withIcon
+                icon={
+                  <FontAwesome name={"envelope"} size={24} color="#FFA500" />
+                }
               />
 
               <InputWrapper>

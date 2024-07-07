@@ -5,12 +5,12 @@ import { ErrorMessage } from "formik";
     TextInput with label and error text
 */
 
-export const InputField = ({ ...props }) => {
+export const InputField = ({ withIcon = false, ...props }) => {
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.label}>{props.label}</Text>
+      {props.label && <Text style={styles.label}>{props.label}</Text>}
       <View style={styles.inputWrapper}>
-        <FontAwesome name={props.iconName} size={24} color="#FFA500" />
+        {withIcon && props?.icon}
         <TextInput
           value={props.value}
           name={props.name}
@@ -32,7 +32,7 @@ export const InputField = ({ ...props }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    gap: 2,
+    rowGap: 2,
     justifyContent: "flex-start",
   },
   label: {
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     color: "red",
   },
   input: {
+    zIndex: 0,
     fontSize: 16,
     height: 40,
     borderWidth: 0,
