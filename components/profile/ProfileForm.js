@@ -1,24 +1,14 @@
-import {
-	View,
-	Text,
-	StyleSheet,
-	TextInput,
-	Platform,
-	Button,
-	Alert,
-} from "react-native";
-import { ErrorMessage, Formik } from "formik";
+import { View, StyleSheet } from "react-native";
+import { Formik } from "formik";
 import * as yup from "yup";
-import { InputWrapper } from "./InputWrapper";
 import { FontAwesome } from "@expo/vector-icons";
-import { FormError } from "./FormError";
-import { useState } from "react";
-import { CustomButton } from "./CustomButton";
-import { InputField } from "./InputField";
-import axios from "axios";
+import { FormError } from "../FormError";
+import { CustomButton } from "../CustomButton";
+import { InputField } from "../InputField";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-export const LoginForm = ({ navigation, onAuthenticate }) => {
+export default function ProfileForm({ navigation, onUpdateProfile, user }) {
+	const { email, firstName, lastName } = user;
 	const blurHandler = (name, handleBlur) => {
 		handleBlur(name);
 		setBgColor("rgba(217, 217, 217, 0.4)");
@@ -46,21 +36,33 @@ export const LoginForm = ({ navigation, onAuthenticate }) => {
 		>
 			<View style={styles.container}>
 				<Formik
-					initialValues={{ email: "", password: "" }}
+					initialValues={{ email, firstName, lastName }}
 					validationSchema={yup.object().shape({
 						email: yup
 							.string()
 							.email("Please enter valid email")
 							.required("Email is required"),
-						password: yup
+						firstName: yup
 							.string()
-							.min(8, ({ min }) => `Password must be atleast ${min} characters`)
-							.required("Password is required")
-							.matches(/[a-z]+/, "Must contain atleast one lowercase character")
-							.matches(/\d+/, "Must contain atleast one number"),
+							.min(
+								2,
+								({ min }) => `First name must be atleast ${min} characters`
+							)
+							.required("First name is required"),
+						lastName: yup
+							.string()
+							.min(
+								2,
+								({ min }) => `Last name must be atleast ${min} characters`
+							)
+							.required("Last name is required"),
 					})}
 					onSubmit={async (values) => {
-						await onAuthenticate(values.email, values.password);
+						await onUpdateProfile(
+							values.email,
+							values.firstName,
+							values.lastName
+						);
 					}}
 				>
 					{({
@@ -77,40 +79,45 @@ export const LoginForm = ({ navigation, onAuthenticate }) => {
 								name={"email"}
 								placeholder={"Email Address"}
 								type={"email-address"}
-								label={"Email"}
 								changeHandler={handleChange}
 								blurHandler={handleBlur}
 								value={values.email}
 								touched={touched}
+								editable={false}
 								withIcon
 								icon={<FontAwesome name={"envelope"} size={24} color="#bbb" />}
 							/>
 							<InputField
 								errors={errors}
-								values={values}
-								touched={touched}
-								name={"password"}
-								placeholder={"Password"}
-								secured={true}
-								label={"Password"}
+								name={"firstName"}
+								placeholder={"First name"}
+								type={"firstName"}
 								changeHandler={handleChange}
 								blurHandler={handleBlur}
-								value={values.password}
+								value={values.firstName}
+								touched={touched}
 								withIcon
-								icon={<FontAwesome name={"lock"} size={24} color="#bbb" />}
+								icon={<FontAwesome name={"user"} size={24} color="#bbb" />}
+							/>
+							<InputField
+								errors={errors}
+								name={"lastName"}
+								placeholder={"Last name"}
+								type={"lastName"}
+								changeHandler={handleChange}
+								blurHandler={handleBlur}
+								value={values.lastName}
+								touched={touched}
+								withIcon
+								icon={<FontAwesome name={"user"} size={24} color="#bbb" />}
 							/>
 
 							<View style={styles.buttonWrapper}>
 								<CustomButton
-									buttonText={"Submit"}
+									buttonText={"Save"}
 									pressHandler={handleSubmit}
-								/>
-								<CustomButton
-									buttonText={"Signup Instead"}
-									bgColor={"white"}
-									textColor={"#ffa500"}
-									bordered={"#ffa500"}
-									pressHandler={() => navigation.navigate("Signup")}
+									disabled={touched.firstName || touched.lastName}
+									bgColor={"#ffa500"}
 								/>
 							</View>
 						</View>
@@ -119,7 +126,7 @@ export const LoginForm = ({ navigation, onAuthenticate }) => {
 			</View>
 		</KeyboardAwareScrollView>
 	);
-};
+}
 
 const styles = StyleSheet.create({
 	container: {
