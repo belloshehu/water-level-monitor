@@ -5,21 +5,21 @@ import { CustomButton } from "../CustomButton";
 export default function Configuration({ title, children, icon }) {
 	return (
 		<View style={styles.container}>
-			{/* <View style={styles.icon}>
-				<Feather name="edit-2" size={24} color="#ffa500" />
-			</View> */}
+			<View style={styles.icon}>
+				<Feather name="edit-2" size={24} color="black" />
+			</View>
 			<View style={styles.titleWrapper}>
 				{icon}
 				<Text style={styles.title}>{title}</Text>
 			</View>
 			<View style={styles.childrenWrapper}>{children}</View>
-			<View style={{ marginHorizontal: 20 }}>
+			{/* <View style={{ marginHorizontal: 20, width: "auto" }}>
 				<CustomButton
 					buttonText={"Update"}
 					bgColor={"#bbb"}
 					textColor={"#fff"}
 				/>
-			</View>
+			</View> */}
 		</View>
 	);
 }
@@ -34,8 +34,10 @@ const styles = StyleSheet.create({
 		padding: 0,
 		paddingBottom: 20,
 		elevation: 1,
-		justifyContent: "space-between",
+		justifyContent: "flex-start",
+		position: "relative",
 	},
+
 	title: {
 		fontSize: 20,
 		fontFamily: "Cochin",
@@ -59,12 +61,13 @@ const styles = StyleSheet.create({
 	},
 	icon: {
 		position: "absolute",
+		zIndex: 10,
 		right: 10,
 		top: 10,
 		width: 40,
 		height: 40,
 		borderRadius: 20,
-		backgroundColor: "rgba(255, 255, 255, 1)",
+		backgroundColor: "rgba(255, 165, 0, 0.5)",
 		justifyContent: "center",
 		alignItems: "center",
 		padding: "auto",
