@@ -9,7 +9,7 @@ export default function WaterConsumptionAnalysis({ perday, total }) {
 		<Analysis
 			title={"Water Consumption"}
 			icon={<Entypo name="water" size={34} color="#ffa500" />}
-			modalChildren={<Text>Water consumption</Text>}
+			modalChildren={<Chart title={"Water consumption"} />}
 		>
 			<View style={styles.analysisWrapper}>
 				<Text style={styles.analysisText}>{perday} liters/day</Text>
@@ -17,7 +17,6 @@ export default function WaterConsumptionAnalysis({ perday, total }) {
 					{total} litres since August, 2024
 				</Text>
 			</View>
-			<AnalysisRecord children={<Chart title={"Water consumption"} />} />
 		</Analysis>
 	);
 }
@@ -26,9 +25,8 @@ const styles = StyleSheet.create({
 	analysisWrapper: {
 		justifyContent: "center",
 		alignItems: "center",
-		color: "#fff",
 	},
 	analysisText: {
-		color: "#fff",
+		color: "#000",
 	},
 });

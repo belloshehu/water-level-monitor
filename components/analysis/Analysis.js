@@ -18,10 +18,11 @@ export default function Analysis({ children, title, icon, modalChildren }) {
 				<Text style={styles.title}>{title}</Text>
 			</View>
 			{children}
-			<View style={{ width: "auto" }}>
+			<View style={{ width: "auto", marginBottom: 0 }}>
 				<CustomButton
-					buttonText={"View Record"}
+					buttonText={"View chart"}
 					pressHandler={handleViewRecord}
+					bgColor={"black"}
 				/>
 			</View>
 			<RecordModal
@@ -35,26 +36,31 @@ export default function Analysis({ children, title, icon, modalChildren }) {
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 0.7,
 		width: "100%",
-		flex: 1,
-		borderRadius: 20,
+		borderRadius: 10,
 		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: "#000",
+		justifyContent: "space-around",
+		backgroundColor: "#eee",
 		gap: 20,
 		padding: 20,
+		elevation: 1,
+		position: "relative",
+		color: "black",
 	},
 	header: {
 		flexDirection: "row",
 		alignItems: "center",
+		width: "100#",
 		gap: 10,
-		borderBottomColor: "#555",
-		borderBottomWidth: 5,
+		borderBottomColor: "#000",
+		borderBottomWidth: 2,
 		borderRadius: 3,
 		paddingVertical: 5,
+		marginBottom: 10,
 	},
 	title: {
-		color: "#ffa500",
+		color: "#000",
 		fontSize: 22,
 		fontFamily: "cursive",
 	},

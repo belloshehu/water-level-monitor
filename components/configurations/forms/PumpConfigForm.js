@@ -1,19 +1,17 @@
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { ErrorMessage, Formik } from "formik";
 import * as yup from "yup";
-import { InputWrapper } from "./InputWrapper";
-import { FontAwesome } from "@expo/vector-icons";
-import { CustomButton } from "./CustomButton";
-import { InputField } from "./InputField";
+import { CustomButton } from "../../CustomButton";
+import { InputField } from "../../InputField";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import DropDownFormik from "./DropDownFormik";
+import DropDownFormik from "../../DropDownFormik";
 import {
 	pumpingMachines as pumpingMachinesCategories,
 	tanks as tankCategories,
-} from "../data/settings";
+} from "../../../data/settings";
 import { useState } from "react";
 
-export const SettingsForm = ({ navigation, configure }) => {
+export const PumpConfigForm = ({ navigation, configure }) => {
 	const [tanks, setTanks] = useState(tankCategories);
 	const [pumpingMachines, setPumpingMachines] = useState(
 		pumpingMachinesCategories
@@ -32,7 +30,7 @@ export const SettingsForm = ({ navigation, configure }) => {
 	};
 	return (
 		<KeyboardAwareScrollView
-			style={{ flex: 1, position: "relative" }}
+			style={{ position: "relative" }}
 			contentContainerStyle={{
 				flex: 1,
 				marginVertical: "auto",
@@ -91,34 +89,27 @@ export const SettingsForm = ({ navigation, configure }) => {
 					{({ handleSubmit, values, handleChange, handleBlur, setValues }) => (
 						<View style={styles.formWrapper}>
 							<View style={styles.fieldset}>
-								<Text style={styles.legend}>Tank settings</Text>
+								<Text style={styles.legend}>Pumping machine</Text>
 								<DropDownFormik
-									placeholder={"Select tank size"}
-									label="Tank size"
-									name={"tankType"}
-									items={tanks}
-									key={"tank"}
-									relatedFields={["diameter", "height"]}
+									placeholder={"Select a type"}
+									name={"pumpingMachineType"}
+									label={"Pumping machine type"}
+									items={pumpingMachines}
+									key={"pumpingMachineType"}
 								/>
+
 								<InputField
-									name={"tankHeight"}
-									placeholder={"Height"}
+									name={"pumpingMachineHorsePower"}
+									placeholder={"Horse power"}
 									iconName={"size"}
 									type={"number"}
-									label={"Height"}
+									label={"Horse power"}
 									changeHandler={handleChange}
 									blurHandler={handleBlur}
-									value={values.tankHeight}
-								/>
-								<InputField
-									name={"tankDiameter"}
-									placeholder={"Diameter"}
-									iconName={"tape"}
-									type={"number"}
-									label={"Diameter"}
-									changeHandler={handleChange}
-									blurHandler={handleBlur}
-									value={values.tankDiameter}
+									value={
+										values.pumpingMachineType?.value?.horsePower?.value ||
+										values.pumpingMachineHorsePower
+									}
 								/>
 							</View>
 							<View style={{ width: "100%", padding: 0 }}>
@@ -143,7 +134,7 @@ const styles = StyleSheet.create({
 		flex: 0.9,
 		backgroundColor: "rgba(0, 0, 0, 0)",
 		borderRadius: 10,
-		padding: 20,
+		padding: 0,
 		paddingVertical: 30,
 		alignItems: "center",
 		justifyContent: "center",

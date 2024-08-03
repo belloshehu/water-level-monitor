@@ -1,6 +1,7 @@
 import Configuration from "./Configuration";
 import { StyleSheet, Text, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { PumpConfigForm } from "./forms/PumpConfigForm";
 
 export default function PumpingMachineConfiguration() {
 	return (
@@ -9,6 +10,7 @@ export default function PumpingMachineConfiguration() {
 			icon={
 				<MaterialCommunityIcons name="water-pump" size={40} color="#ffa500" />
 			}
+			modalChildren={<PumpConfigForm />}
 		>
 			<Text style={styles.text}>2KW</Text>
 		</Configuration>

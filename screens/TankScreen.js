@@ -3,18 +3,38 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { useSelector } from "react-redux";
 import { FontAwesome6 } from "@expo/vector-icons";
 import Purity from "./tank/Purity";
+import { LiquidGauge } from "react-native-liquid-gauge";
 
 export const TankScreen = () => {
 	const { level } = useSelector((store) => store.level);
 	return (
 		<View style={styles.container}>
-			<Text>Water level</Text>
+			<Text style={styles.title}>Water level</Text>
 			<View style={styles.tank}>
-				<FontAwesome6 name="glass-water" size={200} color="black" />
-				<Text style={styles.levelText}>40%</Text>
+				<LiquidGauge
+					config={{
+						circleColor: "#ffa500",
+						textColor: "#000",
+						waveTextColor: "#aaa",
+						waveColor: "#ffa500",
+						circleThickness: 0.15,
+						textVertPosition: 0.7,
+						waveAnimateTime: 800,
+						waveRiseTime: 400,
+						waveHeight: 0.07,
+						fontSize: 0.6,
+					}}
+					value={80}
+					width={300}
+					height={300}
+				/>
+			</View>
+			<View style={{ alignItems: "center", justifyContent: "center", gap: 4 }}>
+				<Text style={styles.levelText}>80%</Text>
+				<Text>Pumping</Text>
 			</View>
 			<Purity
-				indicatorColor={"green"}
+				indicatorColor={"#ffa500"}
 				measurement={"90%-100%"}
 				remark={"Good"}
 			/>
@@ -35,8 +55,13 @@ const styles = StyleSheet.create({
 		marginTop: 30,
 		color: "#fff",
 	},
+	title: {
+		fontSize: 22,
+		color: "#ffa500",
+		fontWeight: "500",
+	},
 	levelText: {
-		fontSize: 45,
+		fontSize: 22,
 		fontWeight: "bold",
 		textAlign: "center",
 		color: "#ffa500",

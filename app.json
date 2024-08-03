@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ardesp.waterlevelmonitor"
     },
     "android": {
       "adaptiveIcon": {
@@ -35,7 +36,8 @@
             "usesCleartextTraffic": true
           }
         }
-      ]
+      ],
+      "react-native-pytorch-core"
     ],
     "extra": {
       "eas": {

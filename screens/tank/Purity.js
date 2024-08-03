@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 		width: 30,
 		height: 30,
 		borderRadius: 15,
-		backgroundColor: "green",
+		backgroundColor: "#ffa500",
 	},
 	text: {
 		fontFamily: "cursive",

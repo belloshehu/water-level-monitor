@@ -6,60 +6,80 @@ import {
 	Text,
 	View,
 	processColor,
+	Dimensions,
 } from "react-native";
-
-import { BarChart } from "react-native-charts-wrapper";
+import { LineChart } from "react-native-chart-kit";
 
 export default function Chart({ data: dt, title }) {
 	const barData = [{ value: 15 }, { value: 30 }, { value: 26 }, { value: 40 }];
 	return (
 		<View style={styles.container}>
-			{title && <Text style={styles.title}>Chart here</Text>}
-			<View style={{ padding: 20, alignItems: "center" }}>
-				<BarChart
-					style={styles.chart}
-					data={data}
-					xAxis={10}
-					animation={{ durationX: 2000 }}
-					legend={"Hello"}
-					gridBackgroundColor={processColor("#ffffff")}
-					visibleRange={{ x: { min: 5, max: 5 } }}
-					drawBarShadow={false}
-					drawValueAboveBar={true}
-					drawHighlightArrow={true}
-					// onSelect={this.handleSelect.bind(this)}
-					// highlights={this.state.highlights}
-					// onChange={(event) => console.log(event.nativeEvent)}
-				/>
-				{/* <LineChart data={data} /> */}
-				{/* <BarChart frontColor={"#177AD5"} barWidth={22} data={barData} /> */}
-				{/* <BarChart
-					data={data}
-					barWidth={16}
-					initialSpacing={10}
-					spacing={14}
-					barBorderRadius={4}
-					showGradient
-					yAxisThickness={0}
-					xAxisType={"dashed"}
-					xAxisColor={"lightgray"}
-					yAxisTextStyle={{ color: "lightgray" }}
-					stepValue={1000}
-					maxValue={6000}
-					noOfSections={6}
-					yAxisLabelTexts={["0", "1k", "2k", "3k", "4k", "5k", "6k"]}
-					labelWidth={40}
-					xAxisLabelTextStyle={{ color: "lightgray", textAlign: "center" }}
-					showLine
-					lineConfig={{
-						color: "#F29C6E",
-						thickness: 3,
-						curved: true,
-						hideDataPoints: true,
-						shiftY: 20,
-						initialSpacing: -30,
+			{title && <Text style={styles.title}>{title}</Text>}
+			<View style={{ padding: 20, alignItems: "center", width: "auto" }}>
+				<LineChart
+					data={{
+						labels: [
+							"January",
+							"February",
+							"March",
+							"April",
+							"May",
+							"June",
+							"July",
+							"August",
+							"September",
+							"October",
+							"November",
+							"December",
+						],
+						datasets: [
+							{
+								data: [
+									Math.random() * 100,
+									Math.random() * 100,
+									Math.random() * 100,
+									Math.random() * 100,
+									Math.random() * 100,
+									Math.random() * 100,
+									Math.random() * 100,
+									Math.random() * 100,
+									Math.random() * 100,
+									Math.random() * 100,
+									Math.random() * 100,
+									Math.random() * 100,
+								],
+							},
+						],
 					}}
-				/> */}
+					width={Dimensions.get("window").width * 0.98} // from react-native
+					height={Dimensions.get("window").height * 0.78}
+					yAxisLabel=""
+					yAxisSuffix="litres"
+					yAxisInterval={8} // optional, defaults to 1
+					verticalLabelRotation={45}
+					chartConfig={{
+						backgroundColor: "#000",
+						backgroundGradientFrom: "#000",
+						backgroundGradientTo: "#000",
+						decimalPlaces: 2, // optional, defaults to 2dp
+						color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+						labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+						style: {
+							borderRadius: 16,
+							borderColor: "#000",
+						},
+						propsForDots: {
+							r: "6",
+							strokeWidth: "1",
+							stroke: "#000",
+						},
+					}}
+					bezier
+					style={{
+						marginVertical: 8,
+						borderRadius: 8,
+					}}
+				/>
 			</View>
 		</View>
 	);
@@ -68,6 +88,7 @@ export default function Chart({ data: dt, title }) {
 const styles = StyleSheet.create({
 	container: {
 		width: "100%",
+		padding: 20,
 	},
 	title: {
 		color: "#fff",

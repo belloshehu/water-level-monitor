@@ -91,7 +91,6 @@ export default function ProfileForm({ navigation, onUpdateProfile, user }) {
 								errors={errors}
 								name={"firstName"}
 								placeholder={"First name"}
-								type={"firstName"}
 								changeHandler={handleChange}
 								blurHandler={handleBlur}
 								value={values.firstName}
@@ -103,7 +102,6 @@ export default function ProfileForm({ navigation, onUpdateProfile, user }) {
 								errors={errors}
 								name={"lastName"}
 								placeholder={"Last name"}
-								type={"lastName"}
 								changeHandler={handleChange}
 								blurHandler={handleBlur}
 								value={values.lastName}

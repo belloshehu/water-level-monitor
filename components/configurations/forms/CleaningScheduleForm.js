@@ -1,19 +1,18 @@
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { ErrorMessage, Formik } from "formik";
 import * as yup from "yup";
-import { InputWrapper } from "./InputWrapper";
-import { FontAwesome } from "@expo/vector-icons";
-import { CustomButton } from "./CustomButton";
-import { InputField } from "./InputField";
+
+import { CustomButton } from "../../CustomButton";
+import { InputField } from "../../InputField";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import DropDownFormik from "./DropDownFormik";
+import DropDownFormik from "../../DropDownFormik";
 import {
 	pumpingMachines as pumpingMachinesCategories,
 	tanks as tankCategories,
-} from "../data/settings";
+} from "../../../data/settings";
 import { useState } from "react";
 
-export const SettingsForm = ({ navigation, configure }) => {
+export const CleaningScheduleForm = ({ navigation, configure }) => {
 	const [tanks, setTanks] = useState(tankCategories);
 	const [pumpingMachines, setPumpingMachines] = useState(
 		pumpingMachinesCategories
@@ -32,7 +31,7 @@ export const SettingsForm = ({ navigation, configure }) => {
 	};
 	return (
 		<KeyboardAwareScrollView
-			style={{ flex: 1, position: "relative" }}
+			style={{ position: "relative" }}
 			contentContainerStyle={{
 				flex: 1,
 				marginVertical: "auto",
@@ -91,25 +90,16 @@ export const SettingsForm = ({ navigation, configure }) => {
 					{({ handleSubmit, values, handleChange, handleBlur, setValues }) => (
 						<View style={styles.formWrapper}>
 							<View style={styles.fieldset}>
-								<Text style={styles.legend}>Tank settings</Text>
+								<Text style={styles.legend}>Cleaning Schedule</Text>
 								<DropDownFormik
-									placeholder={"Select tank size"}
-									label="Tank size"
-									name={"tankType"}
+									placeholder={"Select Interval"}
+									label="Cleaning Interval"
+									name={"interval"}
 									items={tanks}
-									key={"tank"}
+									key={"interval"}
 									relatedFields={["diameter", "height"]}
 								/>
-								<InputField
-									name={"tankHeight"}
-									placeholder={"Height"}
-									iconName={"size"}
-									type={"number"}
-									label={"Height"}
-									changeHandler={handleChange}
-									blurHandler={handleBlur}
-									value={values.tankHeight}
-								/>
+
 								<InputField
 									name={"tankDiameter"}
 									placeholder={"Diameter"}
@@ -121,6 +111,7 @@ export const SettingsForm = ({ navigation, configure }) => {
 									value={values.tankDiameter}
 								/>
 							</View>
+
 							<View style={{ width: "100%", padding: 0 }}>
 								<CustomButton
 									buttonText={"Save"}
@@ -143,7 +134,7 @@ const styles = StyleSheet.create({
 		flex: 0.9,
 		backgroundColor: "rgba(0, 0, 0, 0)",
 		borderRadius: 10,
-		padding: 20,
+		padding: 0,
 		paddingVertical: 30,
 		alignItems: "center",
 		justifyContent: "center",

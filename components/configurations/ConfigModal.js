@@ -1,15 +1,20 @@
 import { Modal, Pressable, StyleSheet, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { CustomButton } from "../CustomButton";
 
-export default function RecordModal({ visible, closeHandler, children }) {
+export default function ConfigModal({ visible, closeHandler, children }) {
 	return (
 		<Modal visible={visible} animationType="slide" transparent={true}>
 			<View style={styles.container}>
 				<View style={styles.modalView}>
-					<Pressable style={styles.closeButton} onPress={closeHandler}>
-						<AntDesign name="closecircleo" size={40} color="#ffa500" />
-					</Pressable>
 					{children}
+					<CustomButton
+						buttonText={"Done"}
+						pressHandler={closeHandler}
+						bgColor={"white"}
+						bordered={"#ffa500"}
+						textColor={"#ffa500"}
+					/>
 				</View>
 			</View>
 		</Modal>
@@ -26,16 +31,17 @@ const styles = StyleSheet.create({
 	modalView: {
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: "#000",
+		backgroundColor: "#fff",
 		borderRadius: 20,
 		marginHorizontal: "auto",
 		flex: 1,
 		width: "99.9%",
 		marginBottom: 5,
+		padding: 20,
 	},
 	closeButton: {
 		position: "absolute",
-		right: 0,
+		right: 2,
 		top: 0,
 	},
 });

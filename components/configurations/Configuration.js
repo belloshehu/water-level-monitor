@@ -1,25 +1,37 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Button, Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { CustomButton } from "../CustomButton";
+import ConfigModal from "./ConfigModal";
+import { useState } from "react";
 
-export default function Configuration({ title, children, icon }) {
+export default function Configuration({
+	title,
+	children,
+	icon,
+	modalChildren,
+}) {
+	const [showModal, setShowModal] = useState(false);
+	const closeModal = () => {
+		setShowModal(false);
+	};
+	const openModal = () => {
+		setShowModal(true);
+	};
 	return (
 		<View style={styles.container}>
-			<View style={styles.icon}>
+			<Pressable style={styles.icon} onPress={openModal}>
 				<Feather name="edit-2" size={24} color="black" />
-			</View>
+			</Pressable>
 			<View style={styles.titleWrapper}>
 				{icon}
 				<Text style={styles.title}>{title}</Text>
 			</View>
 			<View style={styles.childrenWrapper}>{children}</View>
-			{/* <View style={{ marginHorizontal: 20, width: "auto" }}>
-				<CustomButton
-					buttonText={"Update"}
-					bgColor={"#bbb"}
-					textColor={"#fff"}
-				/>
-			</View> */}
+
+			<ConfigModal closeHandler={closeModal} visible={showModal}>
+				<Text style={styles.configModalTitle}>{title} configuration</Text>
+				{modalChildren}
+			</ConfigModal>
 		</View>
 	);
 }
@@ -34,7 +46,7 @@ const styles = StyleSheet.create({
 		padding: 0,
 		paddingBottom: 20,
 		elevation: 1,
-		justifyContent: "flex-start",
+		justifyContent: "space-start",
 		position: "relative",
 	},
 
@@ -43,6 +55,12 @@ const styles = StyleSheet.create({
 		fontFamily: "Cochin",
 		fontWeight: "500",
 		color: "#ffa500",
+		textAlign: "center",
+	},
+	configModalTitle: {
+		fontSize: 22,
+		color: "#000",
+		fontFamily: "cursive",
 		textAlign: "center",
 	},
 	titleWrapper: {
@@ -67,7 +85,7 @@ const styles = StyleSheet.create({
 		width: 40,
 		height: 40,
 		borderRadius: 20,
-		backgroundColor: "rgba(255, 165, 0, 0.5)",
+		backgroundColor: "rgba(0, 0, 0, 0)",
 		justifyContent: "center",
 		alignItems: "center",
 		padding: "auto",
