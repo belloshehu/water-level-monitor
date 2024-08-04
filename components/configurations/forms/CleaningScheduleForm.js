@@ -7,8 +7,6 @@ import { InputField } from "../../InputField";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DropDownFormik from "../../DropDownFormik";
 import { cleaningIntervals } from "../../../data/settings";
-import { useState } from "react";
-import DateTimePicker from "@react-native-community/datetimepicker";
 
 export const CleaningScheduleForm = ({ navigation, configure }) => {
 	const blurHandler = (name, handleBlur) => {
@@ -62,7 +60,7 @@ export const CleaningScheduleForm = ({ navigation, configure }) => {
 									name={"interval"}
 									items={cleaningIntervals}
 								/>
-								{/* <InputField
+								<InputField
 									name={"startDate"}
 									placeholder={"Start date"}
 									iconName={"calendar"}
@@ -71,8 +69,7 @@ export const CleaningScheduleForm = ({ navigation, configure }) => {
 									changeHandler={handleChange}
 									blurHandler={handleBlur}
 									value={values.tankDiameter}
-								/> */}
-								<DateTimePicker mode="date" />
+								/>
 							</View>
 
 							<View style={{ width: "100%", padding: 0 }}>
