@@ -1,14 +1,13 @@
 import { View, Text, StyleSheet } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import BrandName from "./brand/BrandName";
 
 export const AuthScreenHeading = ({ text, textStyle }) => {
 	return (
 		<View style={styles.container}>
-			<View style={styles.wrapper}>
-				{/* <Text>Sightek Inc.</Text> */}
-				<FontAwesome5 name="user-circle" size={50} color="#FFf" />
-				<Text style={[styles.headingText, textStyle]}>{text}</Text>
-			</View>
+			<BrandName color="white" fontSize={20} />
+			<FontAwesome5 name="user-circle" size={30} color="#FFf" />
+			<Text style={[styles.headingText, textStyle]}>{text}</Text>
 		</View>
 	);
 };
@@ -25,16 +24,8 @@ const styles = StyleSheet.create({
 		elevation: 10,
 		backgroundColor: "#ffa500",
 	},
-	wrapper: {
-		backgroundColor: "rgba(217, 217, 217, .0)",
-		justifyContent: "center",
-		alignItems: "center",
-		padding: 20,
-		flex: 1,
-		borderRadius: 200,
-	},
 	headingText: {
-		fontSize: 22,
+		fontSize: 20,
 		fontWeight: "bold",
 		color: "#fff",
 	},

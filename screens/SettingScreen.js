@@ -3,6 +3,9 @@ import { useState } from "react";
 import PumpingMachineConfiguration from "../components/configurations/PumpMachineConfig";
 import TankConfiguration from "../components/configurations/TankConfiguration";
 import CleaningScheduleConfiguration from "../components/configurations/CleaningScheduleConfig";
+import ScreenHeader from "../components/ScreenHeader";
+import Feather from "@expo/vector-icons/Feather";
+import ScreenMainWrapper from "../components/ScreenMainWrapper";
 
 export const SettingScreen = ({ navigation }) => {
 	const [isConfiguring, setIsConfiguring] = useState(false);
@@ -25,11 +28,16 @@ export const SettingScreen = ({ navigation }) => {
 	}
 	return (
 		<View style={styles.container}>
-			{/* <Text style={styles.headingText}>Configuration</Text> */}
-			<PumpingMachineConfiguration />
-			<TankConfiguration />
-			<CleaningScheduleConfiguration />
-			{/* <SettingsForm configure={configureDevice} /> */}
+			<ScreenHeader
+				icon={<Feather name="settings" size={24} color="black" />}
+				pageTitle={"Settings"}
+				description={"Make changes that fits you"}
+			/>
+			<ScreenMainWrapper>
+				<PumpingMachineConfiguration />
+				<TankConfiguration />
+				<CleaningScheduleConfiguration />
+			</ScreenMainWrapper>
 		</View>
 	);
 };
@@ -43,11 +51,5 @@ const styles = StyleSheet.create({
 		paddingTop: 50,
 		color: "white",
 		gap: 20,
-	},
-	headingText: {
-		fontWeight: "bold",
-		textAlign: "center",
-		color: "black",
-		fontSize: 20,
 	},
 });

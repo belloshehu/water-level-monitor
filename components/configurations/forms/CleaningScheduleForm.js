@@ -1,22 +1,16 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
-import { ErrorMessage, Formik } from "formik";
+import { View, Text, StyleSheet } from "react-native";
+import { Formik } from "formik";
 import * as yup from "yup";
 
 import { CustomButton } from "../../CustomButton";
 import { InputField } from "../../InputField";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DropDownFormik from "../../DropDownFormik";
-import {
-	pumpingMachines as pumpingMachinesCategories,
-	tanks as tankCategories,
-} from "../../../data/settings";
+import { cleaningIntervals } from "../../../data/settings";
 import { useState } from "react";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export const CleaningScheduleForm = ({ navigation, configure }) => {
-	const [tanks, setTanks] = useState(tankCategories);
-	const [pumpingMachines, setPumpingMachines] = useState(
-		pumpingMachinesCategories
-	);
 	const blurHandler = (name, handleBlur) => {
 		handleBlur(name);
 		setBgColor("rgba(217, 217, 217, 0.4)");
@@ -42,49 +36,20 @@ export const CleaningScheduleForm = ({ navigation, configure }) => {
 			<View style={styles.container}>
 				<Formik
 					initialValues={{
-						tankType: tanks[0],
-						tankHeight: 0,
-						tankDiameter: 0,
-						pumpingMachineType: pumpingMachines[0],
-						pumpingMachineHorsePower: 0,
+						interval: cleaningIntervals[0],
+						startDate: Date.now(), // initial date from which subsequent dates will be determined
 					}}
 					validationSchema={yup.object().shape({
-						tankType: yup.object().shape({
-							label: yup.string().required(),
-							value: yup.object().shape({
-								height: yup.number().required(),
-								diameter: yup.number().required(),
-							}),
-						}),
-						tankHeight: yup
+						interval: yup
 							.number()
-							.min(50, "Tank height cannot be less than 50 cm")
-							.required("Tank height is required"),
-						tankDiameter: yup
-							.number()
-							.min(0, "Tank diameter cannot be less than 0 cm")
-							.required("Tank diameter is required"),
-						pumpingMachineType: yup.object().shape({
-							label: yup.string().required(),
-							value: yup.object().shape({
-								horsePower: yup.object().shape({
-									value: yup.number().required(),
-									unit: yup.string().required(),
-								}),
-								flowRate: yup.object().shape({
-									value: yup.number().required(),
-									unit: yup.string().required(),
-								}),
-							}),
-						}),
-						pumpingMachineHorsePower: yup
-							.number()
-							.min(0, "Horse power must be greater than 0")
-							.required("Horse power rating is required"),
+							.min(50, "interval must be atleast a month")
+							.required("Interval is required"),
+						startDate: yup.number().required("Star date is required"),
 					})}
 					onSubmit={async (values) => {
 						// await onAuthenticate(values.email, values.password);
 						await configure(values);
+						console.log(values);
 					}}
 				>
 					{({ handleSubmit, values, handleChange, handleBlur, setValues }) => (
@@ -95,21 +60,19 @@ export const CleaningScheduleForm = ({ navigation, configure }) => {
 									placeholder={"Select Interval"}
 									label="Cleaning Interval"
 									name={"interval"}
-									items={tanks}
-									key={"interval"}
-									relatedFields={["diameter", "height"]}
+									items={cleaningIntervals}
 								/>
-
-								<InputField
-									name={"tankDiameter"}
-									placeholder={"Diameter"}
-									iconName={"tape"}
-									type={"number"}
-									label={"Diameter"}
+								{/* <InputField
+									name={"startDate"}
+									placeholder={"Start date"}
+									iconName={"calendar"}
+									type={"datetime"}
+									label={"Start date"}
 									changeHandler={handleChange}
 									blurHandler={handleBlur}
 									value={values.tankDiameter}
-								/>
+								/> */}
+								<DateTimePicker mode="date" />
 							</View>
 
 							<View style={{ width: "100%", padding: 0 }}>
