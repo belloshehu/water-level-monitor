@@ -1,5 +1,5 @@
 import Configuration from "./Configuration";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { PumpConfigForm } from "./forms/PumpConfigForm";
 

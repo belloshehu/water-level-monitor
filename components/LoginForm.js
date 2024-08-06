@@ -1,21 +1,9 @@
-import {
-	View,
-	Text,
-	StyleSheet,
-	TextInput,
-	Platform,
-	Button,
-	Alert,
-} from "react-native";
-import { ErrorMessage, Formik } from "formik";
+import { View, StyleSheet } from "react-native";
+import { Formik } from "formik";
 import * as yup from "yup";
-import { InputWrapper } from "./InputWrapper";
 import { FontAwesome } from "@expo/vector-icons";
-import { FormError } from "./FormError";
-import { useState } from "react";
 import { CustomButton } from "./CustomButton";
 import { InputField } from "./InputField";
-import axios from "axios";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const LoginForm = ({ navigation, onAuthenticate }) => {

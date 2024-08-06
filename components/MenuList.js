@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet } from "react-native";
 import { menuItems } from "../data/menu";
 import { MenuItem } from "./MenuItem";
 import { useNavigation } from "@react-navigation/native";

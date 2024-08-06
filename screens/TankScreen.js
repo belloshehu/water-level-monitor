@@ -1,7 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { useSelector } from "react-redux";
-import { FontAwesome6 } from "@expo/vector-icons";
 import Purity from "./tank/Purity";
 import { LiquidGauge } from "react-native-liquid-gauge";
 

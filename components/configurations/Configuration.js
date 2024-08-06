@@ -1,6 +1,5 @@
-import { View, StyleSheet, Text, Button, Pressable } from "react-native";
+import { View, StyleSheet, Text, Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { CustomButton } from "../CustomButton";
 import ConfigModal from "./ConfigModal";
 import { useState } from "react";
 

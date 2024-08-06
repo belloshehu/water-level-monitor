@@ -3,7 +3,6 @@ import { WelcomeScreen } from "../screens/welcome/WelcomeScreen";
 import { LoginScreen } from "../screens/LoginScreen";
 import { ForgotPasswordScreen } from "../screens/ForgotPasswordScreen";
 import { SignupScreen } from "../screens/SignupScreen";
-import { HomeScreen } from "../screens/HomeScreen";
 
 const Stack = createNativeStackNavigator();
 

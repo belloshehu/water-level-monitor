@@ -1,13 +1,6 @@
 import data from "../../data/chart";
 import React from "react";
-import {
-	AppRegistry,
-	StyleSheet,
-	Text,
-	View,
-	processColor,
-	Dimensions,
-} from "react-native";
+import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
 export default function Chart({ data: dt, title }) {

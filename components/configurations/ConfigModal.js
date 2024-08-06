@@ -1,5 +1,4 @@
-import { Modal, Pressable, StyleSheet, View } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { Modal, StyleSheet, View } from "react-native";
 import { CustomButton } from "../CustomButton";
 
 export default function ConfigModal({ visible, closeHandler, children }) {

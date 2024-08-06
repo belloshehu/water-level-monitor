@@ -1,8 +1,6 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
-import { ErrorMessage, Formik } from "formik";
+import { View, Text, StyleSheet } from "react-native";
+import { Formik } from "formik";
 import * as yup from "yup";
-import { InputWrapper } from "./InputWrapper";
-import { FontAwesome } from "@expo/vector-icons";
 import { CustomButton } from "./CustomButton";
 import { InputField } from "./InputField";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";

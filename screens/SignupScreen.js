@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Alert } from "react-native";
+import { Alert } from "react-native";
 import { OnboardingScreenWrapper } from "../components/OnboardingScreenWrapper";
 import { AuthScreenHeading } from "../components/AuthScreenHeading";
 import { SignupForm } from "../components/SignupForm";
@@ -31,14 +31,3 @@ export const SignupScreen = ({ navigation }) => {
 		</OnboardingScreenWrapper>
 	);
 };
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		width: "100%",
-		alignItems: "center",
-		justifyContent: "flex-start",
-		paddingTop: 10,
-		backgroundColor: "rgba(255, 165, 0, 0.5)",
-	},
-});

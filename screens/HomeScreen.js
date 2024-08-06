@@ -10,7 +10,6 @@ import AboutModal from "../components/AboutModal";
 export const HomeScreen = () => {
 	const { level } = useSelector((store) => store.level);
 	const [visible, setVisible] = useState(false);
-
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>Hi, welcome back</Text>

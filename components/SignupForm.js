@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { CustomButton } from "./CustomButton";
 import { InputField } from "./InputField";
 import { FontAwesome } from "@expo/vector-icons";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const SignupForm = ({ navigation, onAuthenticate }) => {
 	return (

@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 export const MenuItem = ({ item, navigation }) => {
 	const { title, icon, url } = item;

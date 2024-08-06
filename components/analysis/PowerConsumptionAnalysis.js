@@ -1,7 +1,6 @@
 import Analysis from "./Analysis";
 import { Entypo } from "@expo/vector-icons";
 import { View, Text, StyleSheet } from "react-native";
-import AnalysisRecord from "./AnalysisRecord";
 import Chart from "./Chart";
 
 export default function PowerConsumptionAnalysis({ perDay, total }) {

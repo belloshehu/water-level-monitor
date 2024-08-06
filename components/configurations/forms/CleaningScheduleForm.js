@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
-
+import { useState } from "react";
 import { CustomButton } from "../../CustomButton";
 import { InputField } from "../../InputField";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -9,6 +9,8 @@ import DropDownFormik from "../../DropDownFormik";
 import { cleaningIntervals } from "../../../data/settings";
 
 export const CleaningScheduleForm = ({ navigation, configure }) => {
+	const [date, setDate] = useState(new Date());
+	const [open, setOpen] = useState(false);
 	const blurHandler = (name, handleBlur) => {
 		handleBlur(name);
 		setBgColor("rgba(217, 217, 217, 0.4)");
@@ -60,7 +62,7 @@ export const CleaningScheduleForm = ({ navigation, configure }) => {
 									name={"interval"}
 									items={cleaningIntervals}
 								/>
-								<InputField
+								{/* <InputField
 									name={"startDate"}
 									placeholder={"Start date"}
 									iconName={"calendar"}
@@ -69,7 +71,7 @@ export const CleaningScheduleForm = ({ navigation, configure }) => {
 									changeHandler={handleChange}
 									blurHandler={handleBlur}
 									value={values.tankDiameter}
-								/>
+								/> */}
 							</View>
 
 							<View style={{ width: "100%", padding: 0 }}>
