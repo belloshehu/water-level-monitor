@@ -3,14 +3,13 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
 import { CustomButton } from "../../CustomButton";
-import { InputField } from "../../InputField";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DropDownFormik from "../../DropDownFormik";
 import { cleaningIntervals } from "../../../data/settings";
+import Checkbox from "expo-checkbox";
 
 export const CleaningScheduleForm = ({ navigation, configure }) => {
-	const [date, setDate] = useState(new Date());
-	const [open, setOpen] = useState(false);
+	const [isChecked, setChecked] = useState(false);
 	const blurHandler = (name, handleBlur) => {
 		handleBlur(name);
 		setBgColor("rgba(217, 217, 217, 0.4)");
@@ -62,25 +61,33 @@ export const CleaningScheduleForm = ({ navigation, configure }) => {
 									name={"interval"}
 									items={cleaningIntervals}
 								/>
-								{/* <InputField
-									name={"startDate"}
-									placeholder={"Start date"}
-									iconName={"calendar"}
-									type={"datetime"}
-									label={"Start date"}
-									changeHandler={handleChange}
-									blurHandler={handleBlur}
-									value={values.tankDiameter}
-								/> */}
+								<View style={styles.section}>
+									<Checkbox
+										value={isChecked}
+										onValueChange={setChecked}
+										style={styles.checbox}
+										color={isChecked ? "#ffa500" : undefined}
+									/>
+
+									<Text>
+										Start cleaning today ({new Date().toLocaleDateString()})
+									</Text>
+								</View>
 							</View>
+
+							<Text>
+								You will only get cleaning schedule notification after you have
+								first cleaning.
+							</Text>
 
 							<View style={{ width: "100%", padding: 0 }}>
 								<CustomButton
 									buttonText={"Save"}
-									bgColor={"#ffa500"}
-									bordered={"#ffa500"}
+									bgColor={isChecked ? "#ffa500" : "#ddd"}
+									bordered={isChecked ? "#ffa500" : "#ddd"}
 									textColor={"#fff"}
 									pressHandler={handleSubmit}
+									disable={!isChecked}
 								/>
 							</View>
 						</View>
@@ -171,5 +178,19 @@ const styles = StyleSheet.create({
 		left: 5,
 		fontSize: 18,
 		backgroundColor: "rgba(250, 250, 250, 1)",
+	},
+	section: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 10,
+		justifyContent: "flex-start",
+		width: "100%",
+		padding: 10,
+	},
+	checbox: {
+		borderColor: "#ffa500",
+		borderWidth: 1,
+		width: 22,
+		height: 22,
 	},
 });

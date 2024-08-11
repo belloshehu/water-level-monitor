@@ -20,7 +20,7 @@ export default function TankConfiguration() {
 
 const styles = StyleSheet.create({
 	text: {
-		fontSize: 24,
+		fontSize: 20,
 		color: "#000",
 		textAlign: "center",
 		fontFamily: "cursive",

@@ -22,7 +22,7 @@ export const DevicesScreen = ({ navigation }) => {
 
 	useEffect(() => {
 		(async () => {
-			await scanDevices();
+			await scanForDevices();
 		})();
 	}, []);
 	return (

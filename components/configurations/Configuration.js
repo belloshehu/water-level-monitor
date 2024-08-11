@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 		flex: 0.3,
 		padding: 0,
-		paddingBottom: 20,
+		paddingBottom: 40,
 		elevation: 1,
 		justifyContent: "space-start",
 		position: "relative",

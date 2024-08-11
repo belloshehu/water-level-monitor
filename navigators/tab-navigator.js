@@ -49,9 +49,9 @@ export const TabNavigator = () => {
 					}
 					return <AntDesign name={iconName} size={size} color={color} />;
 				},
-				tabBarActiveTintColor: "white",
+				tabBarActiveTintColor: "#ffa500",
 				tabBarInactiveTintColor: "black",
-				tabBarStyle: { backgroundColor: "#ffa500", elevation: 5 },
+				tabBarStyle: { backgroundColor: "", elevation: 0 },
 				header: () => {
 					return null;
 				},

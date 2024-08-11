@@ -15,32 +15,31 @@ const DropDownFormik = ({ ...props }) => {
 				onSelectItem={(item) => {
 					setValues((values) => {
 						console.log(props.relatedFields);
-						const dependantF = props.relatedFields.map((f) => {
-							return { f: item[f] };
-						});
-						console.log(dependantF);
+						if (props.relatedFields) {
+							const dependantF = props.relatedFields.map((f) => {
+								return { f: item[f] };
+							});
+							console.log(dependantF);
+						}
 						return { ...values };
 					});
 				}}
 				value={field.value}
 				open={openProvider}
 				setOpen={setOpenProvider}
-				style={styles.input}
+				// style={styles.input}
 				setValue={(val) => {
 					setFieldValue(field.name, val());
 				}}
 				customItemContainerStyle={{
 					borderWidth: 0,
 				}}
-				itemSeparator={Separator}
+				on
+				// itemSeparator={Separator}
 				itemSeparatorStyle={{}}
 			/>
 		</View>
 	);
-};
-
-const Separator = () => {
-	return <View />;
 };
 
 const styles = StyleSheet.create({

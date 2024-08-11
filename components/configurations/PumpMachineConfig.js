@@ -19,7 +19,7 @@ export default function PumpingMachineConfiguration() {
 
 const styles = StyleSheet.create({
 	text: {
-		fontSize: 24,
+		fontSize: 20,
 		fontFamily: "cursive",
 	},
 });
