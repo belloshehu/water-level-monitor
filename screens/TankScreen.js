@@ -12,7 +12,7 @@ export const TankScreen = () => {
 				<LiquidGauge
 					config={{
 						circleColor: "#ffa500",
-						textColor: "#000",
+						textColor: "#aaa",
 						waveTextColor: "#aaa",
 						waveColor: "#ffa500",
 						circleThickness: 0.15,
@@ -22,15 +22,19 @@ export const TankScreen = () => {
 						waveHeight: 0.07,
 						fontSize: 0.6,
 					}}
-					value={80}
+					value={level}
 					width={300}
 					height={300}
 				/>
 			</View>
 			<View style={{ alignItems: "center", justifyContent: "center", gap: 4 }}>
-				<Text style={styles.levelText}>80%</Text>
+				<Text style={styles.levelText}>{level}</Text>
 				<Text>Pumping</Text>
 			</View>
+			{/* <View style={styles.setpointWrapper}>
+				<Text>Stop Pumping at 90%</Text>
+				<Text>Starts Pumping at 40%</Text>
+			</View> */}
 			<Purity
 				indicatorColor={"#ffa500"}
 				measurement={"90%-100%"}
@@ -46,7 +50,7 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-end",
 		alignItems: "center",
 		padding: 10,
-		rowGap: 30,
+		rowGap: 206,
 		backgroundColor: "rgba(255, 165, 0, 0)",
 		borderRadius: 50,
 		margin: 20,
@@ -71,5 +75,11 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		flex: 0.7,
+	},
+	setpointWrapper: {
+		backgroundColor: "#aaa",
+		padding: 10,
+		borderRadius: 10,
+		color: "white",
 	},
 });

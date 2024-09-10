@@ -41,12 +41,13 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		gap: 10,
 		width: "100%",
-		flex: 0.3,
+		flex: 0.35,
 		padding: 0,
 		paddingBottom: 40,
 		elevation: 1,
 		justifyContent: "space-start",
 		position: "relative",
+		paddingBottom: 8,
 	},
 
 	title: {
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
 		alignItems: "flex-start",
 		color: "#fff",
 		paddingBottom: 10,
-		fontSize: 22,
+		fontSize: 18,
 		padding: 20,
 		textAlign: "center",
 		alignContent: "center",

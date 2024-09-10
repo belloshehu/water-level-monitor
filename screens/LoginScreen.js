@@ -22,7 +22,7 @@ export const LoginScreen = ({ navigation }) => {
 			dispatch(setAuthenticated(authToken));
 		} catch (error) {
 			Alert.alert("Login failed!", errorMessage(error));
-			dispatch(clearAuthenticated());
+			// dispatch(clearAuthenticated());
 		} finally {
 			setIsAuthenticating(false);
 		}

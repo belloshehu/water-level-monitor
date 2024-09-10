@@ -6,6 +6,11 @@ import { useDispatch } from "react-redux";
 import { setLevel } from "../redux/features/level/levelSlice";
 import * as Device from "expo-device";
 
+// const LEVEL_MONITOR_CHARACTERISTIC = "fa454bb9-94b7-4e4a-a223-5a3b28506b4a";
+// const LEVEL_MONITOR_UUID = "bb10d136-fdf6-49a9-a223-f4c1af7dc7ba";
+const LEVEL_MONITOR_UUID = "ABCD";
+const LEVEL_MONITOR_CHARACTERISTIC = "1234";
+
 const useBleManager = () => {
 	const dispatch = useDispatch();
 	const bleManager = useMemo(() => new BleManager(), []);
@@ -14,11 +19,11 @@ const useBleManager = () => {
 
 	const connectToDevice = async (device) => {
 		try {
-			const deviceConnection = await bleManager.connectToDevice(device);
+			const deviceConnection = await bleManager.connectToDevice(device.id);
 			setConnectedDevice(deviceConnection);
 			await deviceConnection.discoverAllServicesAndCharacteristics();
 			bleManager.stopDeviceScan();
-			startStreamingData(deviceConnection);
+			await startStreamingData(deviceConnection);
 		} catch (error) {
 			Alert.alert(`Failed to connect with ${device.name}`, error);
 		}
@@ -42,10 +47,10 @@ const useBleManager = () => {
 			if (error) {
 				Alert.alert("Scanning error");
 			}
-			if (device && device.name.includes("levelMonitor")) {
+			if (device && device?.name?.includes("levelMonitor")) {
 				setAllDevices((previousDevices) => {
 					if (!isDuplicate(previousDevices, device)) {
-						return [...previousDevices, nextDevice];
+						return [...previousDevices, device];
 					}
 					return previousDevices;
 				});
@@ -89,7 +94,7 @@ const useBleManager = () => {
 	};
 
 	// normal permission for Android below 31
-	// on Android, location permission alone is required if version of Android is 31 and above
+	// on Android, location permission alone is required if version of Android is 31 below above
 	// else, three permissions are required: FINE_LOCATION, CONNECT, SCAN
 	// on IOS, the permissions are not required
 
@@ -125,11 +130,12 @@ const useBleManager = () => {
 		const rawData = base64.decode(characteristic.value);
 		const levelValue = Number(rawData[0].charCodeAt[0]);
 		dispatch(setLevel(levelValue));
+		console.log(rawData, levelValue);
 	};
 
 	const startStreamingData = async (device) => {
 		if (device) {
-			device.monitorCharateristicForService(
+			device.monitorCharacteristicForService(
 				LEVEL_MONITOR_UUID,
 				LEVEL_MONITOR_CHARACTERISTIC,
 				onLevelMonitor
