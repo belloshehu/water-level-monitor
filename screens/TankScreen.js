@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Purity from "./tank/Purity";
 import { LiquidGauge } from "react-native-liquid-gauge";
 
+const DEFAULT_LEVEL = 80; // Default water level if not available in the store (in percentage)
 export const TankScreen = () => {
 	const { level } = useSelector((store) => store.level);
 	return (
@@ -22,13 +23,13 @@ export const TankScreen = () => {
 						waveHeight: 0.07,
 						fontSize: 0.6,
 					}}
-					value={level}
+					value={level || DEFAULT_LEVEL}
 					width={300}
 					height={300}
 				/>
 			</View>
 			<View style={{ alignItems: "center", justifyContent: "center", gap: 4 }}>
-				<Text style={styles.levelText}>{level}</Text>
+				<Text style={styles.levelText}>{level || DEFAULT_LEVEL}</Text>
 				<Text>Pumping</Text>
 			</View>
 			{/* <View style={styles.setpointWrapper}>

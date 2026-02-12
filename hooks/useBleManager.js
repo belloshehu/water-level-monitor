@@ -11,6 +11,10 @@ import * as Device from "expo-device";
 const LEVEL_MONITOR_UUID = "ABCD";
 const LEVEL_MONITOR_CHARACTERISTIC = "1234";
 
+const SERVICE_UUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"; // UART service UUID
+const CHARACTERISTIC_UUID_RX = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E";
+const DHTDATA_CHAR_UUID = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
+
 const useBleManager = () => {
 	const dispatch = useDispatch();
 	const bleManager = useMemo(() => new BleManager(), []);
@@ -19,17 +23,19 @@ const useBleManager = () => {
 
 	const connectToDevice = async (device) => {
 		try {
+			console.log("connecting ...", device.localName);
 			const deviceConnection = await bleManager.connectToDevice(device.id);
 			setConnectedDevice(deviceConnection);
 			await deviceConnection.discoverAllServicesAndCharacteristics();
 			bleManager.stopDeviceScan();
 			await startStreamingData(deviceConnection);
 		} catch (error) {
-			Alert.alert(`Failed to connect with ${device.name}`, error);
+			Alert.alert(`Failed to connect with ${device.localName}`, error);
 		}
 	};
 
 	const disconnectDevice = () => {
+		console.log("diconnecting ...");
 		if (connectedDevice) {
 			bleManager.cancelDeviceConnection(connectedDevice.id);
 			setConnectedDevice(null);
@@ -43,19 +49,29 @@ const useBleManager = () => {
 	};
 
 	const scanDevices = () => {
-		bleManager.startDeviceScan(null, null, (error, device) => {
-			if (error) {
-				Alert.alert("Scanning error");
+		bleManager.startDeviceScan(
+			null,
+			{ allowDuplicates: false },
+			(error, device) => {
+				if (error) {
+					Alert.alert("Scanning error", error.message);
+					console.error(error);
+				}
+				if (device && device.localName === "ESP32 DHT11") {
+					setAllDevices((previousDevices) => {
+						if (!isDuplicate(previousDevices, device)) {
+							return [...previousDevices, device];
+						}
+						return previousDevices;
+					});
+
+					bleManager.stopDeviceScan();
+				} else {
+					// clear the list if device not found
+					setAllDevices([]);
+				}
 			}
-			if (device && device?.name?.includes("levelMonitor")) {
-				setAllDevices((previousDevices) => {
-					if (!isDuplicate(previousDevices, device)) {
-						return [...previousDevices, device];
-					}
-					return previousDevices;
-				});
-			}
-		});
+		);
 	};
 
 	const requestAndroid31Permissions = async () => {
@@ -136,6 +152,8 @@ const useBleManager = () => {
 	const startStreamingData = async (device) => {
 		if (device) {
 			device.monitorCharacteristicForService(
+				// SERVICE_UUID,
+				// DHTDATA_CHAR_UUID,
 				LEVEL_MONITOR_UUID,
 				LEVEL_MONITOR_CHARACTERISTIC,
 				onLevelMonitor
