@@ -1,0 +1,196 @@
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { View, Text, StyleSheet } from "react-native";
+import { CustomButton } from "../../CustomButton";
+import DropDownFormik from "../../DropDownFormik";
+import { InputField } from "../../InputField";
+import { useState } from "react";
+import { Formik } from "formik";
+import * as yup from "yup";
+import {
+	pumpingMachines as pumpingMachinesCategories,
+	tanks as tankCategories,
+} from "@/data/settings";
+import { Button } from "react-native-paper";
+
+export const PumpConfigForm = ({ configure }) => {
+	const [tanks, setTanks] = useState(tankCategories);
+	const [pumpingMachines, setPumpingMachines] = useState(
+		pumpingMachinesCategories
+	);
+
+	return (
+		<KeyboardAwareScrollView
+			style={{ position: "relative" }}
+			contentContainerStyle={{
+				flex: 1,
+				marginVertical: "auto",
+				justifyContent: "center",
+				alignItems: "center",
+			}}
+		>
+			<View style={styles.container}>
+				<Formik
+					initialValues={{
+						tankType: tanks[0],
+						tankHeight: 0,
+						tankDiameter: 0,
+						pumpingMachineType: pumpingMachines[0],
+						pumpingMachineHorsePower: 0,
+					}}
+					validationSchema={yup.object().shape({
+						tankType: yup.object().shape({
+							label: yup.string().required(),
+							value: yup.object().shape({
+								height: yup.number().required(),
+								diameter: yup.number().required(),
+							}),
+						}),
+						tankHeight: yup
+							.number()
+							.min(50, "Tank height cannot be less than 50 cm")
+							.required("Tank height is required"),
+						tankDiameter: yup
+							.number()
+							.min(0, "Tank diameter cannot be less than 0 cm")
+							.required("Tank diameter is required"),
+						pumpingMachineType: yup.object().shape({
+							label: yup.string().required(),
+							value: yup.object().shape({
+								horsePower: yup.object().shape({
+									value: yup.number().required(),
+									unit: yup.string().required(),
+								}),
+								flowRate: yup.object().shape({
+									value: yup.number().required(),
+									unit: yup.string().required(),
+								}),
+							}),
+						}),
+						pumpingMachineHorsePower: yup
+							.number()
+							.min(0, "Horse power must be greater than 0")
+							.required("Horse power rating is required"),
+					})}
+					onSubmit={async (values) => {
+						// await onAuthenticate(values.email, values.password);
+						await configure(values);
+					}}
+				>
+					{({ handleSubmit, values, handleChange, handleBlur, setValues }) => (
+						<View style={styles.formWrapper}>
+							<View style={styles.fieldset}>
+								<Text style={styles.legend}>Pumping machine</Text>
+								<DropDownFormik
+									placeholder={"Select a type"}
+									name={"pumpingMachineType"}
+									label={"Pumping machine type"}
+									items={pumpingMachines}
+									key={"pumpingMachineType"}
+								/>
+
+								<InputField
+									name={"pumpingMachineHorsePower"}
+									placeholder={"Horse power"}
+									iconName={"size"}
+									type={"number"}
+									label={"Horse power"}
+									changeHandler={handleChange}
+									blurHandler={handleBlur}
+									value={
+										values.pumpingMachineType?.value?.horsePower ||
+										values.pumpingMachineHorsePower
+									}
+								/>
+							</View>
+							<View style={{ width: "100%", padding: 0 }}>
+								<Button onPress={() => handleSubmit()}>Save</Button>
+							</View>
+						</View>
+					)}
+				</Formik>
+			</View>
+		</KeyboardAwareScrollView>
+	);
+};
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 0.9,
+		backgroundColor: "rgba(0, 0, 0, 0)",
+		borderRadius: 10,
+		padding: 0,
+		paddingVertical: 30,
+		alignItems: "center",
+		justifyContent: "center",
+		width: "100%",
+	},
+	input: {
+		fontSize: 16,
+		height: 40,
+		borderWidth: 0,
+		textAlignVertical: "center",
+		width: "90%",
+		color: "black",
+	},
+	inputWrapper: {
+		backgroundColor: "#fff",
+		columnGap: 5,
+		flexDirection: "row",
+		borderRadius: 10,
+		width: "100%",
+		justifyContent: "center",
+		alignItems: "center",
+		zIndex: 10,
+	},
+	formWrapper: {
+		justifyContent: "center",
+		alignItems: "center",
+		gap: 25,
+		width: "100%",
+		flex: 1,
+	},
+	label: {
+		color: "#000",
+	},
+	errorText: {
+		fontSize: 12,
+		color: "red",
+	},
+	signupTextWrapper: {
+		justifyContent: "center",
+		alignItems: "center",
+		marginTop: 30,
+	},
+	text: {
+		color: "white",
+		textAlign: "center",
+		fontSize: 18,
+	},
+	link: {
+		fontWeight: "bold",
+		textDecorationLine: "underline",
+		textAlign: "center",
+		color: "white",
+		fontSize: 18,
+	},
+	fieldset: {
+		borderWidth: 1,
+		borderColor: "#ffa500",
+		padding: 5,
+		paddingVertical: 25,
+		width: "100%",
+		position: "relative",
+		borderRadius: 10,
+		justifyContent: "center",
+		alignItems: "center",
+		rowGap: 10,
+	},
+	legend: {
+		color: "#ffa500",
+		position: "absolute",
+		top: -15,
+		left: 5,
+		fontSize: 18,
+		backgroundColor: "rgba(250, 250, 250, 1)",
+	},
+});
