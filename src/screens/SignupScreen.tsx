@@ -1,11 +1,10 @@
-import { Alert } from "react-native";
 import { OnboardingScreenWrapper } from "../components/OnboardingScreenWrapper";
 import { AuthScreenHeading } from "../components/AuthScreenHeading";
-import { SignupForm } from "../components/SignupForm";
-import { createUser, errorMessage } from "../utils/auth";
-import { useState } from "react";
 import { LadingOverlay } from "../components/LoadingOverlay";
+import { createUser, errorMessage } from "../utils/auth";
+import { SignupForm } from "../components/SignupForm";
 import Toast from "react-native-toast-message";
+import { useState } from "react";
 
 export const SignupScreen = ({ navigation }) => {
 	const [isAuthenticating, setIsAuthenticating] = useState(false);

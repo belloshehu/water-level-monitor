@@ -1,13 +1,19 @@
+// import "react-native-reanimated";
+// import "react-native-gesture-handler";
+import { CustomBottomSheetProvider } from "./context/BottomSheetContext";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import CustomBottomSheetHost from "./components/CustomBottomSheetHost";
 import { NavContainer } from "./navigators/NavContainer";
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import Toast from "react-native-toast-message";
 import { StatusBar } from "expo-status-bar";
+// import { colors } from "@/contants/theme";
+import { Provider } from "react-redux";
+import { store } from "@/redux/store";
 import {
 	MD3LightTheme as DefaultTheme,
 	PaperProvider,
 } from "react-native-paper";
 import { colors } from "./contants/theme";
-import Toast from "react-native-toast-message";
 
 const theme = {
 	...DefaultTheme,
@@ -23,11 +29,16 @@ const theme = {
 export default function App() {
 	return (
 		<PaperProvider theme={theme}>
-			<Provider store={store}>
-				<StatusBar style="auto" />
-				<NavContainer />
-				<Toast />
-			</Provider>
+			<GestureHandlerRootView>
+				<Provider store={store}>
+					<CustomBottomSheetProvider>
+						<StatusBar style="auto" />
+						<NavContainer />
+						<Toast />
+						<CustomBottomSheetHost />
+					</CustomBottomSheetProvider>
+				</Provider>
+			</GestureHandlerRootView>
 		</PaperProvider>
 	);
 }

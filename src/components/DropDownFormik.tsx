@@ -19,9 +19,10 @@ const DropDownFormik = (props: DropDownFormikProps) => {
 		<View style={styles.inputWrapper}>
 			<DropDownPicker
 				{...field}
+				multiple={field.multiple}
 				{...props}
-				onSelectItem={(item) => {
-					setValues((values) => {
+				onSelectItem={(item: any) => {
+					setValues((values: any) => {
 						console.log(props.relatedFields);
 						if (props.relatedFields) {
 							const dependantF = props.relatedFields.map((f) => {

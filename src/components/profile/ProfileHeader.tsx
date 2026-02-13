@@ -26,7 +26,7 @@ const style = StyleSheet.create({
 		padding: 15,
 		flexDirection: "row",
 		alignItems: "center",
-		justifyContent: "start",
+		justifyContent: "flex-start",
 		gap: 20,
 		elevation: 0,
 	},

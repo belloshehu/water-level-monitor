@@ -5,21 +5,10 @@ import { FontAwesome } from "@expo/vector-icons";
 import { CustomButton } from "../CustomButton";
 import { InputField } from "../InputField";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Button } from "react-native-paper";
 
 export default function ProfileForm({ navigation, onUpdateProfile, user }) {
 	const { email, firstName, lastName } = user;
-	const blurHandler = (name, handleBlur) => {
-		handleBlur(name);
-		setBgColor("rgba(217, 217, 217, 0.4)");
-		setZindex(1);
-	};
-	const focusHandler = () => {
-		setBgColor("#FFA500");
-		setZindex(3);
-	};
-	const handleForgotPassword = () => {
-		navigation.navigate("forgot-password");
-	};
 	return (
 		<KeyboardAwareScrollView
 			style={{
@@ -110,12 +99,12 @@ export default function ProfileForm({ navigation, onUpdateProfile, user }) {
 							/>
 
 							<View style={styles.buttonWrapper}>
-								<CustomButton
-									buttonText={"Save"}
-									pressHandler={handleSubmit}
-									disabled={touched.firstName || touched.lastName}
-									bgColor={"#ffa500"}
-								/>
+								<Button
+									onPress={() => handleSubmit()}
+									disabled={!!touched.firstName || !!touched.lastName}
+								>
+									Save
+								</Button>
 							</View>
 						</View>
 					)}
@@ -149,7 +138,6 @@ const styles = StyleSheet.create({
 	inputWrapper: {
 		paddingHorizontal: 10,
 		paddingVertical: 5,
-		borderRadius: 0,
 		backgroundColor: "#fff",
 		columnGap: 5,
 		flexDirection: "row",

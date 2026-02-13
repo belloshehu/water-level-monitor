@@ -1,9 +1,9 @@
-import { StyleSheet, View } from "react-native";
-import { CustomButton } from "../components/CustomButton";
-import { useDispatch } from "react-redux";
 import { clearAuthenticated } from "../redux/features/auth/authSlice";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import ProfileForm from "../components/profile/ProfileForm";
+import { StyleSheet, View } from "react-native";
+import { Button } from "react-native-paper";
+import { useDispatch } from "react-redux";
 
 export const ProfileScreen = ({ navigation }) => {
 	const dispatch = useDispatch();
@@ -29,11 +29,7 @@ export const ProfileScreen = ({ navigation }) => {
 				}}
 			/>
 			<View style={styles.buttonWrapper}>
-				<CustomButton
-					pressHandler={handleLogOut}
-					buttonText={"Logout"}
-					bgColor={"#bbb"}
-				/>
+				<Button onPress={handleLogOut}>Logout</Button>
 			</View>
 		</View>
 	);

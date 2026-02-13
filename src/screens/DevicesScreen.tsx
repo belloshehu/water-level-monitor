@@ -6,7 +6,7 @@ import { useAppSelector } from "@/hooks/redux";
 import { Device } from "../components/Device";
 
 export const DevicesScreen = () => {
-	const { level } = useAppSelector((state) => state);
+	const { level } = useAppSelector((state) => state.level);
 	const [triggerScanning, setTriggerScanning] = useState(true);
 
 	const {
@@ -38,7 +38,7 @@ export const DevicesScreen = () => {
 
 	return (
 		<View style={styles.container}>
-			{connectedDevice.length > 0 && (
+			{connectedDevice && (
 				<View style={styles.connectedDeviceWrapper}>
 					<Text>Connected device</Text>
 					{!connectedDevice && (

@@ -1,8 +1,7 @@
-import { StyleSheet, Text, View } from "react-native";
-import { useSelector } from "react-redux";
-import Purity from "./tank/Purity";
 import { LiquidGauge } from "react-native-liquid-gauge";
+import { StyleSheet, Text, View } from "react-native";
 import { useAppSelector } from "@/hooks/redux";
+import Purity from "./tank/Purity";
 
 const DEFAULT_LEVEL = 80; // Default water level if not available in the store (in percentage)
 export const TankScreen = () => {

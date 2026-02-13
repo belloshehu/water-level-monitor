@@ -1,16 +1,3 @@
-// module.exports = function (api) {
-// 	api.cache(true);
-// 	return {
-// 		presets: ["babel-preset-expo"],
-// 		plugins: ["react-native-reanimated/plugin"],
-// 		env: {
-// 			production: {
-// 				plugins: ["react-native-paper/babel"],
-// 			},
-// 		},
-// 	};
-// };
-
 module.exports = function (api) {
 	api.cache(true);
 	return {
@@ -25,12 +12,8 @@ module.exports = function (api) {
 					},
 				},
 			],
-			"react-native-reanimated/plugin", // MUST be last
+			"react-native-paper/babel",
+			"react-native-reanimated/plugin",
 		],
-		env: {
-			production: {
-				plugins: ["react-native-paper/babel"],
-			},
-		},
 	};
 };

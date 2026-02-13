@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Alert, PermissionsAndroid, Platform } from "react-native";
-import { BleManager } from "react-native-ble-plx";
+import { BleManager, NativeDevice } from "react-native-ble-plx";
 import base64 from "react-native-quick-base64";
 import { useDispatch } from "react-redux";
 import { setLevel } from "@/redux/features/level/levelSlice";
@@ -19,7 +19,9 @@ const useBleManager = () => {
 	const dispatch = useDispatch();
 	const bleManager = useMemo(() => new BleManager(), []);
 	const [allDevices, setAllDevices] = useState([]);
-	const [connectedDevice, setConnectedDevice] = useState([]);
+	const [connectedDevice, setConnectedDevice] = useState<NativeDevice | null>(
+		null
+	);
 
 	const connectToDevice = async (device) => {
 		try {
@@ -143,13 +145,13 @@ const useBleManager = () => {
 		} else if (!characteristic?.value) {
 			console.log("No data ");
 		}
-		const rawData = base64.decode(characteristic.value);
-		const levelValue = Number(rawData[0].charCodeAt[0]);
-		dispatch(setLevel(levelValue));
-		console.log(rawData, levelValue);
+		// const rawData = base64(characteristic.value);
+		// const levelValue = Number(rawData[0].charCodeAt[0]);
+		dispatch(setLevel(10));
+		// console.log(rawData, levelValue);
 	};
 
-	const startStreamingData = async (device) => {
+	const startStreamingData = async (device: any) => {
 		if (device) {
 			device.monitorCharacteristicForService(
 				// SERVICE_UUID,

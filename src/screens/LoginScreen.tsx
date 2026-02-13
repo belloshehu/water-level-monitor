@@ -1,13 +1,12 @@
-import { Alert } from "react-native";
-import { LoginForm } from "../components/LoginForm";
 import { OnboardingScreenWrapper } from "../components/OnboardingScreenWrapper";
 import { AuthScreenHeading } from "../components/AuthScreenHeading";
-import { errorMessage, logInUser } from "../utils/auth";
-import { useState } from "react";
-import { LadingOverlay } from "../components/LoadingOverlay";
-import { useDispatch } from "react-redux";
 import { setAuthenticated } from "../redux/features/auth/authSlice";
+import { LadingOverlay } from "../components/LoadingOverlay";
+import { errorMessage, logInUser } from "../utils/auth";
+import { LoginForm } from "../components/LoginForm";
 import Toast from "react-native-toast-message";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 export const LoginScreen = ({ navigation }) => {
 	const dispatch = useDispatch();
