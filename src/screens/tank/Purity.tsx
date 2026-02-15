@@ -2,7 +2,7 @@ import { StyleSheet, View, Text } from "react-native";
 
 export default function Purity({ remark, measurement, indicatorColor }) {
 	return (
-		<View style={{ ...styles.container, backgroundColor: indicatorColor }}>
+		<View style={[styles.container, { backgroundColor: indicatorColor }]}>
 			<Text style={styles.text}>
 				{remark} ({measurement})
 			</Text>

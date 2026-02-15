@@ -1,11 +1,9 @@
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { DatePickerInput } from "react-native-paper-dates";
+import FormRadioButton from "@/components/FormRadioButton";
+import { Button, RadioButton } from "react-native-paper";
 import { View, Text, StyleSheet } from "react-native";
 import { cleaningIntervals } from "@/data/settings";
-import DropDownFormik from "../../DropDownFormik";
-import { Button } from "react-native-paper";
-import { colors } from "@/contants/theme";
-import Checkbox from "expo-checkbox";
-import { useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 
@@ -15,7 +13,9 @@ interface CleaningScheduleFormProps {
 export const CleaningScheduleForm = ({
 	configure,
 }: CleaningScheduleFormProps) => {
-	const [isChecked, setChecked] = useState(false);
+	const today = new Date();
+	today.setDate(today.getDate());
+	today.setHours(0, 0, 0, 0);
 
 	return (
 		<KeyboardAwareScrollView
@@ -30,66 +30,71 @@ export const CleaningScheduleForm = ({
 			<View style={styles.container}>
 				<Formik
 					initialValues={{
-						interval: cleaningIntervals[0],
-						startDate: Date.now(), // initial date from which subsequent dates will be determined
+						interval: 30,
+						startDate: new Date(), // initial date from which subsequent dates will be determined
 					}}
 					validationSchema={yup.object().shape({
 						interval: yup
 							.number()
-							.min(50, "interval must be atleast a month")
+							.min(20, "interval must be atleast a month")
 							.required("Interval is required"),
-						startDate: yup.number().required("Star date is required"),
+						startDate: yup.date().required("Star date is required"),
 					})}
 					onSubmit={async (values) => {
 						// await onAuthenticate(values.email, values.password);
+						console.log(values);
 						await configure(values);
 						console.log(values);
 					}}
 				>
-					{({ handleSubmit, values, handleChange, handleBlur, setValues }) => (
+					{({
+						handleSubmit,
+						values,
+						handleChange,
+						isSubmitting,
+						dirty,
+						setFieldValue,
+					}) => (
 						<View style={styles.formWrapper}>
-							<View style={styles.fieldset}>
-								<Text style={styles.legend}>Cleaning Schedule</Text>
-								<DropDownFormik
-									placeholder={"Select Interval"}
-									label="Cleaning Interval"
-									name={"interval"}
-									items={cleaningIntervals}
-								/>
-								<View style={styles.section}>
-									<Checkbox
-										value={isChecked}
-										onValueChange={setChecked}
-										style={styles.checbox}
-										color={isChecked ? "#ffa500" : undefined}
-									/>
-
-									<Text>
-										Start cleaning today ({new Date().toLocaleDateString()})
-									</Text>
-								</View>
-							</View>
-
 							<Text>
 								You will only get cleaning schedule notification after you have
 								first cleaning.
 							</Text>
-
-							<View style={{ width: "100%", padding: 0 }}>
-								<Button
-									style={{
-										backgroundColor: isChecked
-											? colors.primary
-											: colors.secondary,
-										borderColor: isChecked ? colors.primary : colors.secondary,
-									}}
-									onPress={() => handleSubmit()}
-									disabled={!isChecked}
-									mode="outlined"
+							<View style={styles.fieldset}>
+								<Text style={styles.legend}>Cleaning Schedule</Text>
+								<RadioButton.Group
+									onValueChange={(value) => setFieldValue("interval", value)}
+									value={values.interval.toString()}
 								>
-									Save
-								</Button>
+									{cleaningIntervals.map(({ value, label, id }) => (
+										<FormRadioButton
+											label={label}
+											value={value.days.toString()}
+											checked={
+												value.days.toString() === values.interval.toString()
+											}
+											key={id}
+										/>
+									))}
+								</RadioButton.Group>
+								<DatePickerInput
+									locale="en-GB"
+									inputMode="start"
+									onChange={(value) => setFieldValue("startDate", value)}
+									value={values.startDate}
+									mode="outlined"
+									label={"Start date"}
+									validRange={{ startDate: today }}
+								/>
 							</View>
+
+							<Button
+								onPress={() => handleSubmit()}
+								disabled={isSubmitting || !dirty}
+								mode="outlined"
+							>
+								Save
+							</Button>
 						</View>
 					)}
 				</Formik>
@@ -105,7 +110,6 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		padding: 0,
 		paddingVertical: 30,
-		alignItems: "center",
 		justifyContent: "center",
 		width: "100%",
 	},
@@ -117,19 +121,9 @@ const styles = StyleSheet.create({
 		width: "90%",
 		color: "black",
 	},
-	inputWrapper: {
-		backgroundColor: "#fff",
-		columnGap: 5,
-		flexDirection: "row",
-		borderRadius: 10,
-		width: "100%",
-		justifyContent: "center",
-		alignItems: "center",
-		zIndex: 10,
-	},
+
 	formWrapper: {
 		justifyContent: "center",
-		alignItems: "center",
 		gap: 25,
 		width: "100%",
 		flex: 1,
@@ -141,21 +135,9 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		color: "red",
 	},
-	signupTextWrapper: {
-		justifyContent: "center",
-		alignItems: "center",
-		marginTop: 30,
-	},
 	text: {
 		color: "white",
 		textAlign: "center",
-		fontSize: 18,
-	},
-	link: {
-		fontWeight: "bold",
-		textDecorationLine: "underline",
-		textAlign: "center",
-		color: "white",
 		fontSize: 18,
 	},
 	fieldset: {
@@ -167,7 +149,6 @@ const styles = StyleSheet.create({
 		position: "relative",
 		borderRadius: 10,
 		justifyContent: "center",
-		alignItems: "center",
 		rowGap: 10,
 	},
 	legend: {
@@ -191,5 +172,9 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		width: 22,
 		height: 22,
+	},
+	radioGroup: {
+		width: "100%",
+		gap: 5,
 	},
 });

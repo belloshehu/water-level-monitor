@@ -7,9 +7,10 @@ import { LoginForm } from "../components/LoginForm";
 import Toast from "react-native-toast-message";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import { useAppDispatch } from "@/hooks/redux";
 
-export const LoginScreen = ({ navigation }) => {
-	const dispatch = useDispatch();
+const LoginScreen = ({ navigation }) => {
+	const dispatch = useAppDispatch();
 	const [isAuthenticating, setIsAuthenticating] = useState(false);
 
 	const loginHandler = async (email: string, password: string) => {
@@ -39,3 +40,5 @@ export const LoginScreen = ({ navigation }) => {
 		</OnboardingScreenWrapper>
 	);
 };
+
+export default LoginScreen;

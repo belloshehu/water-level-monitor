@@ -1,23 +1,20 @@
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { View, Text, StyleSheet } from "react-native";
-import { CustomButton } from "../../CustomButton";
-import DropDownFormik from "../../DropDownFormik";
 import { InputField } from "../../InputField";
-import { useState } from "react";
+import { Button } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
-import {
-	pumpingMachines as pumpingMachinesCategories,
-	tanks as tankCategories,
-} from "@/data/settings";
-import { Button } from "react-native-paper";
+
+interface FormValues {
+	flowRate: number;
+	horsePower: number;
+}
 
 export const PumpConfigForm = ({ configure }) => {
-	const [tanks, setTanks] = useState(tankCategories);
-	const [pumpingMachines, setPumpingMachines] = useState(
-		pumpingMachinesCategories
-	);
-
+	const initialValues: FormValues = {
+		flowRate: 1,
+		horsePower: 1,
+	};
 	return (
 		<KeyboardAwareScrollView
 			style={{ position: "relative" }}
@@ -30,45 +27,16 @@ export const PumpConfigForm = ({ configure }) => {
 		>
 			<View style={styles.container}>
 				<Formik
-					initialValues={{
-						tankType: tanks[0],
-						tankHeight: 0,
-						tankDiameter: 0,
-						pumpingMachineType: pumpingMachines[0],
-						pumpingMachineHorsePower: 0,
-					}}
+					initialValues={initialValues}
 					validationSchema={yup.object().shape({
-						tankType: yup.object().shape({
-							label: yup.string().required(),
-							value: yup.object().shape({
-								height: yup.number().required(),
-								diameter: yup.number().required(),
-							}),
-						}),
-						tankHeight: yup
+						flowRate: yup
 							.number()
-							.min(50, "Tank height cannot be less than 50 cm")
-							.required("Tank height is required"),
-						tankDiameter: yup
+							.min(1, "Flow rate too small")
+							.required("Flow rate is required"),
+
+						horsePower: yup
 							.number()
-							.min(0, "Tank diameter cannot be less than 0 cm")
-							.required("Tank diameter is required"),
-						pumpingMachineType: yup.object().shape({
-							label: yup.string().required(),
-							value: yup.object().shape({
-								horsePower: yup.object().shape({
-									value: yup.number().required(),
-									unit: yup.string().required(),
-								}),
-								flowRate: yup.object().shape({
-									value: yup.number().required(),
-									unit: yup.string().required(),
-								}),
-							}),
-						}),
-						pumpingMachineHorsePower: yup
-							.number()
-							.min(0, "Horse power must be greater than 0")
+							.min(0.5, "Horse power must be greater than 0.5")
 							.required("Horse power rating is required"),
 					})}
 					onSubmit={async (values) => {
@@ -76,34 +44,34 @@ export const PumpConfigForm = ({ configure }) => {
 						await configure(values);
 					}}
 				>
-					{({ handleSubmit, values, handleChange, handleBlur, setValues }) => (
+					{({ handleSubmit, handleChange, isSubmitting, dirty, isValid }) => (
 						<View style={styles.formWrapper}>
 							<View style={styles.fieldset}>
 								<Text style={styles.legend}>Pumping machine</Text>
-								<DropDownFormik
-									placeholder={"Select a type"}
-									name={"pumpingMachineType"}
-									label={"Pumping machine type"}
-									items={pumpingMachines}
-									key={"pumpingMachineType"}
-								/>
 
 								<InputField
-									name={"pumpingMachineHorsePower"}
-									placeholder={"Horse power"}
-									iconName={"size"}
-									type={"number"}
+									name={"horsePower"}
+									placeholder={"Enter Horse power"}
+									keyboardType={"numeric"}
 									label={"Horse power"}
-									changeHandler={handleChange}
-									blurHandler={handleBlur}
-									value={
-										values.pumpingMachineType?.value?.horsePower ||
-										values.pumpingMachineHorsePower
-									}
+									onChangeText={handleChange("horsePower")}
+								/>
+								<InputField
+									name={"flowRate"}
+									placeholder={"Enter flow rate"}
+									keyboardType={"numeric"}
+									label={"Flow rate"}
+									onChangeText={handleChange("flowRate")}
 								/>
 							</View>
 							<View style={{ width: "100%", padding: 0 }}>
-								<Button onPress={() => handleSubmit()}>Save</Button>
+								<Button
+									mode="outlined"
+									onPress={() => handleSubmit()}
+									disabled={!dirty || isSubmitting || !isValid}
+								>
+									Save
+								</Button>
 							</View>
 						</View>
 					)}

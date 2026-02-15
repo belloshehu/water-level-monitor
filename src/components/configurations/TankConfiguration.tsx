@@ -1,7 +1,7 @@
-import Configuration from "./Configuration";
-import { StyleSheet, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TankConfigForm } from "./forms/TankConfigForm";
+import { StyleSheet, Text } from "react-native";
+import Configuration from "./Configuration";
 
 export default function TankConfiguration() {
 	const handleConfig = (val: any) => {

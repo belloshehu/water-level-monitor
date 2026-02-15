@@ -1,90 +1,85 @@
-import { CustomButton } from "../components/CustomButton";
-import { useCallback, useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import useBleManager from "../hooks/useBleManager";
-import { useAppSelector } from "@/hooks/redux";
-import { Device } from "../components/Device";
+import React, { useEffect } from "react";
+import { View, StyleSheet, FlatList, Pressable } from "react-native";
 
-export const DevicesScreen = () => {
-	const { level } = useAppSelector((state) => state.level);
-	const [triggerScanning, setTriggerScanning] = useState(true);
+import { useNavigation } from "@react-navigation/native";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import {
+	clearConnectedtDevice,
+	startListening,
+	startScanning,
+} from "@/redux/features/ble/bleSlice";
+import { connectToDevice } from "@/redux/features/ble/listener";
+import { colors } from "@/contants/theme";
+import { Button, Text } from "react-native-paper";
 
-	const {
-		requestPermission,
-		scanDevices,
-		connectToDevice,
-		allDevices,
-		disconnectDevice,
-		connectedDevice,
-	} = useBleManager();
+const DevicesScreen = () => {
+	const nav = useNavigation();
+	const dispatch = useAppDispatch();
+	const { allDevices: discoveredDevices, connectedDevice } = useAppSelector(
+		(state) => state.ble
+	);
 
-	const scanForDevices = useCallback(async () => {
-		//console.log("scanning");
-		const isPermissionEnabled = await requestPermission();
-		if (isPermissionEnabled) {
-			//console.log("start here");
-			scanDevices();
-		}
-	}, []);
+	const scan = () => {
+		dispatch(startScanning());
+	};
+
+	const handleDisconnect = () => {
+		dispatch(clearConnectedtDevice());
+	};
 
 	useEffect(() => {
-		const startScanning = async () => {
-			await scanForDevices();
-		};
-		startScanning();
-		//console.log(allDevices[0]?.localName);
-		// console.log(connectedDevice);
-	}, [triggerScanning]);
+		scan();
+	}, []);
+
+	const onDeviceSelected = (deviceId: any) => {
+		dispatch(connectToDevice(deviceId));
+		dispatch(startListening());
+		nav.navigate("Tank" as never);
+	};
 
 	return (
 		<View style={styles.container}>
-			{connectedDevice && (
-				<View style={styles.connectedDeviceWrapper}>
-					<Text>Connected device</Text>
-					{!connectedDevice && (
-						<Device
-							connect={connectToDevice}
-							disconnect={disconnectDevice}
-							peripheral={connectedDevice}
-						/>
-					)}
-				</View>
-			)}
+			{
+				<Text variant="headlineMedium" style={styles.text}>
+					{connectedDevice ? "Tap to disconnect" : "Tap to connect"}
+				</Text>
+			}
+			<FlatList
+				style={styles.list}
+				contentContainerStyle={styles.listContent}
+				data={discoveredDevices}
+				renderItem={({ item }) => {
+					const selectDevice = () => {
+						onDeviceSelected(item);
+					};
 
-			<View style={styles.scanningWrapper}>
-				{/* <>
-					<ActivityIndicator size={"large"} color={"#ffa500"} />
-					<Text>Scanning for level monitor</Text>
-				</> */}
-				{/* shows list of discovered devices */}
-
-				{/* <DevicesList
-					title={"Scanned devices"}
-					connectHandler={connectToDevice}
-					devices={allDevices}
-					disconnectHandler={disconnectDevice}
-				/> */}
-				{allDevices[0] ? (
-					<View style={styles.scannedDeviceWrapper}>
-						<Text style={{ fontFamily: "cursive", fontSize: 18 }}>
-							Scanned devices
+					return (
+						<Button
+							icon={connectedDevice ? "link" : "link-off"}
+							mode="contained"
+							style={styles.deviceBtn}
+							onPress={selectDevice}
+						>
+							{item.name}
+						</Button>
+					);
+				}}
+				ListEmptyComponent={
+					<>
+						<Text variant="bodyLarge" style={styles.description}>
+							Restart the device again if does not connect.
 						</Text>
-						<Device
-							peripheral={allDevices[0]}
-							connect={connectToDevice}
-							disconnect={disconnectDevice}
-						/>
-					</View>
-				) : null}
-
-				<CustomButton
-					buttonText={"Discover level monitors"}
-					pressHandler={() => setTriggerScanning(!triggerScanning)}
-					bordered={"#ffa500"}
-					bgColor={"white"}
-					textColor={"#ffa500"}
-				/>
-			</View>
+						<Button onPress={scan} mode="contained">
+							Scan again
+						</Button>
+					</>
+				}
+			/>
+			{connectedDevice && (
+				<Button onPress={handleDisconnect} mode="elevated">
+					Disconnect
+				</Button>
+			)}
 		</View>
 	);
 };
@@ -94,30 +89,39 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
+		gap: 10,
 		padding: 20,
+		paddingTop: 50,
 		backgroundColor: "rgba(255, 165, 0, 0)",
+	},
+	list: {
+		marginTop: 30,
+		marginHorizontal: 20,
+		width: "100%",
+	},
+	listContent: {
+		justifyContent: "center",
+	},
+	deviceBtn: {
+		// backgroundColor: colors.primary,
+		justifyContent: "center",
+		borderRadius: 15,
+		width: "100%",
+		padding: 10,
+	},
+	deviceTxt: {
 		color: "white",
+		textAlign: "center",
+		fontSize: 20,
+		fontWeight: "bold",
 	},
-	scanningWrapper: {
-		flex: 0.7,
-		justifyContent: "center",
-		gap: 30,
-		alignItems: "center",
+	text: {
+		color: colors.primary,
 	},
-	connectedDeviceWrapper: {
-		width: "100%",
-		borderBottomWidth: 2,
-		borderBottomColor: "#ffa500",
-		paddingVertical: 20,
-		flex: 0.2,
-	},
-	scannedDeviceWrapper: {
-		width: "100%",
-		borderBottomWidth: 0,
-		paddingVertical: 20,
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		gap: 20,
+	description: {
+		textAlign: "center",
+		marginBottom: 20,
 	},
 });
+
+export default DevicesScreen;

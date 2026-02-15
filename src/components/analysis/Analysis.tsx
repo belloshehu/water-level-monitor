@@ -1,8 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { ReactNode, useState } from "react";
-import { CustomButton } from "@/components/CustomButton";
 import RecordModal from "@/components/analysis/RecordModal";
-import { useBottomSheet } from "@/context/BottomSheetContext";
+// import { useBottomSheet } from "@/context/BottomSheetContext";
 import { Button } from "react-native-paper";
 
 interface AnalysisProps {
@@ -18,16 +17,16 @@ export default function Analysis({
 	modalChildren,
 }: AnalysisProps) {
 	const [showModal, setShowModal] = useState(false);
-	const { present, dismiss, setBottomChildren } = useBottomSheet();
+	// const { present, dismiss, setBottomChildren } = useBottomSheet();
 
 	const handleViewRecord = () => {
 		setShowModal(!showModal);
-		setBottomChildren(
-			<View>
-				<Text>Hello</Text>
-			</View>
-		);
-		present();
+		// setBottomChildren(
+		// 	<View>
+		// 		<Text>Hello</Text>
+		// 	</View>
+		// );
+		// present();
 	};
 
 	const closeModal = () => {
@@ -41,13 +40,15 @@ export default function Analysis({
 			</View>
 			{children}
 			<View style={{ width: "auto", marginBottom: 0 }}>
-				<Button onPress={handleViewRecord}>View chart</Button>
+				<Button mode="contained" onPress={handleViewRecord}>
+					View chart
+				</Button>
 			</View>
-			{/* <RecordModal
+			<RecordModal
 				visible={showModal}
 				onClose={closeModal}
 				children={modalChildren}
-			/> */}
+			/>
 		</View>
 	);
 }

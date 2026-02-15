@@ -1,5 +1,5 @@
 import { Modal, StyleSheet, View } from "react-native";
-import { CustomButton } from "../CustomButton";
+import { Button } from "react-native-paper";
 
 export default function ConfigModal({ visible, closeHandler, children }) {
 	return (
@@ -7,13 +7,9 @@ export default function ConfigModal({ visible, closeHandler, children }) {
 			<View style={styles.container}>
 				<View style={styles.modalView}>
 					{children}
-					<CustomButton
-						buttonText={"Done"}
-						pressHandler={closeHandler}
-						bgColor={"white"}
-						bordered={"#ffa500"}
-						textColor={"#ffa500"}
-					/>
+					<Button mode="contained" onPress={closeHandler}>
+						Done
+					</Button>
 				</View>
 			</View>
 		</Modal>
@@ -28,7 +24,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	modalView: {
-		alignItems: "center",
+		// alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: "#fff",
 		borderRadius: 20,

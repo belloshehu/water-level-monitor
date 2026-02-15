@@ -6,7 +6,7 @@ import { SignupForm } from "../components/SignupForm";
 import Toast from "react-native-toast-message";
 import { useState } from "react";
 
-export const SignupScreen = ({ navigation }) => {
+const SignupScreen = ({ navigation }) => {
 	const [isAuthenticating, setIsAuthenticating] = useState(false);
 	const signupHandler = async (email: string, password: string) => {
 		setIsAuthenticating(true);
@@ -35,3 +35,5 @@ export const SignupScreen = ({ navigation }) => {
 		</OnboardingScreenWrapper>
 	);
 };
+
+export default SignupScreen;

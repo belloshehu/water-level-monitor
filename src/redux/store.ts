@@ -1,11 +1,18 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./features/auth/authSlice";
 import levelReducer from "./features/level/levelSlice";
+import { bleMiddleware } from "./features/ble/listener";
+import bleReducer from "@/redux/features/ble/bleSlice";
 
+const appReducer = combineReducers({
+	ble: bleReducer,
+	auth: authReducer,
+	level: levelReducer,
+});
 export const store = configureStore({
-	reducer: {
-		auth: authReducer,
-		level: levelReducer,
+	reducer: appReducer,
+	middleware: (getDefaultMiddleware) => {
+		return getDefaultMiddleware().concat(bleMiddleware.middleware);
 	},
 });
 

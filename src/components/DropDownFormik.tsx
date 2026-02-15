@@ -1,3 +1,4 @@
+import { colors } from "@/contants/theme";
 import { useFormikContext, useField } from "formik";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -9,6 +10,7 @@ interface DropDownFormikProps {
 	relatedFields?: string[];
 	placeholder?: string;
 	label?: string;
+	listMode: "FLATLIST" | "SCROLLVIEW" | "MODAL";
 }
 
 const DropDownFormik = (props: DropDownFormikProps) => {
@@ -33,31 +35,45 @@ const DropDownFormik = (props: DropDownFormikProps) => {
 						return { ...values };
 					});
 				}}
-				value={field.value}
+				// value={field.value}
 				open={openProvider}
 				setOpen={setOpenProvider}
 				// style={styles.input}
 				setValue={(val) => {
 					setFieldValue(field.name, val);
 				}}
-				customItemContainerStyle={{
-					borderWidth: 0,
+				dropDownContainerStyle={{
+					backgroundColor: "#fff",
+					borderRadius: 10,
+					top: "100%",
+					borderColor: "#fff",
 				}}
-				// itemSeparator={Separator}
-				itemSeparatorStyle={{}}
+				containerStyle={{
+					backgroundColor: "#fff",
+					gap: 2,
+				}}
+				style={{ backgroundColor: "#fff", borderRadius: 50 }}
+				listItemLabelStyle={{
+					color: "white",
+				}}
+				disableBorderRadius={true}
+				listItemContainerStyle={{
+					height: 40,
+					backgroundColor: colors.primary,
+					borderRadius: 20,
+				}}
+				itemSeparator={true}
+				itemSeparatorStyle={{
+					borderColor: "white",
+					backgroundColor: "#fff",
+					height: 3,
+				}}
 			/>
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
-	input: {
-		fontSize: 16,
-		height: 40,
-		borderWidth: 0,
-		textAlignVertical: "center",
-		color: "black",
-	},
 	inputWrapper: {
 		flexDirection: "row",
 		borderRadius: 10,

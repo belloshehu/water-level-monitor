@@ -1,11 +1,10 @@
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { View, StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
+import { InputField } from "../InputField";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { FontAwesome } from "@expo/vector-icons";
-import { CustomButton } from "../CustomButton";
-import { InputField } from "../InputField";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Button } from "react-native-paper";
 
 export default function ProfileForm({ navigation, onUpdateProfile, user }) {
 	const { email, firstName, lastName } = user;
@@ -14,6 +13,8 @@ export default function ProfileForm({ navigation, onUpdateProfile, user }) {
 			style={{
 				flex: 1,
 				position: "relative",
+				backgroundColor: "#fff",
+				borderRadius: 20,
 			}}
 			contentContainerStyle={{
 				justifyContent: "center",
@@ -60,52 +61,39 @@ export default function ProfileForm({ navigation, onUpdateProfile, user }) {
 						handleBlur,
 						errors,
 						touched,
+						dirty,
+						isSubmitting,
 					}) => (
 						<View style={styles.formWrapper}>
 							<InputField
-								errors={errors}
 								name={"email"}
 								placeholder={"Email Address"}
-								type={"email-address"}
-								changeHandler={handleChange}
-								blurHandler={handleBlur}
+								keyboardType={"email-address"}
+								onChangeText={handleChange("email")}
 								value={values.email}
-								touched={touched}
 								editable={false}
-								withIcon
-								icon={<FontAwesome name={"envelope"} size={24} color="#bbb" />}
 							/>
 							<InputField
-								errors={errors}
 								name={"firstName"}
 								placeholder={"First name"}
-								changeHandler={handleChange}
-								blurHandler={handleBlur}
+								onChangeText={handleChange("firstName")}
 								value={values.firstName}
-								touched={touched}
-								withIcon
-								icon={<FontAwesome name={"user"} size={24} color="#bbb" />}
 							/>
 							<InputField
-								errors={errors}
 								name={"lastName"}
 								placeholder={"Last name"}
-								changeHandler={handleChange}
-								blurHandler={handleBlur}
-								value={values.lastName}
-								touched={touched}
-								withIcon
-								icon={<FontAwesome name={"user"} size={24} color="#bbb" />}
+								onChangeText={handleChange("lastName")}
+								value={values.firstName}
 							/>
 
-							<View style={styles.buttonWrapper}>
-								<Button
-									onPress={() => handleSubmit()}
-									disabled={!!touched.firstName || !!touched.lastName}
-								>
-									Save
-								</Button>
-							</View>
+							<Button
+								mode="contained"
+								onPress={() => handleSubmit()}
+								disabled={!dirty}
+								loading={isSubmitting}
+							>
+								Save
+							</Button>
 						</View>
 					)}
 				</Formik>
@@ -123,32 +111,12 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 50,
 		padding: 20,
 		paddingVertical: 50,
-		alignItems: "center",
 		justifyContent: "center",
 		width: "100%",
-	},
-	input: {
-		fontSize: 16,
-		height: 40,
-		borderWidth: 0,
-		textAlignVertical: "center",
-		width: "90%",
-		color: "black",
-	},
-	inputWrapper: {
-		paddingHorizontal: 10,
-		paddingVertical: 5,
-		backgroundColor: "#fff",
-		columnGap: 5,
-		flexDirection: "row",
-		borderRadius: 10,
-		width: "100%",
-		justifyContent: "center",
-		alignItems: "center",
 	},
 	formWrapper: {
 		justifyContent: "center",
-		alignItems: "center",
+		// alignItems: "center",
 		gap: 15,
 		width: "100%",
 		flex: 1,
@@ -161,13 +129,7 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		color: "red",
 	},
-	buttonWrapper: {
-		justifyContent: "center",
-		alignItems: "center",
-		marginTop: 20,
-		width: "100%",
-		gap: 20,
-	},
+
 	text: {
 		color: "white",
 		textAlign: "center",

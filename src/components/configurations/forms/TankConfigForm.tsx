@@ -1,22 +1,22 @@
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { View, Text, StyleSheet } from "react-native";
-import DropDownFormik from "../../DropDownFormik";
-import { CustomButton } from "../../CustomButton";
-import { InputField } from "../../InputField";
-import { useState } from "react";
+import { InputField } from "@/components/InputField";
+import { Button } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
-import {
-	pumpingMachines as pumpingMachinesCategories,
-	tanks as tankCategories,
-} from "@/data/settings";
+import { useAppDispatch } from "@/hooks/redux";
+import { sendSetPointsData } from "@/redux/features/ble/listener";
 
+interface FormValues {
+	height: number;
+	diameter: number;
+}
 export const TankConfigForm = ({ configure }) => {
-	const [tanks, setTanks] = useState(tankCategories);
-	const [pumpingMachines, setPumpingMachines] = useState(
-		pumpingMachinesCategories
-	);
-
+	const initialValues: FormValues = {
+		height: 0,
+		diameter: 0,
+	};
+	const dispatch = useAppDispatch();
 	return (
 		<KeyboardAwareScrollView
 			style={{ position: "relative" }}
@@ -29,94 +29,60 @@ export const TankConfigForm = ({ configure }) => {
 		>
 			<View style={styles.container}>
 				<Formik
-					initialValues={{
-						tankType: tanks[0],
-						tankHeight: 0,
-						tankDiameter: 0,
-						pumpingMachineType: pumpingMachines[0],
-						pumpingMachineHorsePower: 0,
-					}}
+					initialValues={initialValues}
 					validationSchema={yup.object().shape({
-						tankType: yup.object().shape({
-							label: yup.string().required(),
-							value: yup.object().shape({
-								height: yup.number().required(),
-								diameter: yup.number().required(),
-							}),
-						}),
-						tankHeight: yup
+						height: yup
 							.number()
 							.min(50, "Tank height cannot be less than 50 cm")
 							.required("Tank height is required"),
-						tankDiameter: yup
+						diameter: yup
 							.number()
 							.min(0, "Tank diameter cannot be less than 0 cm")
 							.required("Tank diameter is required"),
-						pumpingMachineType: yup.object().shape({
-							label: yup.string().required(),
-							value: yup.object().shape({
-								horsePower: yup.object().shape({
-									value: yup.number().required(),
-									unit: yup.string().required(),
-								}),
-								flowRate: yup.object().shape({
-									value: yup.number().required(),
-									unit: yup.string().required(),
-								}),
-							}),
-						}),
-						pumpingMachineHorsePower: yup
-							.number()
-							.min(0, "Horse power must be greater than 0")
-							.required("Horse power rating is required"),
 					})}
-					onSubmit={async (values) => {
+					onSubmit={async (values: FormValues) => {
 						// await onAuthenticate(values.email, values.password);
+						console.log("Tank config:", values);
+						dispatch(sendSetPointsData(`${values.diameter}, ${values.height}`));
 						await configure(values);
 					}}
 				>
-					{({ handleSubmit, values, handleChange, handleBlur, setValues }) => (
+					{({ handleSubmit, handleChange }) => (
 						<View style={styles.formWrapper}>
 							<View style={styles.fieldset}>
 								<Text style={styles.legend}>Tank settings</Text>
-								<DropDownFormik
+								{/* <DropDownFormik
+									listMode="SCROLLVIEW"
 									placeholder={"Select tank size"}
 									label="Tank size"
 									name={"tankType"}
 									items={tanks}
 									key={"tank"}
 									relatedFields={["diameter", "height"]}
-								/>
+								/> */}
 								<InputField
-									name={"tankHeight"}
+									name={"height"}
 									placeholder={"Height"}
-									iconName={"size"}
-									type={"number"}
+									icon={"size"}
 									label={"Height"}
-									changeHandler={handleChange}
-									blurHandler={handleBlur}
-									value={values.tankHeight}
+									keyboardType={"numeric"}
+									onChangeText={handleChange("height")}
 								/>
 								<InputField
-									name={"tankDiameter"}
-									placeholder={"Diameter"}
-									iconName={"tape"}
-									type={"number"}
-									label={"Diameter"}
-									changeHandler={handleChange}
-									blurHandler={handleBlur}
-									value={values.tankDiameter}
+									mode="outlined"
+									keyboardType="numeric"
+									name={"diameter"}
+									placeholder={"Enter diameter (cm)"}
+									icon={"tape"}
+									label={"Diameter (cm)"}
+									onChangeText={handleChange("diameter")}
 								/>
 							</View>
 
 							<View style={{ width: "100%", padding: 0 }}>
-								<CustomButton
-									buttonText={"Save"}
-									bgColor={"#ffa500"}
-									bordered={"#ffa500"}
-									textColor={"#fff"}
-									pressHandler={handleSubmit}
-								/>
+								<Button mode="outlined" onPress={() => handleSubmit()}>
+									Save
+								</Button>
 							</View>
 						</View>
 					)}
@@ -157,7 +123,7 @@ const styles = StyleSheet.create({
 	},
 	formWrapper: {
 		justifyContent: "center",
-		alignItems: "center",
+		// alignItems: "center",
 		gap: 25,
 		width: "100%",
 		flex: 1,
@@ -195,7 +161,7 @@ const styles = StyleSheet.create({
 		position: "relative",
 		borderRadius: 10,
 		justifyContent: "center",
-		alignItems: "center",
+		// alignItems: "center",
 		rowGap: 10,
 	},
 	legend: {

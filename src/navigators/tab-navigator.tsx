@@ -1,14 +1,14 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HomeScreen } from "@/screens/HomeScreen";
-import { TankScreen } from "@/screens/TankScreen";
-import { ProfileScreen } from "@/screens/ProfileScreen";
+import HomeScreen from "@/screens/HomeScreen";
+import TankScreen from "@/screens/TankScreen";
+import ProfileScreen from "@/screens/ProfileScreen";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { SettingScreen } from "@/screens/SettingScreen";
-import { AnalysisScreen } from "@/screens/AnalysisScreen";
-import { DevicesScreen } from "@/screens/DevicesScreen";
+import SettingScreen from "@/screens/SettingScreen";
+import AnalysisScreen from "@/screens/AnalysisScreen";
+import DevicesScreen from "@/screens/DevicesScreen";
 
 const Tab = createBottomTabNavigator();
 

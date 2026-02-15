@@ -1,58 +1,64 @@
-import { View, StyleSheet, TextInput, Text } from "react-native";
-
+import { TextInput, TextInputProps, useTheme } from "react-native-paper";
+import { View, StyleSheet, Text } from "react-native";
 import { ErrorMessage } from "formik";
+import React from "react";
 /* 
+
     TextInput with label and error text
 */
 
-export const InputField = ({
-	withIcon = false,
-	labelColor = "white",
-	...props
-}) => {
-	return (
-		<View style={styles.wrapper}>
-			{props.label && <Text style={{ color: labelColor }}>{props.label}</Text>}
-			<View style={styles.inputWrapper}>
-				{withIcon && props?.icon}
+interface TextInputPropsWithName extends TextInputProps {
+	name: string;
+	icon?: string;
+}
+
+export const InputField = React.forwardRef(
+	(props: TextInputPropsWithName, ref: any) => {
+		const { colors } = useTheme();
+		return (
+			<View style={styles.wrapper}>
+				{/* {props.label && <Text style={{ color: labelColor }}>{props.label}</Text>} */}
+				{/* <View style={styles.inputWrapper}> */}
+				{/* {withIcon && props?.icon} */}
 				<TextInput
-					value={props.value}
-					placeholder={props.placeholder}
+					{...props}
+					ref={ref}
+					mode="outlined"
 					style={styles.input}
-					keyboardType={props.type || "default"}
-					secureTextEntry={props.secured || false}
-					onChangeText={props.changeHandler(props.name)}
-					onBlur={props.blurHandler(props.name)}
-					editable={props.editable}
+					keyboardType={props.keyboardType || "default"}
+					secureTextEntry={props.secureTextEntry || false}
+					left={props.left ? <TextInput.Icon icon={props.icon} /> : null}
+					right={props.right ? <TextInput.Icon icon={props.icon} /> : null}
+				/>
+				{/* </View> */}
+				<ErrorMessage
+					name={props.name}
+					render={(msg) => <Text style={styles.errorText}>{msg}</Text>}
 				/>
 			</View>
-			<ErrorMessage
-				name={props.name}
-				render={(msg) => <Text style={styles.errorText}>{msg}</Text>}
-			/>
-		</View>
-	);
-};
+		);
+	}
+);
 
 const styles = StyleSheet.create({
 	wrapper: {
 		rowGap: 2,
 		justifyContent: "flex-start",
-	},
-	label: {
-		color: "#fff",
+		width: "100%",
+		alignItems: "center",
 	},
 	errorText: {
 		fontSize: 12,
 		color: "red",
+		width: "100%",
 	},
 	input: {
 		zIndex: 0,
 		fontSize: 16,
 		height: 40,
 		textAlignVertical: "center",
-		width: "90%",
-		color: "black",
+		width: "100%",
+		// color: "black",
 	},
 	inputWrapper: {
 		paddingHorizontal: 10,

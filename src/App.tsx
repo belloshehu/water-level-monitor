@@ -1,8 +1,8 @@
 // import "react-native-reanimated";
 // import "react-native-gesture-handler";
-import { CustomBottomSheetProvider } from "./context/BottomSheetContext";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import CustomBottomSheetHost from "./components/CustomBottomSheetHost";
+// import { CustomBottomSheetProvider } from "./context/BottomSheetContext";
+// import CustomBottomSheetHost from "./components/CustomBottomSheetHost";
+// import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { NavContainer } from "./navigators/NavContainer";
 import Toast from "react-native-toast-message";
 import { StatusBar } from "expo-status-bar";
@@ -14,12 +14,14 @@ import {
 	PaperProvider,
 } from "react-native-paper";
 import { colors } from "./contants/theme";
+import { useEffect } from "react";
+import { requestPermissions } from "./utils/blePermission";
 
 const theme = {
 	...DefaultTheme,
 	colors: {
 		...DefaultTheme.colors,
-		primary: "",
+		primary: colors.primary,
 		secondary: colors.secondary,
 		tertiary: colors.tertiary,
 	},
@@ -27,18 +29,21 @@ const theme = {
 };
 
 export default function App() {
+	useEffect(() => {
+		requestPermissions();
+	}, []);
 	return (
 		<PaperProvider theme={theme}>
-			<GestureHandlerRootView>
-				<Provider store={store}>
-					<CustomBottomSheetProvider>
-						<StatusBar style="auto" />
-						<NavContainer />
-						<Toast />
-						<CustomBottomSheetHost />
-					</CustomBottomSheetProvider>
-				</Provider>
-			</GestureHandlerRootView>
+			{/* <GestureHandlerRootView> */}
+			<Provider store={store}>
+				{/* <CustomBottomSheetProvider> */}
+				<StatusBar style="auto" />
+				<NavContainer />
+				<Toast />
+				{/* <CustomBottomSheetHost /> */}
+				{/* </CustomBottomSheetProvider> */}
+			</Provider>
+			{/* </GestureHandlerRootView> */}
 		</PaperProvider>
 	);
 }

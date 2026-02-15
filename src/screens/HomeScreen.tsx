@@ -1,14 +1,16 @@
-import { StyleSheet, Text, View } from "react-native";
 import { LevelTextIndicator } from "@/components/LevelTextIndicator";
-import { MenuList } from "@/components/MenuList";
 import { CustomButton } from "@/components/CustomButton";
-import { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import BrandName from "@/components/brand/BrandName";
+import { MenuList } from "@/components/MenuList";
 import AboutModal from "@/components/AboutModal";
 import { useAppSelector } from "@/hooks/redux";
+import { useState } from "react";
 
-export const HomeScreen = () => {
-	const { level } = useAppSelector((store) => store);
+const HomeScreen = () => {
+	const { retrievedLevel, retrievedPurity } = useAppSelector(
+		(store) => store.ble
+	);
 	const [visible, setVisible] = useState(false);
 
 	const handleClose = () => {
@@ -17,8 +19,9 @@ export const HomeScreen = () => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.text}>Hi, welcome back</Text>
-			<LevelTextIndicator level={level} />
+			<Text style={styles.text}>Hi, welcome back, {retrievedPurity}</Text>
+
+			<LevelTextIndicator level={retrievedLevel} />
 			<MenuList />
 			<BrandName />
 			<CustomButton
@@ -45,3 +48,5 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 	},
 });
+
+export default HomeScreen;

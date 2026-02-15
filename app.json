@@ -25,6 +25,9 @@
 			"permissions": [
 				"android.permission.BLUETOOTH",
 				"android.permission.BLUETOOTH_ADMIN",
+				"android.permission.BLUETOOTH_CONNECT",
+				"android.permission.BLUETOOTH",
+				"android.permission.BLUETOOTH_ADMIN",
 				"android.permission.BLUETOOTH_CONNECT"
 			]
 		},
@@ -47,8 +50,7 @@
 						"usesCleartextTraffic": true
 					}
 				}
-			],
-			"react-native-ble-plx"
+			]
 		],
 		"extra": {
 			"eas": {
@@ -56,6 +58,11 @@
 			}
 		},
 		"owner": "ardesp",
-		"jsEngine": "hermes"
+		"runtimeVersion": {
+			"policy": "appVersion"
+		},
+		"updates": {
+			"url": "https://u.expo.dev/c3e06b68-52ec-4001-960d-fabdc7c8c667"
+		}
 	}
 }

@@ -8,7 +8,7 @@ import Feather from "@expo/vector-icons/Feather";
 import { StyleSheet, View } from "react-native";
 import { useState } from "react";
 
-export const SettingScreen = ({ navigation }) => {
+const SettingScreen = ({ navigation }) => {
 	const [isConfiguring, setIsConfiguring] = useState(false);
 
 	if (isConfiguring) {
@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		padding: 10,
 		paddingTop: 50,
-		color: "white",
 		gap: 20,
 	},
 });
+
+export default SettingScreen;

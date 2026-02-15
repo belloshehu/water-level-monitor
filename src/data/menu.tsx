@@ -1,15 +1,15 @@
 import {
-	FontAwesome6,
 	MaterialIcons,
 	Ionicons,
 	Entypo,
 	AntDesign,
+	FontAwesome,
 } from "@expo/vector-icons";
 
 export const menuItems = [
 	{
 		title: "View level",
-		icon: <FontAwesome6 name="glass-water" size={34} color="black" />,
+		icon: <FontAwesome name="battery" size={34} color="black" />,
 		url: "Tank",
 	},
 	{

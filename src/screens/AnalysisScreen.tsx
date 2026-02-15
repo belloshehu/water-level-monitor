@@ -5,7 +5,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import ScreenHeader from "../components/ScreenHeader";
 import ScreenMainWrapper from "../components/ScreenMainWrapper";
 
-export const AnalysisScreen = ({ navigation }) => {
+const AnalysisScreen = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
 			<ScreenHeader
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
 		padding: 20,
 		paddingTop: 50,
 		backgroundColor: "rgba(255, 165, 0, 0)",
-		color: "white",
 	},
 });
+
+export default AnalysisScreen;

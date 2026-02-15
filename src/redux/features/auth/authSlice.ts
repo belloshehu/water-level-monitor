@@ -4,13 +4,13 @@ import { createSlice } from "@reduxjs/toolkit";
 interface AuthState {
 	user: IUser | null;
 	isAuthenticated: boolean;
-	token: string;
+	token: string | null;
 }
 
 const authState: AuthState = {
 	user: null,
 	isAuthenticated: false,
-	token: "",
+	token: null,
 };
 
 const authSlice = createSlice({
@@ -22,8 +22,9 @@ const authSlice = createSlice({
 			state.token = payload;
 		},
 		clearAuthenticated: (state: AuthState) => {
+			console.log("logging out...");
 			state.isAuthenticated = false;
-			state.token = "";
+			state.token = null;
 		},
 		setUser: (state: AuthState, { payload }: { payload: IUser }) => {
 			state.user = payload;
