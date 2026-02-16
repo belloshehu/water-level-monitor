@@ -1,18 +1,15 @@
 import { createAsyncThunk, createListenerMiddleware } from "@reduxjs/toolkit";
+import bluetoothLeManager, { DeviceReference } from "@/utils/bleManager";
 import {
 	clearConnectedtDevice,
 	setConnectedDevice,
 	setDevice,
 	setRetrievedLevel,
-	setRetrievedPumpStatus,
 	setRetrievedPurity,
 	setRetrievedStatusAndLevel,
 	startListening,
 	startScanning,
 } from "./bleSlice";
-
-import bluetoothLeManager, { DeviceReference } from "@/utils/bleManager";
-import { parseLevelAndStatusPayload } from "@/utils/parsing";
 
 export const bleMiddleware = createListenerMiddleware();
 
@@ -23,25 +20,16 @@ export const connectToDevice = createAsyncThunk(
 			await bluetoothLeManager.connectToPeripheral(ref.id);
 			thunkApi.dispatch(setConnectedDevice(ref));
 			bluetoothLeManager.stopScanningForPeripherals();
-			// ✅ START STREAMING HERE
-			// bluetoothLeManager.startStreamingData(({ payload }) => {
-			// 	if (typeof payload === "string") {
-			// 		thunkApi.dispatch(setRetrievedLevel(payload));
-			// 	}
-			// });
+			//START STREAMING HERE
+			bluetoothLeManager.startStreamingData(({ payload }) => {
+				if (typeof payload === "string") {
+					thunkApi.dispatch(setRetrievedLevel(payload));
+				}
+			});
 		}
 	}
 );
 
-// export const disconnectFromDevice = createAsyncThunk(
-// 	"bleThunk/disconnectFromToDevice",
-// 	async (ref: DeviceReference, thunkApi) => {
-// 		if (ref.id) {
-// 			await bluetoothLeManager.disconnectFromPeripheral(ref.id);
-// 			thunkApi.dispatch(clearConnectedtDevice());
-// 		}
-// 	}
-// );
 export const disconnectFromDevice = createAsyncThunk(
 	"bleThunk/disconnectFromToDevice",
 	async (ref: DeviceReference, thunkApi) => {
@@ -91,9 +79,6 @@ bleMiddleware.startListening({
 			console.log("Payload:", payload);
 			if (!payload) return;
 			if (typeof payload === "string") {
-				// const { level, status } = parseLevelAndStatusPayload(payload);
-				// listenerApi.dispatch(setRetrievedLevel(level));
-				// listenerApi.dispatch(setRetrievedPumpStatus(status));
 				listenerApi.dispatch(setRetrievedStatusAndLevel(payload));
 			}
 		});

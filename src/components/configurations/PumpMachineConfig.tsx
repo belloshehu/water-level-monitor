@@ -11,7 +11,7 @@ export default function PumpingMachineConfiguration() {
 		<Configuration
 			title={"Pumping Machine"}
 			icon={
-				<MaterialCommunityIcons name="water-pump" size={40} color="#ffa500" />
+				<MaterialCommunityIcons name="water-pump" size={20} color="#ffa500" />
 			}
 			modalChildren={<PumpConfigForm configure={handleConfig} />}
 		>

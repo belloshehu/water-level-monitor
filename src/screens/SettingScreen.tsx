@@ -7,6 +7,7 @@ import ScreenHeader from "../components/ScreenHeader";
 import Feather from "@expo/vector-icons/Feather";
 import { StyleSheet, View } from "react-native";
 import { useState } from "react";
+import SetPointsConfiguration from "@/components/configurations/SetPointsConfig";
 
 const SettingScreen = ({ navigation }) => {
 	const [isConfiguring, setIsConfiguring] = useState(false);
@@ -22,6 +23,7 @@ const SettingScreen = ({ navigation }) => {
 				description={"Make changes that fits you"}
 			/>
 			<ScreenMainWrapper>
+				<SetPointsConfiguration />
 				<PumpingMachineConfiguration />
 				<TankConfiguration />
 				<CleaningScheduleConfiguration />

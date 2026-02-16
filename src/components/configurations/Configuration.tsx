@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 	},
 
 	title: {
-		fontSize: 20,
+		fontSize: 16,
 		fontFamily: "Cochin",
 		fontWeight: "500",
 		color: "#ffa500",
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		zIndex: 10,
 		right: 10,
-		top: 10,
+		top: 2,
 		width: 40,
 		height: 40,
 		borderRadius: 20,
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
 		paddingBottom: 10,
 		fontSize: 18,
 		padding: 20,
+		paddingTop: 0,
 		textAlign: "center",
 		alignContent: "center",
 		width: "100%",

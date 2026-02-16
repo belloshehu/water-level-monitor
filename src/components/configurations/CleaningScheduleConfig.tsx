@@ -10,7 +10,7 @@ export default function CleaningScheduleConfiguration() {
 	return (
 		<Configuration
 			title={"Cleaning Schedule"}
-			icon={<FontAwesome name="calendar" size={40} color="#ffa500" />}
+			icon={<FontAwesome name="calendar" size={20} color="#ffa500" />}
 			modalChildren={<CleaningScheduleForm configure={handleConfig} />}
 		>
 			<Text style={styles.text}>3 months interval</Text>
