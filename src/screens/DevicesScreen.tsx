@@ -1,16 +1,15 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, FlatList, Pressable } from "react-native";
-
-import { useNavigation } from "@react-navigation/native";
+import { connectToDevice } from "@/redux/features/ble/listener";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { View, StyleSheet, FlatList } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Button, Text } from "react-native-paper";
+import { colors } from "@/contants/theme";
+import React, { useEffect } from "react";
 import {
 	clearConnectedtDevice,
 	startListening,
 	startScanning,
 } from "@/redux/features/ble/bleSlice";
-import { connectToDevice } from "@/redux/features/ble/listener";
-import { colors } from "@/contants/theme";
-import { Button, Text } from "react-native-paper";
 
 const DevicesScreen = () => {
 	const nav = useNavigation();

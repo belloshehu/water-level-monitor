@@ -13,7 +13,7 @@ export default function Purity({ remark, measurement, indicatorColor }) {
 const styles = StyleSheet.create({
 	container: {
 		width: "100%",
-		flex: 0.2,
+		flex: 1,
 		borderRadius: 20,
 		backgroundColor: "red",
 		flexDirection: "row",

@@ -10,6 +10,8 @@ import {
 	startListening,
 	startScanning,
 } from "./bleSlice";
+import { CleaningSchedule } from "@/types/config.types";
+import { setCleaningSchedule } from "../config/configSlice";
 
 export const bleMiddleware = createListenerMiddleware();
 
@@ -58,6 +60,22 @@ export const sendSetPointsData = createAsyncThunk(
 	async (setPoints: string, _) => {
 		// "lower,upper", Example: "30,90". That is 30% for lower and 90% for upper setpoints
 		await bluetoothLeManager.sendSetpoints(setPoints);
+	}
+);
+
+export const sendTankData = createAsyncThunk(
+	"bleThunk/sendTankData",
+	async (tank: string, _) => {
+		// "height, diameter", Example: "200,100". That is 200 for height and 100 for diameter
+		await bluetoothLeManager.sendTank(tank);
+	}
+);
+
+export const setCleaningScheduleData = createAsyncThunk(
+	"bleThunk/setCleaningScheduleData",
+	async (cleaningSchedule: CleaningSchedule, thunkApi) => {
+		// "height, diameter", Example: "200,100". That is 200 for height and 100 for diameter
+		thunkApi.dispatch(setCleaningSchedule(cleaningSchedule));
 	}
 );
 

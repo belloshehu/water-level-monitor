@@ -11,7 +11,7 @@ export default function AnalysisRecord({ children }) {
 const styles = StyleSheet.create({
 	container: {
 		gap: 10,
-		alignItems: "center",
+		alignItems: "flex-start",
 		justifyContent: "center",
 		width: "100%",
 		marginVertical: 20,

@@ -1,12 +1,15 @@
 import { readPurityFromDevice } from "@/redux/features/ble/listener";
 import { getPurityColor, getPurityRemark } from "@/utils/purity";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { LiquidGauge } from "react-native-liquid-gauge";
-import { StyleSheet, Text, View } from "react-native";
-import Purity from "./tank/Purity";
-import { useEffect } from "react";
 import { startListening } from "@/redux/features/ble/bleSlice";
 import { useNavigation } from "@react-navigation/native";
+import { LiquidGauge } from "react-native-liquid-gauge";
+import { StyleSheet, Text, View } from "react-native";
+import { Badge, useTheme } from "react-native-paper";
+import { FontAwesome } from "@expo/vector-icons";
+import { colors } from "@/contants/theme";
+import Purity from "./tank/Purity";
+import { useEffect } from "react";
 
 const TankScreen = () => {
 	const {
@@ -15,9 +18,12 @@ const TankScreen = () => {
 		retrievedPumpStatus,
 		connectedDevice,
 	} = useAppSelector((state) => state.ble);
-	console.log("level in tank:", level, retrievedPumpStatus, retrievedPurity);
+	const { offSetPoint, onSetPoint } = useAppSelector(
+		(state) => state.config.setPoints
+	);
 	const dispatch = useAppDispatch();
 	const nav = useNavigation();
+	const { colors: themeColors } = useTheme();
 	const color = getPurityColor(retrievedPurity);
 
 	useEffect(() => {
@@ -33,6 +39,7 @@ const TankScreen = () => {
 	return (
 		<View style={styles.container}>
 			{/* <Text style={styles.title}>Water level</Text> */}
+
 			<View style={styles.tank}>
 				<LiquidGauge
 					config={{
@@ -52,37 +59,35 @@ const TankScreen = () => {
 				/>
 			</View>
 
-			<View
-				style={{
-					backgroundColor: "#fff",
-					borderRadius: 20,
-					width: "100%",
-					padding: 10,
-					flex: 0.1,
-				}}
-			>
-				<View
-					style={{
-						alignItems: "center",
-						justifyContent: "center",
-						gap: 4,
-					}}
-				>
-					{/* <Text style={styles.levelText}>{level || DEFAULT_LEVEL}</Text> */}
-					<Text>
-						{retrievedPumpStatus === "0" ? "Not pumping" : "Pumping ..."}
-					</Text>
+			<View style={styles.footer}>
+				{/* Pumping status container */}
+				<View style={styles.pumpingStateWrapper}>
+					<View style={styles.horizontalWrapper}>
+						<FontAwesome
+							name={retrievedPumpStatus === "1" ? "spinner" : "stop"}
+							color={colors.primary}
+						/>
+						<Text style={styles.pumpingStateText}>
+							{retrievedPumpStatus === "0" ? "Not pumping" : "Pumping ..."}
+						</Text>
+					</View>
+					<View style={styles.horizontalWrapper}>
+						<Badge style={styles.badge} size={24}>
+							{onSetPoint + "%"}
+						</Badge>
+
+						<Text style={styles.separator}>-</Text>
+						<Badge style={styles.badge} size={24}>
+							{offSetPoint + "%"}
+						</Badge>
+					</View>
 				</View>
+				<Purity
+					indicatorColor={color}
+					measurement={retrievedPurity}
+					remark={getPurityRemark(retrievedPurity)}
+				/>
 			</View>
-			{/* <View style={styles.setpointWrapper}>
-				<Text>Stop Pumping at 90%</Text>
-				<Text>Starts Pumping at 40%</Text>
-			</View> */}
-			<Purity
-				indicatorColor={color}
-				measurement={retrievedPurity}
-				remark={getPurityRemark(retrievedPurity)}
-			/>
 		</View>
 	);
 };
@@ -124,6 +129,44 @@ const styles = StyleSheet.create({
 		padding: 10,
 		borderRadius: 10,
 		color: "white",
+	},
+	horizontalWrapper: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		gap: 10,
+	},
+	verticalWrapper: {
+		justifyContent: "space-between",
+		alignItems: "center",
+		gap: 10,
+	},
+	separator: {
+		fontWeight: "bold",
+		color: colors.primary,
+	},
+	badge: {
+		backgroundColor: colors.primary,
+		paddingHorizontal: 10,
+	},
+	pumpingStateText: {
+		color: colors.primary,
+		fontWeight: "400",
+	},
+	pumpingStateWrapper: {
+		justifyContent: "space-between",
+		alignItems: "center",
+		gap: 10,
+		borderRadius: 20,
+		padding: 5,
+	},
+	footer: {
+		width: "100%",
+		backgroundColor: "#fff",
+		borderRadius: 20,
+		gap: 5,
+		flex: 0.3,
+		padding: 10,
 	},
 });
 

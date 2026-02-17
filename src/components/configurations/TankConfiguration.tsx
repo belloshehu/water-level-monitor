@@ -1,9 +1,12 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TankConfigForm } from "./forms/TankConfigForm";
-import { StyleSheet, Text } from "react-native";
+import { useAppSelector } from "@/hooks/redux";
 import Configuration from "./Configuration";
+import { StyleSheet } from "react-native";
+import ConfigText from "./ConfigText";
 
 export default function TankConfiguration() {
+	const config = useAppSelector((state) => state.config.tank);
 	const handleConfig = (val: any) => {
 		console.log("Handling tank configuration:", val);
 	};
@@ -15,8 +18,8 @@ export default function TankConfiguration() {
 			}
 			modalChildren={<TankConfigForm configure={handleConfig} />}
 		>
-			<Text style={styles.text}>2m (Hieght)</Text>
-			<Text style={styles.text}>2000 litre</Text>
+			<ConfigText keyText="Height" value={`${config.height}cm`} />
+			<ConfigText keyText="Diameter" value={`${config.diameter}cm`} />
 		</Configuration>
 	);
 }

@@ -1,12 +1,13 @@
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { FontAwesome } from "@expo/vector-icons";
 import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
+import useToggle from "@/hooks/useToggle";
 import { InputField } from "./InputField";
 import { Formik } from "formik";
 import * as yup from "yup";
 
 export const LoginForm = ({ navigation, onAuthenticate }) => {
+	const [visible, toggleState] = useToggle();
 	return (
 		<KeyboardAwareScrollView
 			style={{
@@ -50,31 +51,25 @@ export const LoginForm = ({ navigation, onAuthenticate }) => {
 					}) => (
 						<View style={styles.formWrapper}>
 							<InputField
-								errors={errors}
 								name={"email"}
 								placeholder={"Email Address"}
-								type={"email-address"}
+								keyboardType={"email-address"}
 								label={"Email"}
-								changeHandler={handleChange}
-								blurHandler={handleBlur}
+								onChangeText={handleChange}
 								value={values.email}
-								touched={touched}
-								withIcon
-								icon={<FontAwesome name={"envelope"} size={24} color="#bbb" />}
+								icon={"envelope"}
 							/>
 							<InputField
-								errors={errors}
-								values={values}
-								touched={touched}
 								name={"password"}
 								placeholder={"Password"}
-								secured={true}
+								keyboardType="default"
+								secureTextEntry={visible ? false : true}
 								label={"Password"}
-								changeHandler={handleChange}
-								blurHandler={handleBlur}
+								onChangeText={handleChange}
 								value={values.password}
-								withIcon
-								icon={<FontAwesome name={"lock"} size={24} color="#bbb" />}
+								icon={"lock"}
+								right={true}
+								onPressRightIcon={toggleState as () => void}
 							/>
 
 							<View style={styles.buttonWrapper}>

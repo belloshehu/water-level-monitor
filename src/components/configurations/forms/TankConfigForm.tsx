@@ -1,22 +1,20 @@
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { setTank } from "@/redux/features/config/configSlice";
 import { View, Text, StyleSheet } from "react-native";
 import { InputField } from "@/components/InputField";
 import { Button } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useAppDispatch } from "@/hooks/redux";
-import { sendSetPointsData } from "@/redux/features/ble/listener";
 
 interface FormValues {
 	height: number;
 	diameter: number;
 }
 export const TankConfigForm = ({ configure }) => {
-	const initialValues: FormValues = {
-		height: 0,
-		diameter: 0,
-	};
 	const dispatch = useAppDispatch();
+	const { tank } = useAppSelector((state) => state.config);
+	const initialValues = tank;
 	return (
 		<KeyboardAwareScrollView
 			style={{ position: "relative" }}
@@ -42,12 +40,10 @@ export const TankConfigForm = ({ configure }) => {
 					})}
 					onSubmit={async (values: FormValues) => {
 						// await onAuthenticate(values.email, values.password);
-						console.log("Tank config:", values);
-						dispatch(sendSetPointsData(`${values.diameter}, ${values.height}`));
-						await configure(values);
+						dispatch(setTank(values));
 					}}
 				>
-					{({ handleSubmit, handleChange }) => (
+					{({ handleSubmit, handleChange, values }) => (
 						<View style={styles.formWrapper}>
 							<View style={styles.fieldset}>
 								<Text style={styles.legend}>Tank settings</Text>
@@ -67,6 +63,7 @@ export const TankConfigForm = ({ configure }) => {
 									label={"Height"}
 									keyboardType={"numeric"}
 									onChangeText={handleChange("height")}
+									value={values.height.toString()}
 								/>
 								<InputField
 									mode="outlined"
@@ -76,6 +73,7 @@ export const TankConfigForm = ({ configure }) => {
 									icon={"tape"}
 									label={"Diameter (cm)"}
 									onChangeText={handleChange("diameter")}
+									value={values.diameter.toString()}
 								/>
 							</View>
 

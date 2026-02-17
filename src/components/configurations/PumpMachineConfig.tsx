@@ -1,9 +1,12 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { PumpConfigForm } from "./forms/PumpConfigForm";
-import { StyleSheet, Text } from "react-native";
+import { useAppSelector } from "@/hooks/redux";
 import Configuration from "./Configuration";
+import { StyleSheet } from "react-native";
+import ConfigText from "./ConfigText";
 
 export default function PumpingMachineConfiguration() {
+	const config = useAppSelector((state) => state.config.pumpingMachine);
 	const handleConfig = (val: any) => {
 		console.log("Configuring pumping machine:", val);
 	};
@@ -15,7 +18,8 @@ export default function PumpingMachineConfiguration() {
 			}
 			modalChildren={<PumpConfigForm configure={handleConfig} />}
 		>
-			<Text style={styles.text}>2KW</Text>
+			<ConfigText keyText="Horse power" value={`${config.horsePower}hp`} />
+			<ConfigText keyText="Flow rate" value={`${config.flowRate} Litres/s`} />
 		</Configuration>
 	);
 }

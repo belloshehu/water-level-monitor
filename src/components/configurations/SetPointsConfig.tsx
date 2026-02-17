@@ -1,22 +1,22 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { StyleSheet, Text } from "react-native";
-import Configuration from "./Configuration";
 import SetPointsConfigForm from "./forms/SetPointsConfigForm";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useAppSelector } from "@/hooks/redux";
+import Configuration from "./Configuration";
+import { StyleSheet } from "react-native";
+import ConfigText from "./ConfigText";
 
 export default function SetPointsConfiguration() {
-	const handleConfig = (val: any) => {
-		console.log("Handling tank configuration:", val);
-	};
+	const config = useAppSelector((state) => state.config.setPoints);
 	return (
 		<Configuration
 			title={"Set Points"}
 			icon={
 				<MaterialCommunityIcons name="cylinder" size={20} color="#ffa500" />
 			}
-			modalChildren={<SetPointsConfigForm configure={handleConfig} />}
+			modalChildren={<SetPointsConfigForm />}
 		>
-			<Text style={styles.text}>2m (Upper)</Text>
-			<Text style={styles.text}>2000 (Lower)</Text>
+			<ConfigText keyText="Off" value={`${config.offSetPoint}%`} />
+			<ConfigText keyText="On" value={`${config.onSetPoint}%`} />
 		</Configuration>
 	);
 }

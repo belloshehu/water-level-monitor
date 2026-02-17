@@ -4,6 +4,8 @@ import { InputField } from "../../InputField";
 import { Button } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { setPumpingMachine } from "@/redux/features/config/configSlice";
 
 interface FormValues {
 	flowRate: number;
@@ -11,10 +13,9 @@ interface FormValues {
 }
 
 export const PumpConfigForm = ({ configure }) => {
-	const initialValues: FormValues = {
-		flowRate: 1,
-		horsePower: 1,
-	};
+	const dispatch = useAppDispatch();
+	const { pumpingMachine } = useAppSelector((state) => state.config);
+	const initialValues = pumpingMachine;
 	return (
 		<KeyboardAwareScrollView
 			style={{ position: "relative" }}
@@ -41,10 +42,18 @@ export const PumpConfigForm = ({ configure }) => {
 					})}
 					onSubmit={async (values) => {
 						// await onAuthenticate(values.email, values.password);
+						dispatch(setPumpingMachine(values));
 						await configure(values);
 					}}
 				>
-					{({ handleSubmit, handleChange, isSubmitting, dirty, isValid }) => (
+					{({
+						handleSubmit,
+						handleChange,
+						isSubmitting,
+						dirty,
+						isValid,
+						values,
+					}) => (
 						<View style={styles.formWrapper}>
 							<View style={styles.fieldset}>
 								<Text style={styles.legend}>Pumping machine</Text>
@@ -55,6 +64,7 @@ export const PumpConfigForm = ({ configure }) => {
 									keyboardType={"numeric"}
 									label={"Horse power"}
 									onChangeText={handleChange("horsePower")}
+									value={values.horsePower.toString()}
 								/>
 								<InputField
 									name={"flowRate"}
@@ -62,6 +72,7 @@ export const PumpConfigForm = ({ configure }) => {
 									keyboardType={"numeric"}
 									label={"Flow rate"}
 									onChangeText={handleChange("flowRate")}
+									value={values.flowRate.toString()}
 								/>
 							</View>
 							<View style={{ width: "100%", padding: 0 }}>

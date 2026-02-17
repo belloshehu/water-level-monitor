@@ -23,7 +23,7 @@ export default function WaterConsumptionAnalysis({ perday, total }) {
 const styles = StyleSheet.create({
 	analysisWrapper: {
 		justifyContent: "center",
-		alignItems: "center",
+		alignItems: "flex-start",
 	},
 	analysisText: {
 		color: "#000",

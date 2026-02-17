@@ -100,5 +100,6 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		alignContent: "center",
 		width: "100%",
+		gap: 3,
 	},
 });

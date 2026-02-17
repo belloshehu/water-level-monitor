@@ -2,7 +2,7 @@ import { View, StyleSheet } from "react-native";
 import { WelcomeCarousel } from "./WelcomeCarousel";
 import { CustomButton } from "../../components/CustomButton";
 
-export const WelcomeScreen = ({ navigation }) => {
+const WelcomeScreen = ({ navigation }) => {
 	const clickHandler = () => {
 		navigation.navigate("Login");
 	};
@@ -35,3 +35,5 @@ const styles = StyleSheet.create({
 		width: "100%",
 	},
 });
+
+export default WelcomeScreen;

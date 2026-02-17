@@ -1,23 +1,23 @@
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { setSetPoints } from "@/redux/features/config/configSlice";
+import { sendSetPointsData } from "@/redux/features/ble/listener";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { View, Text, StyleSheet } from "react-native";
 import { InputField } from "@/components/InputField";
 import { Button } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useAppDispatch } from "@/hooks/redux";
-import { sendSetPointsData } from "@/redux/features/ble/listener";
 
 interface FormValues {
 	offSetPoint: number; // level at which pumping should start
 	onSetPoint: number; // level at which pumping should start
 }
 
-const SetPointsConfigForm = ({ configure }) => {
-	const initialValues: FormValues = {
-		offSetPoint: 95,
-		onSetPoint: 30,
-	};
+const SetPointsConfigForm = () => {
 	const dispatch = useAppDispatch();
+	const { setPoints } = useAppSelector((state) => state.config);
+	const initialValues = setPoints;
+
 	return (
 		<KeyboardAwareScrollView
 			style={{ position: "relative" }}
@@ -42,12 +42,11 @@ const SetPointsConfigForm = ({ configure }) => {
 							.required("Tank diameter is required"),
 					})}
 					onSubmit={async (values: FormValues) => {
-						// await onAuthenticate(values.email, values.password);
-						console.log("Tank config:", values);
+						// Send update to ble server
 						dispatch(
 							sendSetPointsData(`${values.offSetPoint}, ${values.onSetPoint}`)
 						);
-						await configure(values);
+						dispatch(setSetPoints(values));
 					}}
 				>
 					{({ handleSubmit, handleChange, values }) => (

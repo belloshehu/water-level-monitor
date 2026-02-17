@@ -1,7 +1,10 @@
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { setCleaningScheduleData } from "@/redux/features/ble/listener";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { DatePickerInput } from "react-native-paper-dates";
 import FormRadioButton from "@/components/FormRadioButton";
 import { Button, RadioButton } from "react-native-paper";
+import { CleaningSchedule } from "@/types/config.types";
 import { View, Text, StyleSheet } from "react-native";
 import { cleaningIntervals } from "@/data/settings";
 import { Formik } from "formik";
@@ -13,9 +16,12 @@ interface CleaningScheduleFormProps {
 export const CleaningScheduleForm = ({
 	configure,
 }: CleaningScheduleFormProps) => {
+	const dispatch = useAppDispatch();
+	const { cleaningSchedule } = useAppSelector((state) => state.config);
 	const today = new Date();
 	today.setDate(today.getDate());
 	today.setHours(0, 0, 0, 0);
+	console.log(cleaningSchedule);
 
 	return (
 		<KeyboardAwareScrollView
@@ -29,10 +35,7 @@ export const CleaningScheduleForm = ({
 		>
 			<View style={styles.container}>
 				<Formik
-					initialValues={{
-						interval: 30,
-						startDate: new Date(), // initial date from which subsequent dates will be determined
-					}}
+					initialValues={cleaningSchedule}
 					validationSchema={yup.object().shape({
 						interval: yup
 							.number()
@@ -40,21 +43,16 @@ export const CleaningScheduleForm = ({
 							.required("Interval is required"),
 						startDate: yup.date().required("Star date is required"),
 					})}
-					onSubmit={async (values) => {
+					onSubmit={async (values: CleaningSchedule) => {
 						// await onAuthenticate(values.email, values.password);
-						console.log(values);
-						await configure(values);
-						console.log(values);
+						dispatch(
+							setCleaningScheduleData({
+								...values,
+							})
+						);
 					}}
 				>
-					{({
-						handleSubmit,
-						values,
-						handleChange,
-						isSubmitting,
-						dirty,
-						setFieldValue,
-					}) => (
+					{({ handleSubmit, values, isSubmitting, dirty, setFieldValue }) => (
 						<View style={styles.formWrapper}>
 							<Text>
 								You will only get cleaning schedule notification after you have
@@ -64,14 +62,14 @@ export const CleaningScheduleForm = ({
 								<Text style={styles.legend}>Cleaning Schedule</Text>
 								<RadioButton.Group
 									onValueChange={(value) => setFieldValue("interval", value)}
-									value={values.interval.toString()}
+									value={values?.interval?.toString()}
 								>
 									{cleaningIntervals.map(({ value, label, id }) => (
 										<FormRadioButton
 											label={label}
 											value={value.days.toString()}
 											checked={
-												value.days.toString() === values.interval.toString()
+												value.days?.toString() === values?.interval.toString()
 											}
 											key={id}
 										/>
@@ -81,7 +79,7 @@ export const CleaningScheduleForm = ({
 									locale="en-GB"
 									inputMode="start"
 									onChange={(value) => setFieldValue("startDate", value)}
-									value={values.startDate}
+									value={new Date(values?.startDate) ?? undefined}
 									mode="outlined"
 									label={"Start date"}
 									validRange={{ startDate: today }}

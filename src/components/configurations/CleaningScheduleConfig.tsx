@@ -1,9 +1,13 @@
 import { CleaningScheduleForm } from "./forms/CleaningScheduleForm";
 import { FontAwesome } from "@expo/vector-icons";
-import { StyleSheet, Text } from "react-native";
+import { useAppSelector } from "@/hooks/redux";
 import Configuration from "./Configuration";
+import { StyleSheet } from "react-native";
+import ConfigText from "./ConfigText";
 
 export default function CleaningScheduleConfiguration() {
+	const config = useAppSelector((state) => state.config.cleaningSchedule);
+	// const nextCleaningDate = config.previousDate? config.previousDate+config.interval:
 	const handleConfig = (val: any) => {
 		console.log("Configuring cleaning schedule:", val);
 	};
@@ -13,8 +17,7 @@ export default function CleaningScheduleConfiguration() {
 			icon={<FontAwesome name="calendar" size={20} color="#ffa500" />}
 			modalChildren={<CleaningScheduleForm configure={handleConfig} />}
 		>
-			<Text style={styles.text}>3 months interval</Text>
-			<Text style={styles.text}>2 months ago</Text>
+			<ConfigText keyText="Interval" value={`${config.interval} days`} />
 		</Configuration>
 	);
 }

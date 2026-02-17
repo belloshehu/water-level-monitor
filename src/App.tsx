@@ -8,7 +8,7 @@ import Toast from "react-native-toast-message";
 import { StatusBar } from "expo-status-bar";
 // import { colors } from "@/contants/theme";
 import { Provider } from "react-redux";
-import { store } from "@/redux/store";
+import { persistor, store } from "@/redux/store";
 import {
 	MD3LightTheme as DefaultTheme,
 	PaperProvider,
@@ -16,6 +16,7 @@ import {
 import { colors } from "./contants/theme";
 import { useEffect } from "react";
 import { requestPermissions } from "./utils/blePermission";
+import { PersistGate } from "redux-persist/integration/react";
 
 const theme = {
 	...DefaultTheme,
@@ -36,12 +37,14 @@ export default function App() {
 		<PaperProvider theme={theme}>
 			{/* <GestureHandlerRootView> */}
 			<Provider store={store}>
-				{/* <CustomBottomSheetProvider> */}
-				<StatusBar style="auto" />
-				<NavContainer />
-				<Toast />
-				{/* <CustomBottomSheetHost /> */}
-				{/* </CustomBottomSheetProvider> */}
+				<PersistGate loading={null} persistor={persistor}>
+					{/* <CustomBottomSheetProvider> */}
+					<StatusBar style="auto" />
+					<NavContainer />
+					<Toast />
+					{/* <CustomBottomSheetHost /> */}
+					{/* </CustomBottomSheetProvider> */}
+				</PersistGate>
 			</Provider>
 			{/* </GestureHandlerRootView> */}
 		</PaperProvider>

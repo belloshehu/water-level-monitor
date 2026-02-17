@@ -10,6 +10,8 @@ import React from "react";
 interface TextInputPropsWithName extends TextInputProps {
 	name: string;
 	icon?: string;
+	onPressLeftIcon?: () => void;
+	onPressRightIcon?: () => void;
 }
 
 export const InputField = React.forwardRef(
@@ -27,8 +29,22 @@ export const InputField = React.forwardRef(
 					style={styles.input}
 					keyboardType={props.keyboardType || "default"}
 					secureTextEntry={props.secureTextEntry || false}
-					left={props.left ? <TextInput.Icon icon={props.icon} /> : null}
-					right={props.right ? <TextInput.Icon icon={props.icon} /> : null}
+					left={
+						props.left ? (
+							<TextInput.Icon
+								icon={props.icon}
+								onPress={props.onPressLeftIcon && props.onPressLeftIcon}
+							/>
+						) : null
+					}
+					right={
+						props.right ? (
+							<TextInput.Icon
+								icon={props.icon}
+								onPress={props.onPressRightIcon && props.onPressRightIcon}
+							/>
+						) : null
+					}
 				/>
 				{/* </View> */}
 				<ErrorMessage

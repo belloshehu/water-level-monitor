@@ -3,6 +3,7 @@ import { ReactNode, useState } from "react";
 import RecordModal from "@/components/analysis/RecordModal";
 // import { useBottomSheet } from "@/context/BottomSheetContext";
 import { Button } from "react-native-paper";
+import { colors } from "@/contants/theme";
 
 interface AnalysisProps {
 	children: ReactNode;
@@ -21,12 +22,6 @@ export default function Analysis({
 
 	const handleViewRecord = () => {
 		setShowModal(!showModal);
-		// setBottomChildren(
-		// 	<View>
-		// 		<Text>Hello</Text>
-		// 	</View>
-		// );
-		// present();
 	};
 
 	const closeModal = () => {
@@ -40,7 +35,7 @@ export default function Analysis({
 			</View>
 			{children}
 			<View style={{ width: "auto", marginBottom: 0 }}>
-				<Button mode="contained" onPress={handleViewRecord}>
+				<Button mode="outlined" onPress={handleViewRecord} icon={"graph"}>
 					View chart
 				</Button>
 			</View>
@@ -55,17 +50,18 @@ export default function Analysis({
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 0.7,
+		flex: 0.5,
 		width: "100%",
 		borderRadius: 10,
-		alignItems: "center",
+		alignItems: "flex-start",
 		justifyContent: "space-around",
-		backgroundColor: "#eee",
-		gap: 20,
+		backgroundColor: "#fff",
+		gap: 5,
 		padding: 20,
 		elevation: 1,
 		position: "relative",
 		color: "black",
+		textAlign: "left",
 	},
 	header: {
 		flexDirection: "row",
@@ -76,11 +72,10 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 2,
 		borderRadius: 3,
 		paddingVertical: 5,
-		marginBottom: 10,
 	},
 	title: {
-		color: "#000",
-		fontSize: 22,
-		fontFamily: "cursive",
+		color: colors.primary,
+		fontSize: 16,
+		// fontFamily: "cursive",
 	},
 });
