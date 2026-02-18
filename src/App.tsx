@@ -17,6 +17,7 @@ import { colors } from "./contants/theme";
 import { useEffect } from "react";
 import { requestPermissions } from "./utils/blePermission";
 import { PersistGate } from "redux-persist/integration/react";
+import TabNavigator from "./navigators/tab-navigator";
 
 const theme = {
 	...DefaultTheme,
@@ -33,6 +34,7 @@ export default function App() {
 	useEffect(() => {
 		requestPermissions();
 	}, []);
+
 	return (
 		<PaperProvider theme={theme}>
 			{/* <GestureHandlerRootView> */}

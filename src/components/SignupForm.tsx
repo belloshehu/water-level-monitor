@@ -1,11 +1,12 @@
 import { View, StyleSheet } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import { InputField } from "./InputField";
 import { Button } from "react-native-paper";
+import { InputField } from "./InputField";
 import { Formik } from "formik";
 import * as yup from "yup";
+import useToggle from "@/hooks/useToggle";
 
 export const SignupForm = ({ navigation, onAuthenticate }) => {
+	const [visible, toggleState] = useToggle();
 	return (
 		<View style={styles.container}>
 			<Formik
@@ -39,57 +40,36 @@ export const SignupForm = ({ navigation, onAuthenticate }) => {
 					await onAuthenticate(values.email, values.password);
 				}}
 			>
-				{({
-					handleChange,
-					handleBlur,
-					handleSubmit,
-					isSubmitting,
-					values,
-					errors,
-					isValid,
-					touched,
-				}) => (
+				{({ handleChange, handleSubmit, isSubmitting, values }) => (
 					<View style={styles.formWrapper}>
 						<InputField
 							name={"email"}
 							placeholder={"Email Address"}
-							type={"email-address"}
+							keyboardType={"email-address"}
 							label={"Email"}
-							changeHandler={handleChange}
-							blurHandler={handleBlur}
+							onChangeText={handleChange("email")}
 							value={values.email}
-							withIcon
-							icon={<FontAwesome name={"envelope"} size={24} color="#bbb" />}
+							icon={"envelope"}
 						/>
 
 						<InputField
-							errors={errors}
-							values={values}
-							touched={touched}
 							name={"password"}
 							placeholder={"Password"}
-							secured={true}
+							secureTextEntry={visible ? false : true}
 							label={"Password"}
-							changeHandler={handleChange}
-							blurHandler={handleBlur}
+							onChangeText={handleChange("password")}
 							value={values.password}
-							withIcon
-							icon={<FontAwesome name={"lock"} size={24} color="#bbb" />}
+							icon={"lock"}
 						/>
 
 						<InputField
-							errors={errors}
-							values={values}
-							touched={touched}
-							name={"passwordRepeat"}
+							name={"repeatPassword"}
 							placeholder={"Repeat Password"}
-							secured={true}
-							label={"Repeat password"}
-							changeHandler={handleChange}
-							blurHandler={handleBlur}
+							secureTextEntry={visible ? false : true}
+							label={"Repeat Password"}
+							onChangeText={handleChange("repeatPassword")}
 							value={values.passwordRepeat}
-							withIcon
-							icon={<FontAwesome name={"lock"} size={24} color="#bbb" />}
+							icon={"lock"}
 						/>
 
 						<View style={styles.buttonWrapper}>

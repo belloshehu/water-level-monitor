@@ -1,6 +1,6 @@
 export type TankConfig = {
 	height: number;
-	diameter: number;
+	capacity: number; // in liters
 };
 
 export type SetPointsConfig = {
@@ -10,7 +10,7 @@ export type SetPointsConfig = {
 
 export type PumpingMachineConfig = {
 	horsePower: number;
-	flowRate: number;
+	flowRate: number; // in Liters per minute
 };
 
 export type CleaningSchedule = {

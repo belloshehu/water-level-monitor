@@ -9,8 +9,9 @@ import * as yup from "yup";
 
 interface FormValues {
 	height: number;
-	diameter: number;
+	capacity: number;
 }
+
 export const TankConfigForm = ({ configure }) => {
 	const dispatch = useAppDispatch();
 	const { tank } = useAppSelector((state) => state.config);
@@ -33,17 +34,17 @@ export const TankConfigForm = ({ configure }) => {
 							.number()
 							.min(50, "Tank height cannot be less than 50 cm")
 							.required("Tank height is required"),
-						diameter: yup
+						capacity: yup
 							.number()
-							.min(0, "Tank diameter cannot be less than 0 cm")
-							.required("Tank diameter is required"),
+							.min(0, "Tank capacity cannot be less than 0 litres")
+							.required("Tank capacity is required"),
 					})}
 					onSubmit={async (values: FormValues) => {
 						// await onAuthenticate(values.email, values.password);
 						dispatch(setTank(values));
 					}}
 				>
-					{({ handleSubmit, handleChange, values }) => (
+					{({ handleSubmit, handleChange, values, dirty }) => (
 						<View style={styles.formWrapper}>
 							<View style={styles.fieldset}>
 								<Text style={styles.legend}>Tank settings</Text>
@@ -58,9 +59,9 @@ export const TankConfigForm = ({ configure }) => {
 								/> */}
 								<InputField
 									name={"height"}
-									placeholder={"Height"}
+									placeholder={"Enter height (in cm)"}
 									icon={"size"}
-									label={"Height"}
+									label={"Height(cm)"}
 									keyboardType={"numeric"}
 									onChangeText={handleChange("height")}
 									value={values.height.toString()}
@@ -68,12 +69,12 @@ export const TankConfigForm = ({ configure }) => {
 								<InputField
 									mode="outlined"
 									keyboardType="numeric"
-									name={"diameter"}
-									placeholder={"Enter diameter (cm)"}
+									name={"capacity"}
+									placeholder={"Enter capacity (litre)"}
 									icon={"tape"}
-									label={"Diameter (cm)"}
-									onChangeText={handleChange("diameter")}
-									value={values.diameter.toString()}
+									label={"Capacity (Litre)"}
+									onChangeText={handleChange("capacity")}
+									value={values.capacity.toString()}
 								/>
 							</View>
 

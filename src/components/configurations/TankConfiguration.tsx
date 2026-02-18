@@ -19,7 +19,7 @@ export default function TankConfiguration() {
 			modalChildren={<TankConfigForm configure={handleConfig} />}
 		>
 			<ConfigText keyText="Height" value={`${config.height}cm`} />
-			<ConfigText keyText="Diameter" value={`${config.diameter}cm`} />
+			<ConfigText keyText="Capacity" value={`${config.capacity}litres`} />
 		</Configuration>
 	);
 }

@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
 		backgroundColor: "#000",
 		borderRadius: 10,
 		paddingHorizontal: 5,
-		width: "30%",
+		width: "auto",
+		minWidth: "20%",
 		textAlign: "right",
 	},
 	key: {

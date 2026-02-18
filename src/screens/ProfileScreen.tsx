@@ -3,9 +3,10 @@ import ProfileHeader from "../components/profile/ProfileHeader";
 import ProfileForm from "../components/profile/ProfileForm";
 import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
-import { useAppDispatch } from "@/hooks/redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 
 const ProfileScreen = ({ navigation }) => {
+	const profile = useAppSelector((state) => state.auth);
 	const dispatch = useAppDispatch();
 
 	const handleLogOut = () => {
@@ -15,6 +16,7 @@ const ProfileScreen = ({ navigation }) => {
 	const updateUserProfile = () => {
 		console.log("Updating user...");
 	};
+	console.log(profile);
 	return (
 		<View style={styles.container}>
 			<ProfileHeader firstName={"Bello"} secondName={"Shehu"} />

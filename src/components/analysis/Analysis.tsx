@@ -34,7 +34,7 @@ export default function Analysis({
 				<Text style={styles.title}>{title}</Text>
 			</View>
 			{children}
-			<View style={{ width: "auto", marginBottom: 0 }}>
+			<View style={{ width: "auto", marginBottom: 0, marginTop: 10 }}>
 				<Button mode="outlined" onPress={handleViewRecord} icon={"graph"}>
 					View chart
 				</Button>
@@ -50,14 +50,13 @@ export default function Analysis({
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 0.5,
 		width: "100%",
 		borderRadius: 10,
 		alignItems: "flex-start",
 		justifyContent: "space-around",
 		backgroundColor: "#fff",
 		gap: 5,
-		padding: 20,
+		padding: 10,
 		elevation: 1,
 		position: "relative",
 		color: "black",

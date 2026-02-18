@@ -19,7 +19,7 @@ export default function PumpingMachineConfiguration() {
 			modalChildren={<PumpConfigForm configure={handleConfig} />}
 		>
 			<ConfigText keyText="Horse power" value={`${config.horsePower}hp`} />
-			<ConfigText keyText="Flow rate" value={`${config.flowRate} Litres/s`} />
+			<ConfigText keyText="Flow rate" value={`${config.flowRate} Litres/min`} />
 		</Configuration>
 	);
 }

@@ -5,7 +5,6 @@ import { LadingOverlay } from "../components/LoadingOverlay";
 import { errorMessage, logInUser } from "../utils/auth";
 import { LoginForm } from "../components/LoginForm";
 import Toast from "react-native-toast-message";
-import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useAppDispatch } from "@/hooks/redux";
 
@@ -16,12 +15,17 @@ const LoginScreen = ({ navigation }) => {
 	const loginHandler = async (email: string, password: string) => {
 		setIsAuthenticating(true);
 		try {
-			const authToken = await logInUser(email, password);
-			dispatch(setAuthenticated(authToken));
+			const response = await logInUser(email, password);
+			console.log(response);
+			if (response.statusText === "ok") {
+				const data = await response;
+				dispatch(setAuthenticated(response?.data));
+			}
+			throw new Error("Login failed");
 		} catch (error) {
 			Toast.show({
 				type: "error",
-				text1: "Signup failed!",
+				text1: "Login failed!",
 				text2: errorMessage(error),
 			});
 			// dispatch(clearAuthenticated());

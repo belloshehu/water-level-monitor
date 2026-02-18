@@ -1,15 +1,27 @@
-import axios from "axios";
-
 const authenticate = async (mode: string, email: string, password: string) => {
-	const response = await axios.post(
-		`https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=AIzaSyDWIZrgiLMS5hqORbM4rj0xqWss0gWVfK8`,
-		{
-			email,
-			password,
-			returnSecureToken: true,
+	const body: any = {
+		email,
+		password,
+		returnSecureToken: true,
+	};
+	let response = null;
+
+	try {
+		const request = new Request(
+			`https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${process.env.EXPO_PUBLIC_FIREBASE_API_KEY}`,
+			{
+				body,
+				method: "POST",
+			}
+		);
+		response = await fetch(request);
+		if (response.ok) {
+			return response.json();
 		}
-	);
-	return response;
+	} catch (error) {
+		console.error(error);
+		throw new Error(`${mode} failed:`, error);
+	}
 };
 
 export const createUser = async (email: string, password: string) => {

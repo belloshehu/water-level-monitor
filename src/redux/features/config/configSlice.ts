@@ -17,6 +17,7 @@ const ConfigState: ConfigState = {
 	tank: {
 		diameter: 100, // 100 cm
 		height: 200, // 200 cm
+		capacity: 3000, // in litres
 	},
 	setPoints: {
 		offSetPoint: 95, // 95%

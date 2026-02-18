@@ -4,7 +4,6 @@ import { Button } from "react-native-paper";
 import { InputField } from "../InputField";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { FontAwesome } from "@expo/vector-icons";
 
 export default function ProfileForm({ navigation, onUpdateProfile, user }) {
 	const { email, firstName, lastName } = user;
@@ -54,16 +53,7 @@ export default function ProfileForm({ navigation, onUpdateProfile, user }) {
 						);
 					}}
 				>
-					{({
-						handleSubmit,
-						values,
-						handleChange,
-						handleBlur,
-						errors,
-						touched,
-						dirty,
-						isSubmitting,
-					}) => (
+					{({ handleSubmit, values, handleChange, dirty, isSubmitting }) => (
 						<View style={styles.formWrapper}>
 							<InputField
 								name={"email"}
@@ -78,12 +68,14 @@ export default function ProfileForm({ navigation, onUpdateProfile, user }) {
 								placeholder={"First name"}
 								onChangeText={handleChange("firstName")}
 								value={values.firstName}
+								label={"First name"}
 							/>
 							<InputField
 								name={"lastName"}
 								placeholder={"Last name"}
 								onChangeText={handleChange("lastName")}
-								value={values.firstName}
+								value={values.lastName}
+								label={"Last name"}
 							/>
 
 							<Button
