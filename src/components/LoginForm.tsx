@@ -1,13 +1,14 @@
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import useToggle from "@/hooks/useToggle";
 import { InputField } from "./InputField";
 import { Formik } from "formik";
 import * as yup from "yup";
+import useInputFocus from "@/hooks/useInputFocus";
 
-export const LoginForm = ({ navigation, onAuthenticate }) => {
+export const LoginForm = ({ navigation, onAuthenticate, isPending }) => {
 	const [visible, toggleState] = useToggle();
+	const [ref, focus] = useInputFocus();
 	return (
 		<View style={styles.container}>
 			<Formik
@@ -24,8 +25,11 @@ export const LoginForm = ({ navigation, onAuthenticate }) => {
 						.matches(/[a-z]+/, "Must contain atleast one lowercase character")
 						.matches(/\d+/, "Must contain atleast one number"),
 				})}
-				onSubmit={async (values) => {
-					await onAuthenticate(values.email, values.password);
+				onSubmit={async (values, { setSubmitting }) => {
+					console.log("Logging in....", isPending);
+					setSubmitting(true);
+					onAuthenticate(values.email, values.password);
+					setSubmitting(false);
 				}}
 			>
 				{({ handleSubmit, values, handleChange, isSubmitting }) => (
@@ -38,6 +42,8 @@ export const LoginForm = ({ navigation, onAuthenticate }) => {
 							onChangeText={handleChange("email")}
 							value={values.email}
 							icon={"envelope"}
+							onSubmitEditing={focus}
+							returnKeyType="next"
 						/>
 						<InputField
 							name={"password"}
@@ -50,13 +56,17 @@ export const LoginForm = ({ navigation, onAuthenticate }) => {
 							icon={"lock"}
 							right={true}
 							onPressRightIcon={toggleState as () => void}
+							ref={ref}
+							returnKeyType={"done"}
+							onSubmitEditing={() => handleSubmit()}
 						/>
 
 						<View style={styles.buttonWrapper}>
 							<Button
 								mode="contained"
 								onPress={() => handleSubmit()}
-								loading={isSubmitting}
+								loading={isSubmitting || isPending}
+								disabled={isSubmitting}
 							>
 								Submit
 							</Button>

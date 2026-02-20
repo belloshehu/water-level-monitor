@@ -1,8 +1,9 @@
 import { IUser } from "@/types/users.types";
 import { createSlice } from "@reduxjs/toolkit";
+import { User } from "firebase/auth";
 
 interface AuthState {
-	user: IUser | null;
+	user: User | null;
 	isAuthenticated: boolean;
 	token: string | null;
 }
@@ -17,16 +18,16 @@ const authSlice = createSlice({
 	name: "auth",
 	initialState: authState,
 	reducers: {
-		setAuthenticated: (state: AuthState, { payload }) => {
+		setAuthenticated: (state: AuthState, { payload }: { payload: User }) => {
 			state.isAuthenticated = true;
-			state.token = payload;
+			state.user = payload;
 		},
 		clearAuthenticated: (state: AuthState) => {
-			console.log("logging out...");
 			state.isAuthenticated = false;
 			state.token = null;
+			state.user = null;
 		},
-		setUser: (state: AuthState, { payload }: { payload: IUser }) => {
+		setUser: (state: AuthState, { payload }: { payload: User }) => {
 			state.user = payload;
 		},
 	},

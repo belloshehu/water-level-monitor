@@ -4,9 +4,26 @@ import { Button } from "react-native-paper";
 import { InputField } from "../InputField";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { User, updateProfile } from "firebase/auth";
+import { getFirstAndLastNames } from "@/utils/user";
 
-export default function ProfileForm({ navigation, onUpdateProfile, user }) {
-	const { email, firstName, lastName } = user;
+interface ProfileFormProps {
+	user: User;
+}
+interface FormValues {
+	firstName: string;
+	lastName: string;
+	email: string;
+}
+export default function ProfileForm({ user }: ProfileFormProps) {
+	const { email } = user;
+	const { firstName, lastName } = getFirstAndLastNames(user.displayName);
+
+	const handleProfileUpdate = async (displayName: string) => {
+		updateProfile(user, {
+			displayName,
+		});
+	};
 	return (
 		<KeyboardAwareScrollView
 			style={{
@@ -45,12 +62,9 @@ export default function ProfileForm({ navigation, onUpdateProfile, user }) {
 							)
 							.required("Last name is required"),
 					})}
-					onSubmit={async (values) => {
-						await onUpdateProfile(
-							values.email,
-							values.firstName,
-							values.lastName
-						);
+					onSubmit={async (values: FormValues) => {
+						const displayName = values.firstName + " " + values.lastName;
+						handleProfileUpdate(displayName);
 					}}
 				>
 					{({ handleSubmit, values, handleChange, dirty, isSubmitting }) => (

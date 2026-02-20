@@ -1,33 +1,40 @@
-// Learn more https://docs.expo.io/guides/customizing-metro
+// // Learn more https://docs.expo.io/guides/customizing-metro
+// const { getDefaultConfig } = require("expo/metro-config");
+
+// /** @type {import('expo/metro-config').MetroConfig} */
+// const config = getDefaultConfig(__dirname);
+
+// config.resolver.resolverMainFields = ["react-native", "browser", "main"];
+
+// config.resolver.resolveRequest = function packageExportsResolver(
+// 	context,
+// 	moduleImport,
+// 	platform
+// ) {
+// 	// Use the browser version of the package for React Native
+// 	if (moduleImport === "axios" || moduleImport.startsWith("axios/")) {
+// 		return context.resolveRequest(
+// 			{
+// 				...context,
+// 				unstable_conditionNames: ["browser"],
+// 			},
+// 			moduleImport,
+// 			platform
+// 		);
+// 	}
+
+// 	// Fall back to normal resolution
+// 	return context.resolveRequest(context, moduleImport, platform);
+// };
+
+// config.resolver.assetExts.push("cjs");
+
+// module.exports = config;
+
 const { getDefaultConfig } = require("expo/metro-config");
 
-/** @type {import('expo/metro-config').MetroConfig} */
 const config = getDefaultConfig(__dirname);
-
-config.resolver = {
-	...config.resolver,
-	resolverMainFields: ["react-native", "browser", "main"],
-};
-
-config.resolver.resolveRequest = function packageExportsResolver(
-	context,
-	moduleImport,
-	platform
-) {
-	// Use the browser version of the package for React Native
-	if (moduleImport === "axios" || moduleImport.startsWith("axios/")) {
-		return context.resolveRequest(
-			{
-				...context,
-				unstable_conditionNames: ["browser"],
-			},
-			moduleImport,
-			platform
-		);
-	}
-
-	// Fall back to normal resolution
-	return context.resolveRequest(context, moduleImport, platform);
-};
+// config.resolver.assetExts.push("cjs");
+// config.resolver.resolverMainFields = ["react-native", "browser", "main"];
 
 module.exports = config;

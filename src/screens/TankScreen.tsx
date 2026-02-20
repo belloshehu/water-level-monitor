@@ -5,25 +5,25 @@ import { startListening } from "@/redux/features/ble/bleSlice";
 import { useNavigation } from "@react-navigation/native";
 import { LiquidGauge } from "react-native-liquid-gauge";
 import { StyleSheet, Text, View } from "react-native";
-import { Badge, useTheme } from "react-native-paper";
+import { Badge, FAB, useTheme } from "react-native-paper";
 import { FontAwesome } from "@expo/vector-icons";
 import { colors } from "@/contants/theme";
 import Purity from "./tank/Purity";
 import { useEffect } from "react";
 
-const TankScreen = () => {
+const TankScreen = ({ navigation }) => {
 	const {
 		retrievedLevel: level,
 		retrievedPurity,
 		retrievedPumpStatus,
 		connectedDevice,
 	} = useAppSelector((state) => state.ble);
+	const user = useAppSelector((state) => state.auth.user);
 	const { offSetPoint, onSetPoint } = useAppSelector(
 		(state) => state.config.setPoints
 	);
 	const dispatch = useAppDispatch();
 	const nav = useNavigation();
-	const { colors: themeColors } = useTheme();
 	const color = getPurityColor(retrievedPurity);
 
 	useEffect(() => {
@@ -36,6 +36,7 @@ const TankScreen = () => {
 		dispatch(startListening());
 		dispatch(readPurityFromDevice());
 	});
+
 	return (
 		<View style={styles.container}>
 			{/* <Text style={styles.title}>Water level</Text> */}
@@ -88,6 +89,17 @@ const TankScreen = () => {
 					remark={getPurityRemark(retrievedPurity)}
 				/>
 			</View>
+			{!user && (
+				<FAB
+					// label="Home"
+					icon={"devices"}
+					color={colors.primary}
+					onPress={() => {
+						navigation.navigate("Devices");
+					}}
+					style={styles.fab}
+				/>
+			)}
 		</View>
 	);
 };
@@ -140,6 +152,12 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignItems: "center",
 		gap: 10,
+	},
+	fab: {
+		position: "absolute",
+		margin: 5,
+		right: -10,
+		bottom: -10,
 	},
 	separator: {
 		fontWeight: "bold",

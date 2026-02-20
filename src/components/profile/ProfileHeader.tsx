@@ -1,13 +1,11 @@
 import { StyleSheet, View, Text } from "react-native";
+import Avatar from "../Avatar";
 
-export default function ProfileHeader({ firstName, secondName }) {
+export default function ProfileHeader({ firstName, secondName, photo }) {
 	return (
 		<View style={style.container}>
 			<View style={style.avatar}>
-				<Text style={style.avatarText}>
-					{firstName.slice(0, 1)}
-					{secondName.slice(0, 1)}
-				</Text>
+				<Avatar url={photo} />
 			</View>
 			<Text style={style.names}>
 				{firstName} {secondName}

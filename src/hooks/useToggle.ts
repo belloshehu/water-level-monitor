@@ -7,5 +7,5 @@ export default function useToggle(defaultState = false) {
 		setState((prev) => !prev);
 	};
 
-	return [state, toggle];
+	return [state, toggle as () => void];
 }
