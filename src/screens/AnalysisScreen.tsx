@@ -13,7 +13,6 @@ const AnalysisScreen = ({ navigation }) => {
 				pageTitle={"Analysis"}
 				description={"View analysis of water and power consumption"}
 			/>
-
 			<ScreenMainWrapper>
 				<WaterConsumptionAnalysis perday={200} total={10000} />
 				<PowerConsumptionAnalysis perDay={2} total={100} />

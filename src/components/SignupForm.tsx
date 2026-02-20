@@ -4,6 +4,7 @@ import { InputField } from "./InputField";
 import useToggle from "@/hooks/useToggle";
 import { Formik } from "formik";
 import * as yup from "yup";
+import useInputFocus from "@/hooks/useInputFocus";
 
 interface FormValues {
 	email: string;
@@ -14,6 +15,8 @@ interface FormValues {
 export const SignupForm = ({ navigation, onAuthenticate, isPending }) => {
 	const [visiblePassword, toggleStatePassword] = useToggle();
 	const [visiblePasswordRepeat, toggleStatePasswordRepeat] = useToggle();
+	const [passwordRef, focusPassword] = useInputFocus();
+	const [passwordRepeatRef, focusPasswordRepeat] = useInputFocus();
 
 	return (
 		<View style={styles.container}>
@@ -59,6 +62,8 @@ export const SignupForm = ({ navigation, onAuthenticate, isPending }) => {
 							onChangeText={handleChange("email")}
 							value={values.email}
 							icon={"envelope"}
+							onSubmitEditing={focusPassword}
+							returnKeyType="next"
 						/>
 
 						<InputField
@@ -71,6 +76,9 @@ export const SignupForm = ({ navigation, onAuthenticate, isPending }) => {
 							icon={"lock"}
 							right
 							onPressRightIcon={toggleStatePassword as () => void}
+							onSubmitEditing={focusPasswordRepeat}
+							returnKeyType="next"
+							ref={passwordRef}
 						/>
 
 						<InputField
@@ -82,6 +90,9 @@ export const SignupForm = ({ navigation, onAuthenticate, isPending }) => {
 							value={values.passwordRepeat}
 							icon={"lock"}
 							onPressRightIcon={toggleStatePasswordRepeat as () => void}
+							onSubmitEditing={() => handleSubmit()}
+							returnKeyType="done"
+							ref={passwordRepeatRef}
 						/>
 
 						<View style={styles.buttonWrapper}>

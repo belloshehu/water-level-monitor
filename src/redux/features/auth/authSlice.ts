@@ -1,9 +1,9 @@
-import { IUser } from "@/types/users.types";
+import { ISerializedUser } from "@/types/users.types";
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "firebase/auth";
 
 interface AuthState {
-	user: User | null;
+	user: ISerializedUser | null;
 	isAuthenticated: boolean;
 	token: string | null;
 }
@@ -18,7 +18,10 @@ const authSlice = createSlice({
 	name: "auth",
 	initialState: authState,
 	reducers: {
-		setAuthenticated: (state: AuthState, { payload }: { payload: User }) => {
+		setAuthenticated: (
+			state: AuthState,
+			{ payload }: { payload: ISerializedUser }
+		) => {
 			state.isAuthenticated = true;
 			state.user = payload;
 		},

@@ -16,7 +16,10 @@ export default function Purity({
 			<Text style={styles.text}>
 				{remark} ({measurement})
 			</Text>
-			<Text variant="bodySmall">{`Water is ${remark.toLowerCase()}`}</Text>
+			<Text variant="bodySmall">
+				{remark.includes("Dirty") ||
+					(remark.includes("Clean") && `Water is ${remark.toLowerCase()}`)}
+			</Text>
 		</View>
 	);
 }

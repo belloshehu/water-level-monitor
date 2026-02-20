@@ -14,7 +14,15 @@ export const NavContainer = () => {
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			//console.log(user);
-			dispatch(setAuthenticated(user));
+			const serializedUser = {
+				uid: user.uid,
+				displayName: user.displayName,
+				email: user.email,
+				emailVerified: user.emailVerified,
+				phoneNumber: user.phoneNumber,
+				photoURL: user.photoURL,
+			};
+			dispatch(setAuthenticated(serializedUser));
 		});
 	}, []);
 

@@ -1,4 +1,4 @@
-export interface IUser {
+export interface ISerializedUser {
 	uid: string;
 	displayName: string | undefined;
 	email: string;
@@ -6,5 +6,3 @@ export interface IUser {
 	phoneNumber: string;
 	photoURL: string | undefined;
 }
-
-export type AccountType = "consumer" | "provider";

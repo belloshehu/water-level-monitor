@@ -1,7 +1,6 @@
 import { connectToDevice } from "@/redux/features/ble/listener";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { View, StyleSheet, FlatList } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { Button, FAB, Text } from "react-native-paper";
 import { colors } from "@/contants/theme";
 import React, { useEffect } from "react";
@@ -77,6 +76,7 @@ const DevicesScreen = ({ navigation }) => {
 					</>
 				}
 			/>
+
 			<View
 				style={{
 					flexDirection: "row",

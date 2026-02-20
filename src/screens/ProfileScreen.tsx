@@ -2,7 +2,7 @@ import { clearAuthenticated } from "../redux/features/auth/authSlice";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import ProfileForm from "../components/profile/ProfileForm";
 import { StyleSheet, View } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
@@ -25,6 +25,7 @@ const ProfileScreen = ({ navigation }) => {
 				secondName={lastName}
 				photo={user.photoURL}
 			/>
+
 			<ProfileForm user={user} />
 			<View style={styles.buttonWrapper}>
 				<Button mode="outlined" onPress={handleLogOut}>
