@@ -1,12 +1,32 @@
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { View, StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, IconButton, Text } from "react-native-paper";
 import { InputField } from "../InputField";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { User, updateProfile, getAuth } from "firebase/auth";
+import { getFirstAndLastNames } from "@/utils/user";
+import { ISerializedUser } from "@/types/users.types";
+import verifyEmail from "@/auth/email-verification";
 
-export default function ProfileForm({ navigation, onUpdateProfile, user }) {
-	const { email, firstName, lastName } = user;
+interface ProfileFormProps {
+	user: ISerializedUser;
+}
+interface FormValues {
+	firstName: string;
+	lastName: string;
+	email: string;
+}
+export default function ProfileForm({ user }: ProfileFormProps) {
+	const { email } = user;
+	const { firstName, lastName } = getFirstAndLastNames(user.displayName);
+	const auth = getAuth();
+	const handleProfileUpdate = async (displayName: string) => {
+		updateProfile(auth.currentUser, {
+			displayName,
+		});
+	};
+
 	return (
 		<KeyboardAwareScrollView
 			style={{
@@ -20,8 +40,17 @@ export default function ProfileForm({ navigation, onUpdateProfile, user }) {
 				alignItems: "center",
 				display: "flex",
 				flex: 1,
+				paddingTop: 10,
 			}}
 		>
+			<Button
+				mode="elevated"
+				icon={user.emailVerified ? "check" : "email"}
+				onPress={verifyEmail}
+				disabled={user.emailVerified}
+			>
+				{user.emailVerified ? "Email verified" : "Verify email"}
+			</Button>
 			<View style={styles.container}>
 				<Formik
 					initialValues={{ email, firstName, lastName }}
@@ -45,12 +74,9 @@ export default function ProfileForm({ navigation, onUpdateProfile, user }) {
 							)
 							.required("Last name is required"),
 					})}
-					onSubmit={async (values) => {
-						await onUpdateProfile(
-							values.email,
-							values.firstName,
-							values.lastName
-						);
+					onSubmit={async (values: FormValues) => {
+						const displayName = values.firstName + " " + values.lastName;
+						handleProfileUpdate(displayName);
 					}}
 				>
 					{({ handleSubmit, values, handleChange, dirty, isSubmitting }) => (

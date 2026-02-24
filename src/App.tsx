@@ -3,21 +3,19 @@
 // import { CustomBottomSheetProvider } from "./context/BottomSheetContext";
 // import CustomBottomSheetHost from "./components/CustomBottomSheetHost";
 // import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { PersistGate } from "redux-persist/integration/react";
+import { requestPermissions } from "./utils/blePermission";
 import { NavContainer } from "./navigators/NavContainer";
+import { persistor, store } from "@/redux/store";
 import Toast from "react-native-toast-message";
 import { StatusBar } from "expo-status-bar";
-// import { colors } from "@/contants/theme";
+import { colors } from "./contants/theme";
 import { Provider } from "react-redux";
-import { persistor, store } from "@/redux/store";
+import { useEffect } from "react";
 import {
 	MD3LightTheme as DefaultTheme,
 	PaperProvider,
 } from "react-native-paper";
-import { colors } from "./contants/theme";
-import { useEffect } from "react";
-import { requestPermissions } from "./utils/blePermission";
-import { PersistGate } from "redux-persist/integration/react";
-import TabNavigator from "./navigators/tab-navigator";
 
 const theme = {
 	...DefaultTheme,

@@ -25,18 +25,20 @@ const authenticate = async (mode: string, email: string, password: string) => {
 };
 
 export const createUser = async (email: string, password: string) => {
-	return await authenticate("signUp", email, password);
+	return authenticate("signUp", email, password);
 };
 
 export const logInUser = async (email: string, password: string) => {
-	return await authenticate("signInWithPassword", email, password);
+	return authenticate("signInWithPassword", email, password);
 };
 
-export const errorMessage = (error: { message: string; code: string }) => {
+export const getErrorMessage = (error: { message: string; code: string }) => {
 	const { message, code } = error;
 	switch (code) {
-		case "ERR_BAD_REQUEST":
+		case "auth/invalid-credential":
 			return "Incorrect email or password";
+		case "auth/email-already-in-use":
+			return "Email already used";
 		default:
 			return "Something went wrong";
 	}

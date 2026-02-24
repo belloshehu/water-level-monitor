@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { ReactNode, useState } from "react";
 import RecordModal from "@/components/analysis/RecordModal";
 // import { useBottomSheet } from "@/context/BottomSheetContext";
-import { Button } from "react-native-paper";
+import { Button, Card } from "react-native-paper";
 import { colors } from "@/contants/theme";
 
 interface AnalysisProps {
@@ -28,14 +28,14 @@ export default function Analysis({
 		setShowModal(false);
 	};
 	return (
-		<View style={styles.container}>
+		<Card style={styles.container}>
 			<View style={styles.header}>
 				{icon}
 				<Text style={styles.title}>{title}</Text>
 			</View>
 			{children}
 			<View style={{ width: "auto", marginBottom: 0, marginTop: 10 }}>
-				<Button mode="outlined" onPress={handleViewRecord} icon={"graph"}>
+				<Button mode="outlined" onPress={handleViewRecord}>
 					View chart
 				</Button>
 			</View>
@@ -44,7 +44,7 @@ export default function Analysis({
 				onClose={closeModal}
 				children={modalChildren}
 			/>
-		</View>
+		</Card>
 	);
 }
 
@@ -68,9 +68,10 @@ const styles = StyleSheet.create({
 		width: "100%",
 		gap: 10,
 		borderBottomColor: "#000",
-		borderBottomWidth: 2,
+		borderBottomWidth: 0,
 		borderRadius: 3,
 		paddingVertical: 5,
+		marginBottom: 10,
 	},
 	title: {
 		color: colors.primary,

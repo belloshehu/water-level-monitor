@@ -1,12 +1,23 @@
 import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { InputField } from "./InputField";
+import useToggle from "@/hooks/useToggle";
 import { Formik } from "formik";
 import * as yup from "yup";
-import useToggle from "@/hooks/useToggle";
+import useInputFocus from "@/hooks/useInputFocus";
 
-export const SignupForm = ({ navigation, onAuthenticate }) => {
-	const [visible, toggleState] = useToggle();
+interface FormValues {
+	email: string;
+	password: string;
+	passwordRepeat: string;
+}
+
+export const SignupForm = ({ navigation, onAuthenticate, isPending }) => {
+	const [visiblePassword, toggleStatePassword] = useToggle();
+	const [visiblePasswordRepeat, toggleStatePasswordRepeat] = useToggle();
+	const [passwordRef, focusPassword] = useInputFocus();
+	const [passwordRepeatRef, focusPasswordRepeat] = useInputFocus();
+
 	return (
 		<View style={styles.container}>
 			<Formik
@@ -36,11 +47,12 @@ export const SignupForm = ({ navigation, onAuthenticate }) => {
 						.matches(/[a-z]+/, "Must contain atleast one lowercase character")
 						.matches(/\d+/, "Must contain atleast one number"),
 				})}
-				onSubmit={async (values) => {
+				onSubmit={async (values: FormValues) => {
+					console.log(isPending);
 					await onAuthenticate(values.email, values.password);
 				}}
 			>
-				{({ handleChange, handleSubmit, isSubmitting, values }) => (
+				{({ handleChange, handleSubmit, values }) => (
 					<View style={styles.formWrapper}>
 						<InputField
 							name={"email"}
@@ -50,33 +62,44 @@ export const SignupForm = ({ navigation, onAuthenticate }) => {
 							onChangeText={handleChange("email")}
 							value={values.email}
 							icon={"envelope"}
+							onSubmitEditing={focusPassword}
+							returnKeyType="next"
 						/>
 
 						<InputField
 							name={"password"}
 							placeholder={"Password"}
-							secureTextEntry={visible ? false : true}
+							secureTextEntry={visiblePassword ? false : true}
 							label={"Password"}
 							onChangeText={handleChange("password")}
 							value={values.password}
 							icon={"lock"}
+							right
+							onPressRightIcon={toggleStatePassword as () => void}
+							onSubmitEditing={focusPasswordRepeat}
+							returnKeyType="next"
+							ref={passwordRef}
 						/>
 
 						<InputField
-							name={"repeatPassword"}
+							name={"passwordRepeat"}
 							placeholder={"Repeat Password"}
-							secureTextEntry={visible ? false : true}
+							secureTextEntry={visiblePasswordRepeat ? false : true}
 							label={"Repeat Password"}
-							onChangeText={handleChange("repeatPassword")}
+							onChangeText={handleChange("passwordRepeat")}
 							value={values.passwordRepeat}
 							icon={"lock"}
+							onPressRightIcon={toggleStatePasswordRepeat as () => void}
+							onSubmitEditing={() => handleSubmit()}
+							returnKeyType="done"
+							ref={passwordRepeatRef}
 						/>
 
 						<View style={styles.buttonWrapper}>
 							<Button
 								mode="contained"
 								onPress={() => handleSubmit()}
-								loading={isSubmitting}
+								loading={isPending}
 							>
 								Submit
 							</Button>
@@ -84,7 +107,7 @@ export const SignupForm = ({ navigation, onAuthenticate }) => {
 								mode="elevated"
 								onPress={() => navigation.navigate("Login")}
 							>
-								Login up Instead
+								Login Instead
 							</Button>
 						</View>
 					</View>
@@ -103,62 +126,20 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 50,
 		padding: 20,
 		paddingVertical: 50,
-		alignItems: "center",
 		justifyContent: "center",
 		width: "100%",
-	},
-
-	input: {
-		fontSize: 16,
-		height: 40,
-		borderWidth: 0,
-		textAlignVertical: "center",
-		width: "90%",
-		color: "black",
-	},
-	inputWrapper: {
-		paddingHorizontal: 10,
-		paddingVertical: 5,
-		backgroundColor: "#fff",
-		columnGap: 5,
-		flexDirection: "row",
-		borderRadius: 10,
-		width: "100%",
-		justifyContent: "center",
-		alignItems: "center",
 	},
 	formWrapper: {
 		justifyContent: "center",
-		alignItems: "center",
 		gap: 15,
 		width: "100%",
 		flex: 1,
 		height: "100%",
 	},
-	label: {
-		color: "#fff",
-	},
-	errorText: {
-		fontSize: 12,
-		color: "red",
-	},
 	buttonWrapper: {
 		justifyContent: "center",
-		alignItems: "center",
 		marginTop: 20,
 		width: "100%",
 		gap: 20,
-	},
-	text: {
-		color: "white",
-		textAlign: "center",
-		fontSize: 18,
-	},
-	link: {
-		fontWeight: "bold",
-		textDecorationLine: "underline",
-		textAlign: "center",
-		color: "white",
-		fontSize: 18,
 	},
 });

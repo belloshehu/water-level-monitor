@@ -2,33 +2,31 @@ import { clearAuthenticated } from "../redux/features/auth/authSlice";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import ProfileForm from "../components/profile/ProfileForm";
 import { StyleSheet, View } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
+import { getFirstAndLastNames } from "@/utils/user";
 
 const ProfileScreen = ({ navigation }) => {
-	const profile = useAppSelector((state) => state.auth);
+	const user = useAppSelector((state) => state.auth.user);
 	const dispatch = useAppDispatch();
 
 	const handleLogOut = () => {
+		signOut(auth);
 		dispatch(clearAuthenticated());
 	};
 
-	const updateUserProfile = () => {
-		console.log("Updating user...");
-	};
-	console.log(profile);
+	const { firstName, lastName } = getFirstAndLastNames(user.displayName);
 	return (
 		<View style={styles.container}>
-			<ProfileHeader firstName={"Bello"} secondName={"Shehu"} />
-			<ProfileForm
-				navigation={navigation}
-				onUpdateProfile={updateUserProfile}
-				user={{
-					email: "belloshehu1@gnail.com",
-					firstName: "Bello",
-					lastName: "Shehu",
-				}}
+			<ProfileHeader
+				firstName={firstName}
+				secondName={lastName}
+				photo={user.photoURL}
 			/>
+
+			<ProfileForm user={user} />
 			<View style={styles.buttonWrapper}>
 				<Button mode="outlined" onPress={handleLogOut}>
 					Logout

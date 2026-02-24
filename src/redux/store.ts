@@ -15,14 +15,18 @@ const appReducer = combineReducers({
 const persistConfig = {
 	key: "root",
 	storage: AsyncStorage, // Using AsyncStorage for React Native
-	whitelist: ["auth", "config", "ble"], // Only persist the auth reducer
+	whitelist: ["config", "ble"], // Only persist config and ble
 };
 const persistedReducer = persistReducer(persistConfig, appReducer);
 
 export const store = configureStore({
 	reducer: persistedReducer,
 	middleware: (getDefaultMiddleware) => {
-		return getDefaultMiddleware().concat(bleMiddleware.middleware);
+		return getDefaultMiddleware({
+			serializableCheck: {
+				ignoredPaths: ["auth"],
+			},
+		}).concat(bleMiddleware.middleware);
 	},
 });
 

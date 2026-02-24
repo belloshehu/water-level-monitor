@@ -3,10 +3,11 @@ import { Text, StyleSheet, View } from "react-native";
 
 // Shows water level in percentage of the tank capacity
 export const LevelTextIndicator = ({ level }) => {
+	console.log(level);
 	return (
 		<View style={styles.container}>
 			<View style={styles.innerWrapper}>
-				<Text style={styles.levelNumber}>{level}</Text>
+				<Text style={styles.levelNumber}>{parseInt(level)}</Text>
 				<View style={styles.percentIconWrapper}>
 					<Feather name="percent" color={"black"} size={24} />
 				</View>

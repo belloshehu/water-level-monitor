@@ -1,12 +1,10 @@
 import { OnboardingScreenWrapper } from "../components/OnboardingScreenWrapper";
 import { AuthScreenHeading } from "../components/AuthScreenHeading";
-import { setAuthenticated } from "../redux/features/auth/authSlice";
-import { LadingOverlay } from "../components/LoadingOverlay";
-import { errorMessage, logInUser } from "../utils/auth";
 import { LoginForm } from "../components/LoginForm";
 import Toast from "react-native-toast-message";
 import { useState } from "react";
 import { useAppDispatch } from "@/hooks/redux";
+import login from "@/auth/sign-with-credential";
 
 const LoginScreen = ({ navigation }) => {
 	const dispatch = useAppDispatch();
@@ -14,33 +12,21 @@ const LoginScreen = ({ navigation }) => {
 
 	const loginHandler = async (email: string, password: string) => {
 		setIsAuthenticating(true);
-		try {
-			const response = await logInUser(email, password);
-			console.log(response);
-			if (response.statusText === "ok") {
-				const data = await response;
-				dispatch(setAuthenticated(response?.data));
-			}
-			throw new Error("Login failed");
-		} catch (error) {
-			Toast.show({
-				type: "error",
-				text1: "Login failed!",
-				text2: errorMessage(error),
-			});
-			// dispatch(clearAuthenticated());
-		} finally {
-			setIsAuthenticating(false);
-		}
+		const re = await login(email, password);
+		setIsAuthenticating(false);
 	};
 
-	if (isAuthenticating) {
-		return <LadingOverlay message={"Logging user..."} />;
-	}
+	// if (isAuthenticating) {
+	// 	return <LadingOverlay message={"Logging user..."} />;
+	// }
 	return (
 		<OnboardingScreenWrapper padding={10}>
 			<AuthScreenHeading text={"Login"} />
-			<LoginForm navigation={navigation} onAuthenticate={loginHandler} />
+			<LoginForm
+				navigation={navigation}
+				onAuthenticate={loginHandler}
+				isPending={isAuthenticating}
+			/>
 		</OnboardingScreenWrapper>
 	);
 };

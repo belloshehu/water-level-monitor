@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+// import PagerView from "react-native-pager-view";
 import PagerView from "react-native-pager-view";
 import { WelcomeCarouselItem } from "./WelcomeCarouselItem";
 
