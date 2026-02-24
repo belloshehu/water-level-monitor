@@ -1,5 +1,10 @@
 export default {
 	expo: {
+		name: "easeview",
+		slug: "easeview",
+		android: {
+			package: "com.belloshehu.easeview", // 👈 ADD THIS
+		},
 		extra: {
 			FIREBASE_API_KEY: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
 			FIREBASE_PROJECT_ID: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
@@ -12,7 +17,10 @@ export default {
 				process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
 			FIREBASE_PROJECT_NUMBER: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_NUMBER,
 			FIREBASE_MEASUREMENT_ID: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID,
-			FIREBASE_APP_ID: process.env.EXPO_PUBLIC_EXPO_PUBLIC_FIREBASE_APP_ID,
+			FIREBASE_APP_ID: process.env.EXPO_PUBLIC_FIREBASE_APP_ID, // ✅ fixed
+			eas: {
+				projectId: "5cf19e53-68b3-4d37-9286-e6c5aec9bb55",
+			},
 		},
 	},
 };

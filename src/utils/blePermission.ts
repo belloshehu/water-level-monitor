@@ -49,7 +49,6 @@ export const requestPermissions = async () => {
 			return granted === PermissionsAndroid.RESULTS.GRANTED;
 		} else {
 			const isAndroid31PermissionsGranted = await requestAndroid31Permissions();
-
 			return isAndroid31PermissionsGranted;
 		}
 	} else {

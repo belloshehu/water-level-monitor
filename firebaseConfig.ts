@@ -2,7 +2,6 @@ import { FirebaseOptions, initializeApp } from "firebase/app";
 //@ts-ignore
 import {
 	initializeAuth,
-	getAuth,
 	//@ts-ignore
 	getReactNativePersistence,
 } from "firebase/auth";

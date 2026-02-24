@@ -1,7 +1,7 @@
 {
 	"expo": {
-		"name": "water-level-monitor",
-		"slug": "water-level-monitor",
+		"name": "easeview",
+		"slug": "easeview",
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
@@ -28,8 +28,11 @@
 			"permissions": [
 				"android.permission.BLUETOOTH",
 				"android.permission.BLUETOOTH_ADMIN",
-				"android.permission.BLUETOOTH_CONNECT"
-			]
+				"android.permission.BLUETOOTH_CONNECT",
+				"android.permission.BLUETOOTH_SCAN",
+				"android.permission.ACCESS_FINE_LOCATION"
+			],
+			"versionCode": 2
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"
@@ -47,14 +50,19 @@
 				"expo-build-properties",
 				{
 					"android": {
-						"usesCleartextTraffic": true
+						"compileSdkVersion": 35,
+						"targetSdkVersion": 35,
+						"buildToolsVersion": "35.0.0"
+					},
+					"ios": {
+						"deploymentTarget": "15.1"
 					}
 				}
 			]
 		],
 		"extra": {
 			"eas": {
-				"projectId": "c3e06b68-52ec-4001-960d-fabdc7c8c667"
+				"projectId": "5cf19e53-68b3-4d37-9286-e6c5aec9bb55"
 			}
 		},
 		"owner": "ardesp",

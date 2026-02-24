@@ -68,7 +68,8 @@ const DevicesScreen = ({ navigation }) => {
 				ListEmptyComponent={
 					<>
 						<Text variant="bodyLarge" style={styles.description}>
-							Restart the device again if does not connect.
+							Check your bluetooth connection and restart the device again if
+							does not connect.
 						</Text>
 						<Button onPress={scan} mode="contained">
 							Scan again

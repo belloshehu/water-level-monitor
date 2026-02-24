@@ -52,7 +52,6 @@ class BluetoothLeManager {
 		if (!isConnected) {
 			throw new Error("Device failed to stay connected");
 		}
-		console.log("Device connected successfully");
 	};
 
 	disconnectFromPeripheral = async (identifier: string) => {

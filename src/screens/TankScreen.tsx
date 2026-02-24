@@ -5,7 +5,7 @@ import { startListening } from "@/redux/features/ble/bleSlice";
 import { useNavigation } from "@react-navigation/native";
 import { LiquidGauge } from "react-native-liquid-gauge";
 import { StyleSheet, Text, View } from "react-native";
-import { Badge, FAB, useTheme } from "react-native-paper";
+import { Badge, Button, FAB, useTheme } from "react-native-paper";
 import { FontAwesome } from "@expo/vector-icons";
 import { colors } from "@/contants/theme";
 import Purity from "./tank/Purity";
@@ -26,9 +26,12 @@ const TankScreen = ({ navigation }) => {
 	const nav = useNavigation();
 	const color = getPurityColor(retrievedPurity);
 
+	const navigateToDeviceScreen = () => {
+		nav.navigate("Devices" as never);
+	};
 	useEffect(() => {
 		if (!connectedDevice) {
-			nav.navigate("Devices" as never);
+			navigateToDeviceScreen();
 		}
 	}, [connectedDevice]);
 
@@ -89,6 +92,11 @@ const TankScreen = ({ navigation }) => {
 					remark={getPurityRemark(retrievedPurity)}
 				/>
 			</View>
+			{!connectedDevice && (
+				<Button mode="contained" onPress={navigateToDeviceScreen}>
+					Connect to device
+				</Button>
+			)}
 			{!user && (
 				<FAB
 					// label="Home"
